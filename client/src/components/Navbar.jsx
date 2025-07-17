@@ -19,7 +19,8 @@ const Navbar = () => {
     try {
       const { data } = await axios.post("/api/owner/change-role");
       if (data.success) {
-        setIsOwner(true);
+        // Refresh user data to get updated role
+        window.location.reload(); // Simple reload to refresh user state
         toast.success(data.message);
       } else {
         toast.error(data.message);
