@@ -14,7 +14,7 @@ const AboutUs = () => {
         className="flex flex-col items-center py-20 bg-light max-md:px-4"
       >
         <Title
-          title="About SureRide"
+          title="About Car Rental"
           subTitle="Revolutionizing car rental with premium vehicles, exceptional service, and innovative technology"
         />
       </motion.div>
@@ -46,7 +46,7 @@ const AboutUs = () => {
               viewport={{ once: true }}
               className="text-gray-600 leading-relaxed mb-4"
             >
-              At SureRide, we believe that transportation should be seamless,
+              At Car Rental, we believe that transportation should be seamless,
               reliable, and accessible to everyone. Our mission is to provide
               premium car rental services that exceed expectations while making
               mobility simple and convenient.
@@ -236,7 +236,7 @@ const AboutUs = () => {
             className="text-gray-600 max-w-2xl mx-auto mb-12"
           >
             Meet the passionate individuals driving innovation and excellence at
-            SureRide.
+            Car Rental.
           </motion.p>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-4xl mx-auto">
