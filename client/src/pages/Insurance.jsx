@@ -59,36 +59,36 @@ const Insurance = () => {
 
   const coverageDetails = [
     {
-      icon: assets.shieldIcon,
+      icon: assets.check_icon,
       title: "Collision Damage Waiver",
       description:
         "Covers damage to the rental vehicle in case of collision or rollover",
     },
     {
-      icon: assets.lockIcon,
+      icon: assets.car_icon,
       title: "Theft Protection",
       description: "Protection against vehicle theft and attempted theft",
     },
     {
-      icon: assets.userIcon,
+      icon: assets.users_icon,
       title: "Personal Accident Insurance",
       description:
         "Medical expenses and accidental death coverage for you and passengers",
     },
     {
-      icon: assets.bagIcon,
+      icon: assets.star_icon,
       title: "Personal Effects Coverage",
       description:
         "Coverage for personal belongings stolen from the rental vehicle",
     },
     {
-      icon: assets.phoneIcon,
+      icon: assets.location_icon,
       title: "Roadside Assistance",
       description:
         "24/7 emergency roadside assistance for breakdowns and emergencies",
     },
     {
-      icon: assets.documentIcon,
+      icon: assets.tick_icon,
       title: "Legal Liability",
       description:
         "Protection against third-party property damage and injury claims",
