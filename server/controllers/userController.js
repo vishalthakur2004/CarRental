@@ -69,6 +69,94 @@ export const registerUser = async (req, res) => {
   }
 };
 
+// Verify OTP
+export const verifyOTP = async (req, res) => {
+  try {
+    const { email, otp, tempToken } = req.body;
+
+    if (!email || !otp || !tempToken) {
+      return res.json({ success: false, message: "All fields are required" });
+    }
+
+    const user = await User.findOne({
+      email,
+      tempToken,
+      otp,
+      otpExpires: { $gt: Date.now() }, // Check if OTP is not expired
+    });
+
+    if (!user) {
+      return res.json({ success: false, message: "Invalid or expired OTP" });
+    }
+
+    // Verify user and clear OTP fields
+    user.isVerified = true;
+    user.otp = undefined;
+    user.otpExpires = undefined;
+    user.tempToken = undefined;
+    await user.save();
+
+    // Generate JWT token
+    const token = generateToken(user._id.toString());
+
+    res.json({
+      success: true,
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        image: user.image,
+      },
+      message: "Account verified successfully",
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+// Resend OTP
+export const resendOTP = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.json({ success: false, message: "Email is required" });
+    }
+
+    const user = await User.findOne({ email, isVerified: false });
+
+    if (!user) {
+      return res.json({
+        success: false,
+        message: "User not found or already verified",
+      });
+    }
+
+    // Generate new OTP
+    const otp = generateOTP();
+    const otpExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes from now
+
+    user.otp = otp;
+    user.otpExpires = otpExpires;
+    await user.save();
+
+    // Send OTP email
+    await sendOTPEmail(email, otp, user.name);
+
+    res.json({
+      success: true,
+      message: "OTP sent successfully",
+      expiresAt: otpExpires.getTime(),
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.json({ success: false, message: error.message });
+  }
+};
+
 // Login User
 export const loginUser = async (req, res) => {
   try {
