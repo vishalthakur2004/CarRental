@@ -82,21 +82,21 @@ const HelpCenter = () => {
 
   const contactOptions = [
     {
-      icon: assets.phoneIcon,
+      icon: assets.car_icon,
       title: "Phone Support",
       description: "Speak with our customer service team",
       contact: "+1 (555) 123-4567",
       hours: "24/7 Support Available",
     },
     {
-      icon: assets.emailIcon,
+      icon: assets.gmail_logo,
       title: "Email Support",
       description: "Send us a detailed message",
       contact: "support@sureride.com",
       hours: "Response within 2 hours",
     },
     {
-      icon: assets.chatIcon,
+      icon: assets.users_icon,
       title: "Live Chat",
       description: "Get instant help from our team",
       contact: "Start Chat",
