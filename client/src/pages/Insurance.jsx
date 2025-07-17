@@ -285,7 +285,7 @@ const Insurance = () => {
                 viewport={{ once: true }}
                 className="text-2xl md:text-3xl font-semibold mb-6"
               >
-                Why Choose SureRide Insurance?
+                Why Choose Car Rental Insurance?
               </motion.h2>
               <div className="space-y-4">
                 {[
