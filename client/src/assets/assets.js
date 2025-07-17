@@ -151,7 +151,7 @@ export const dummyCarData = [
     fuel_type: "Hybrid",
     transmission: "Semi-Automatic",
     pricePerDay: 300,
-    location: "New York",
+    location: "Mumbai",
     description:
       "The BMW X5 is a mid-size luxury SUV produced by BMW. The X5 made its debut in 1999 as the first SUV ever produced by BMW.",
     isAvaliable: true,
@@ -169,7 +169,7 @@ export const dummyCarData = [
     fuel_type: "Diesel",
     transmission: "Manual",
     pricePerDay: 130,
-    location: "Chicago",
+    location: "Delhi",
     description:
       "The Toyota Corolla is a mid-size luxury sedan produced by Toyota. The Corolla made its debut in 2008 as the first sedan ever produced by Toyota.",
     isAvaliable: true,
@@ -187,7 +187,7 @@ export const dummyCarData = [
     fuel_type: "Hybrid",
     transmission: "Automatic",
     pricePerDay: 200,
-    location: "Los Angeles",
+    location: "Bengaluru",
     description:
       "The Jeep Wrangler is a mid-size luxury SUV produced by Jeep. The Wrangler made its debut in 2003 as the first SUV ever produced by Jeep.",
     isAvaliable: true,
@@ -205,7 +205,7 @@ export const dummyCarData = [
     fuel_type: "Diesel",
     transmission: "Semi-Automatic",
     pricePerDay: 209,
-    location: "Houston",
+    location: "Chennai",
     description:
       "This is a mid-size luxury sedan produced by Toyota. The Corolla made its debut in 2008 as the first sedan ever produced by Toyota.",
     isAvaliable: true,
