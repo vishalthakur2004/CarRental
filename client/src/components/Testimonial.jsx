@@ -10,7 +10,7 @@ const Testimonial = () => {
       location: "Mumbai, Maharashtra",
       image: assets.testimonial_image_1,
       testimonial:
-        "SureRide made my business trip to Mumbai incredibly convenient. The car was spotless and the driver was professional. Highly recommended!",
+        "Car Rental made my business trip to Mumbai incredibly convenient. The car was spotless and the driver was professional. Highly recommended!",
     },
     {
       name: "Arjun Reddy",
@@ -24,7 +24,7 @@ const Testimonial = () => {
       location: "Chennai, Tamil Nadu",
       image: assets.testimonial_image_1,
       testimonial:
-        "Best car rental experience in Chennai! The team was responsive and the car was delivered on time. Will definitely use SureRide again for my next trip.",
+        "Best car rental experience in Chennai! The team was responsive and the car was delivered on time. Will definitely use Car Rental again for my next trip.",
     },
   ];
 
