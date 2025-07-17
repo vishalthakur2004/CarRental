@@ -126,13 +126,13 @@ const AboutUs = () => {
                   "Meticulously maintained vehicles that meet the highest safety and comfort standards.",
               },
               {
-                icon: assets.calendarIconColored,
+                icon: assets.calendar_icon_colored,
                 title: "Reliability",
                 description:
                   "Dependable service you can count on, with 24/7 support and transparent pricing.",
               },
               {
-                icon: assets.userIconColored,
+                icon: assets.users_icon,
                 title: "Customer First",
                 description:
                   "Your satisfaction is our priority. We go above and beyond to exceed expectations.",
