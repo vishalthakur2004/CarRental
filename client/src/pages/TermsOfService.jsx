@@ -46,7 +46,7 @@ const TermsOfService = () => {
     },
     {
       title: "11. Dispute Resolution",
-      content: `Any disputes arising from these terms or the rental services shall be resolved through binding arbitration in accordance with the rules of the American Arbitration Association. The arbitration shall take place in San Francisco, California.`,
+      content: `Any disputes arising from these terms or the rental services shall be resolved through binding arbitration in accordance with the rules of the Indian Arbitration and Conciliation Act. The arbitration shall take place in Jalandhar, Punjab, India.`,
     },
     {
       title: "12. Changes to Terms",
@@ -147,18 +147,18 @@ const TermsOfService = () => {
             <div className="grid md:grid-cols-2 gap-4 mt-4">
               <div>
                 <p className="font-medium">Email:</p>
-                <p className="text-primary">legal@sureride.com</p>
+                <p className="text-primary">carrental5862@gmail.com</p>
               </div>
               <div>
                 <p className="font-medium">Phone:</p>
-                <p className="text-primary">+1 (555) 123-4567</p>
+                <p className="text-primary">+91 98765 43210</p>
               </div>
               <div>
                 <p className="font-medium">Address:</p>
                 <p>
-                  1234 Luxury Drive
+                  SureRide Car Rentals
                   <br />
-                  San Francisco, CA 94107
+                  Jalandhar, Punjab, India
                 </p>
               </div>
               <div>
