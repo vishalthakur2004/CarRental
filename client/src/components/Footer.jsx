@@ -153,10 +153,10 @@ const Footer = () => {
               Contact
             </h2>
             <ul className="mt-3 flex flex-col gap-1.5">
-              <li>1234 Luxury Drive</li>
-              <li>San Francisco, CA 94107</li>
-              <li>+1 234 567890</li>
-              <li>info@example.com</li>
+              <li>SureRide Car Rentals</li>
+              <li>Jalandhar, Punjab, India</li>
+              <li>+91 98765 43210</li>
+              <li>carrental5862@gmail.com</li>
             </ul>
           </div>
         </motion.div>
