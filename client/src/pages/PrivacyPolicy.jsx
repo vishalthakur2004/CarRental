@@ -107,7 +107,7 @@ const PrivacyPolicy = () => {
       content: `We may update this Privacy Policy periodically to reflect changes in our practices or applicable laws. We will notify you of significant changes through:
       
       • Email notifications to registered users
-      �� Prominent notices on our website
+      • Prominent notices on our website
       • In-app notifications for mobile users
       
       Continued use of our services after changes constitutes acceptance of the updated policy.`,
@@ -149,7 +149,7 @@ const PrivacyPolicy = () => {
               Your Privacy Matters
             </h3>
             <p className="text-green-700 leading-relaxed">
-              At SureRide, we are committed to protecting your privacy and
+              At Car Rental, we are committed to protecting your privacy and
               personal information. This Privacy Policy explains how we collect,
               use, share, and safeguard your data when you use our car rental
               services.
@@ -238,9 +238,9 @@ const PrivacyPolicy = () => {
               <div className="bg-white rounded-lg p-4">
                 <h4 className="font-semibold mb-2">Mailing Address</h4>
                 <p className="text-gray-700">
-                  SureRide Privacy Team
+                  Car Rental Privacy Team
                   <br />
-                  SureRide Car Rentals
+                  Car Rental
                   <br />
                   Jalandhar, Punjab, India
                 </p>
