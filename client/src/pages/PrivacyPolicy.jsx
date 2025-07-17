@@ -240,9 +240,9 @@ const PrivacyPolicy = () => {
                 <p className="text-gray-700">
                   SureRide Privacy Team
                   <br />
-                  1234 Luxury Drive
+                  SureRide Car Rentals
                   <br />
-                  San Francisco, CA 94107
+                  Jalandhar, Punjab, India
                 </p>
               </div>
             </div>
