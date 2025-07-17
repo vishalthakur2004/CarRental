@@ -38,11 +38,11 @@ const TermsOfService = () => {
     },
     {
       title: "9. Data Privacy",
-      content: `SureRide collects and processes personal data in accordance with our Privacy Policy. By using our services, you consent to the collection and use of your personal information as described in our Privacy Policy. We implement appropriate security measures to protect your data.`,
+      content: `Car Rental collects and processes personal data in accordance with our Privacy Policy. By using our services, you consent to the collection and use of your personal information as described in our Privacy Policy. We implement appropriate security measures to protect your data.`,
     },
     {
       title: "10. Limitation of Liability",
-      content: `SureRide's liability is limited to the maximum extent permitted by law. We are not liable for indirect, incidental, or consequential damages. Our maximum liability shall not exceed the total amount paid for the rental services.`,
+      content: `Car Rental's liability is limited to the maximum extent permitted by law. We are not liable for indirect, incidental, or consequential damages. Our maximum liability shall not exceed the total amount paid for the rental services.`,
     },
     {
       title: "11. Dispute Resolution",
@@ -50,7 +50,7 @@ const TermsOfService = () => {
     },
     {
       title: "12. Changes to Terms",
-      content: `SureRide reserves the right to modify these Terms of Service at any time. Changes will be effective immediately upon posting on our website. Continued use of our services after such changes constitutes acceptance of the new terms.`,
+      content: `Car Rental reserves the right to modify these Terms of Service at any time. Changes will be effective immediately upon posting on our website. Continued use of our services after such changes constitutes acceptance of the new terms.`,
     },
   ];
 
@@ -90,7 +90,7 @@ const TermsOfService = () => {
             </h3>
             <p className="text-gray-700 leading-relaxed">
               These Terms of Service ("Terms") constitute a legally binding
-              agreement between you and SureRide regarding your use of our car
+              agreement between you and Car Rental regarding your use of our car
               rental services. By using our services, you acknowledge that you
               have read, understood, and agree to be bound by these Terms.
             </p>
@@ -156,7 +156,7 @@ const TermsOfService = () => {
               <div>
                 <p className="font-medium">Address:</p>
                 <p>
-                  SureRide Car Rentals
+                  Car Rental
                   <br />
                   Jalandhar, Punjab, India
                 </p>
