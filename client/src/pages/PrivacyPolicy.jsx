@@ -233,7 +233,7 @@ const PrivacyPolicy = () => {
               <div className="bg-white rounded-lg p-4">
                 <h4 className="font-semibold mb-2">Data Protection Officer</h4>
                 <p className="text-gray-700">privacy@sureride.com</p>
-                <p className="text-gray-700">+1 (555) 123-4567 ext. 101</p>
+                <p className="text-gray-700">+91 98765 43210</p>
               </div>
               <div className="bg-white rounded-lg p-4">
                 <h4 className="font-semibold mb-2">Mailing Address</h4>
