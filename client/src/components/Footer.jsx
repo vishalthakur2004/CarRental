@@ -118,7 +118,7 @@ const Footer = () => {
               <li>1234 Luxury Drive</li>
               <li>San Francisco, CA 94107</li>
               <li>+1 234 567890</li>
-              <li>info@example.com</li>
+              <li>support@sureride.com</li>
             </ul>
           </div>
         </motion.div>
