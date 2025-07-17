@@ -24,14 +24,45 @@ export const registerUser = async (req, res) => {
     }
 
     const userExists = await User.findOne({ email });
-    if (userExists) {
+    if (userExists && userExists.isVerified) {
       return res.json({ success: false, message: "User already exists" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({ name, email, password: hashedPassword });
-    const token = generateToken(user._id.toString());
-    res.json({ success: true, token });
+    const otp = generateOTP();
+    const tempToken = generateTempToken();
+    const otpExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes from now
+
+    // If user exists but not verified, update their data
+    if (userExists && !userExists.isVerified) {
+      userExists.name = name;
+      userExists.password = hashedPassword;
+      userExists.otp = otp;
+      userExists.otpExpires = otpExpires;
+      userExists.tempToken = tempToken;
+      await userExists.save();
+    } else {
+      // Create new user with OTP
+      await User.create({
+        name,
+        email,
+        password: hashedPassword,
+        otp,
+        otpExpires,
+        tempToken,
+        isVerified: false,
+      });
+    }
+
+    // Send OTP email
+    await sendOTPEmail(email, otp, name);
+
+    res.json({
+      success: true,
+      message: "OTP sent to your email",
+      tempToken,
+      expiresAt: otpExpires.getTime(),
+    });
   } catch (error) {
     console.log(error.message);
     res.json({ success: false, message: error.message });
