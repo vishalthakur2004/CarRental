@@ -57,6 +57,78 @@ export const registerUser = async (req, res) => {
   }
 };
 
+// Verify OTP
+export const verifyOTP = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.json({ success: false, message: "User not found" });
+    }
+
+    if (user.isVerified) {
+      return res.json({ success: false, message: "Email already verified" });
+    }
+
+    if (!user.otp || user.otp !== otp) {
+      return res.json({ success: false, message: "Invalid OTP" });
+    }
+
+    if (new Date() > user.otpExpiry) {
+      return res.json({ success: false, message: "OTP has expired" });
+    }
+
+    // Update user as verified and clear OTP data
+    await User.updateOne(
+      { _id: user._id },
+      {
+        $set: { isVerified: true },
+        $unset: { otp: 1, otpExpiry: 1 },
+      },
+    );
+
+    res.json({ success: true, message: "Email verified successfully" });
+  } catch (error) {
+    console.log(error.message);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+// Resend OTP
+export const resendOTP = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.json({ success: false, message: "User not found" });
+    }
+
+    if (user.isVerified) {
+      return res.json({ success: false, message: "Email already verified" });
+    }
+
+    const otp = generateOTP();
+    const otpExpiry = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+
+    await User.updateOne({ _id: user._id }, { otp, otpExpiry });
+
+    const emailResult = await sendOTPEmail(email, otp);
+    if (emailResult.success) {
+      res.json({ success: true, message: "New OTP sent to your email" });
+    } else {
+      res.json({
+        success: false,
+        message: "Failed to send OTP email. Please try again.",
+      });
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.json({ success: false, message: error.message });
+  }
+};
+
 // Login User
 export const loginUser = async (req, res) => {
   try {
