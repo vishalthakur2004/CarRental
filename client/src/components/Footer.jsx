@@ -153,7 +153,7 @@ const Footer = () => {
               Contact
             </h2>
             <ul className="mt-3 flex flex-col gap-1.5">
-              <li>SureRide Car Rentals</li>
+              <li>Car Rental</li>
               <li>Jalandhar, Punjab, India</li>
               <li>+91 98765 43210</li>
               <li>carrental5862@gmail.com</li>
@@ -168,7 +168,7 @@ const Footer = () => {
         transition={{ duration: 0.6, delay: 0.6 }}
         className="flex flex-col md:flex-row gap-2 items-center justify-between py-5"
       >
-        <p>© {new Date().getFullYear()} SureRide. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} Car Rental. All rights reserved.</p>
         <ul className="flex items-center gap-4">
           <li>
             <Link
