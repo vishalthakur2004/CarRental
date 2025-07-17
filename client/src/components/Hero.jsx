@@ -69,7 +69,7 @@ const Hero = () => {
             <label htmlFor="pickup-date">Pick-up Date</label>
             <input
               value={pickupDate}
-              onChange={(e) => setPickupDate(e.target.value)}
+              onChange={(e) => dispatch(setPickupDate(e.target.value))}
               type="date"
               id="pickup-date"
               min={new Date().toISOString().split("T")[0]}
