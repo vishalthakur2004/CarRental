@@ -456,7 +456,7 @@ const CookiesPolicy = () => {
                 "Security" section of your browser's settings.
               </p>
               <ul className="text-sm text-gray-600 space-y-2">
-                <li>• Chrome: Settings → Privacy and security → Cookies</li>
+                <li>��� Chrome: Settings → Privacy and security → Cookies</li>
                 <li>• Firefox: Settings → Privacy & Security → Cookies</li>
                 <li>• Safari: Preferences → Privacy → Cookies</li>
                 <li>• Edge: Settings → Privacy, search, and services</li>
@@ -519,8 +519,8 @@ const CookiesPolicy = () => {
             viewport={{ once: true }}
             className="text-gray-700"
           >
-            <p>Email: privacy@sureride.com</p>
-            <p>Phone: +1 (555) 123-4567</p>
+            <p>Email: carrental5862@gmail.com</p>
+            <p>Phone: +91 98765 43210</p>
             <p className="mt-2 text-sm">Last updated: January 1, 2024</p>
           </motion.div>
         </motion.div>
