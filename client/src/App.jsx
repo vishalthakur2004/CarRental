@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Navbar from "./components/Navbar";
 import { Route, Routes, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
@@ -11,24 +12,46 @@ import Dashboard from "./pages/owner/Dashboard";
 import AddCar from "./pages/owner/AddCar";
 import ManageCars from "./pages/owner/ManageCars";
 import ManageBookings from "./pages/owner/ManageBookings";
-import Login from "./components/Login";
-import { Toaster } from "react-hot-toast";
-import { useAppContext } from "./context/AppContext";
 import AboutUs from "./pages/AboutUs";
 import HelpCenter from "./pages/HelpCenter";
 import TermsOfService from "./pages/TermsOfService";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Insurance from "./pages/Insurance";
 import CookiesPolicy from "./pages/CookiesPolicy";
+import AuthModal from "./components/auth/AuthModal";
+import { Toaster } from "react-hot-toast";
+import { initializeAuth, fetchUserData } from "./store/slices/authSlice";
+import { fetchCars } from "./store/slices/carsSlice";
 
 const App = () => {
-  const { showLogin } = useAppContext();
-  const isOwnerPath = useLocation().pathname.startsWith("/owner");
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const { token, showLogin, showRegister, showOTPVerification } = useSelector(
+    (state) => state.auth,
+  );
+
+  const isOwnerPath = location.pathname.startsWith("/owner");
+  const showAuthModal = showLogin || showRegister || showOTPVerification;
+
+  useEffect(() => {
+    // Initialize auth state from localStorage
+    dispatch(initializeAuth());
+
+    // Fetch cars data on app load
+    dispatch(fetchCars());
+  }, [dispatch]);
+
+  useEffect(() => {
+    // If we have a token, fetch user data
+    if (token) {
+      dispatch(fetchUserData());
+    }
+  }, [token, dispatch]);
 
   return (
     <>
       <Toaster />
-      {showLogin && <Login />}
+      {showAuthModal && <AuthModal />}
 
       {!isOwnerPath && <Navbar />}
 
