@@ -81,7 +81,7 @@ const Hero = () => {
             <label htmlFor="return-date">Return Date</label>
             <input
               value={returnDate}
-              onChange={(e) => setReturnDate(e.target.value)}
+              onChange={(e) => dispatch(setReturnDate(e.target.value))}
               type="date"
               id="return-date"
               className="text-sm text-gray-500"
