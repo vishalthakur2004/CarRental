@@ -77,16 +77,33 @@ const Footer = () => {
             </h2>
             <ul className="mt-3 flex flex-col gap-1.5">
               <li>
-                <a href="#">Home</a>
+                <Link to="/" className="hover:text-primary transition-colors">
+                  Home
+                </Link>
               </li>
               <li>
-                <a href="#">Browse Cars</a>
+                <Link
+                  to="/cars"
+                  className="hover:text-primary transition-colors"
+                >
+                  Browse Cars
+                </Link>
               </li>
               <li>
-                <a href="#">List Your Car</a>
+                <Link
+                  to="/owner"
+                  className="hover:text-primary transition-colors"
+                >
+                  List Your Car
+                </Link>
               </li>
               <li>
-                <a href="#">About Us</a>
+                <Link
+                  to="/about-us"
+                  className="hover:text-primary transition-colors"
+                >
+                  About Us
+                </Link>
               </li>
             </ul>
           </div>
@@ -97,16 +114,36 @@ const Footer = () => {
             </h2>
             <ul className="mt-3 flex flex-col gap-1.5">
               <li>
-                <a href="#">Help Center</a>
+                <Link
+                  to="/help-center"
+                  className="hover:text-primary transition-colors"
+                >
+                  Help Center
+                </Link>
               </li>
               <li>
-                <a href="#">Terms of Service</a>
+                <Link
+                  to="/terms-of-service"
+                  className="hover:text-primary transition-colors"
+                >
+                  Terms of Service
+                </Link>
               </li>
               <li>
-                <a href="#">Privacy Policy</a>
+                <Link
+                  to="/privacy-policy"
+                  className="hover:text-primary transition-colors"
+                >
+                  Privacy Policy
+                </Link>
               </li>
               <li>
-                <a href="#">Insurance</a>
+                <Link
+                  to="/insurance"
+                  className="hover:text-primary transition-colors"
+                >
+                  Insurance
+                </Link>
               </li>
             </ul>
           </div>
@@ -134,15 +171,30 @@ const Footer = () => {
         <p>© {new Date().getFullYear()} Brand. All rights reserved.</p>
         <ul className="flex items-center gap-4">
           <li>
-            <a href="#">Privacy</a>
+            <Link
+              to="/privacy-policy"
+              className="hover:text-primary transition-colors"
+            >
+              Privacy
+            </Link>
           </li>
           <li>|</li>
           <li>
-            <a href="#">Terms</a>
+            <Link
+              to="/terms-of-service"
+              className="hover:text-primary transition-colors"
+            >
+              Terms
+            </Link>
           </li>
           <li>|</li>
           <li>
-            <a href="#">Cookies</a>
+            <Link
+              to="/cookies-policy"
+              className="hover:text-primary transition-colors"
+            >
+              Cookies
+            </Link>
           </li>
         </ul>
       </motion.div>
