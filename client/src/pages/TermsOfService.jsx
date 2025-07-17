@@ -6,7 +6,7 @@ const TermsOfService = () => {
   const termsData = [
     {
       title: "1. Acceptance of Terms",
-      content: `By accessing and using SureRide's car rental services, you accept and agree to be bound by the terms and provision of this agreement. These Terms of Service govern your use of our website, mobile application, and rental services.`,
+      content: `By accessing and using Car Rental's services, you accept and agree to be bound by the terms and provision of this agreement. These Terms of Service govern your use of our website, mobile application, and rental services.`,
     },
     {
       title: "2. Rental Requirements",
