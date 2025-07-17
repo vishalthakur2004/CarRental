@@ -10,7 +10,7 @@ const TermsOfService = () => {
     },
     {
       title: "2. Rental Requirements",
-      content: `To rent a vehicle from SureRide, you must be at least 21 years old and possess a valid driver's license. You must provide a valid credit card for payment and security deposit purposes. International visitors may be required to provide an International Driving Permit along with their home country license.`,
+      content: `To rent a vehicle from Car Rental, you must be at least 21 years old and possess a valid driver's license. You must provide a valid credit card for payment and security deposit purposes. International visitors may be required to provide an International Driving Permit along with their home country license.`,
     },
     {
       title: "3. Vehicle Use and Restrictions",
@@ -26,7 +26,7 @@ const TermsOfService = () => {
     },
     {
       title: "6. Insurance and Liability",
-      content: `You are responsible for any damage to the vehicle during the rental period. SureRide offers various insurance options to limit your liability. If you decline our insurance coverage, you must provide proof of personal auto insurance that covers rental vehicles. You remain liable for any damages not covered by insurance.`,
+      content: `You are responsible for any damage to the vehicle during the rental period. Car Rental offers various insurance options to limit your liability. If you decline our insurance coverage, you must provide proof of personal auto insurance that covers rental vehicles. You remain liable for any damages not covered by insurance.`,
     },
     {
       title: "7. Vehicle Return",
