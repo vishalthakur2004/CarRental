@@ -136,7 +136,7 @@ const HelpCenter = () => {
           transition={{ delay: 0.3, duration: 0.5 }}
           className="flex items-center bg-white px-4 mt-8 max-w-lg w-full h-12 rounded-full shadow-lg"
         >
-          <img src={assets.searchIcon} alt="" className="w-5 h-5 mr-3" />
+          <img src={assets.search_icon} alt="" className="w-5 h-5 mr-3" />
           <input
             onChange={(e) => setSearchQuery(e.target.value)}
             value={searchQuery}
