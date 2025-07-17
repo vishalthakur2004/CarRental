@@ -1,16 +1,17 @@
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
-import {BrowserRouter} from 'react-router-dom'
-import {AppProvider} from './context/AppContext.jsx'
-import {MotionConfig} from 'motion/react'
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import App from "./App.jsx";
+import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import { store } from "./store/store.js";
+import { MotionConfig } from "motion/react";
 
-createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById("root")).render(
   <BrowserRouter>
-    <AppProvider>
-      <MotionConfig viewport={{once: true}}>
+    <Provider store={store}>
+      <MotionConfig viewport={{ once: true }}>
         <App />
       </MotionConfig>
-    </AppProvider>
+    </Provider>
   </BrowserRouter>,
-)
+);
