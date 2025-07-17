@@ -88,8 +88,7 @@ export const AppProvider = ({ children }) => {
     isOwner,
     setIsOwner,
     fetchUser,
-    showLogin,
-    setShowLogin,
+
     logout,
     fetchCars,
     cars,
