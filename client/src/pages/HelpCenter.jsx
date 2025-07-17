@@ -174,17 +174,17 @@ const HelpCenter = () => {
                 desc: "Report problems with your rental",
               },
               {
-                icon: assets.calendarIcon,
+                icon: assets.calendar_icon_colored,
                 title: "Booking Help",
                 desc: "Manage your reservations",
               },
               {
-                icon: assets.creditCardIcon,
+                icon: assets.car_icon,
                 title: "Billing Questions",
                 desc: "Understand charges and fees",
               },
               {
-                icon: assets.locationIcon,
+                icon: assets.location_icon,
                 title: "Pickup & Return",
                 desc: "Find locations and procedures",
               },
