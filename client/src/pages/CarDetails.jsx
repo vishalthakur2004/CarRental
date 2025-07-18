@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { assets, dummyCarData } from "../assets/assets";
 import Loader from "../components/Loader";
-import { useAppContext } from "../context/AppContext";
 import { useSelector, useDispatch } from "react-redux";
 import { setShowLogin } from "../store/slices/authSlice";
+import { setPickupDate, setReturnDate } from "../store/slices/bookingSlice";
+import axios from "axios";
 import toast from "react-hot-toast";
 import { motion } from "motion/react";
 
