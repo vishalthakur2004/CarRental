@@ -2,7 +2,7 @@ import React from "react";
 import Title from "../components/Title";
 import { motion } from "motion/react";
 
-const PrivacyPolicy = () => {
+const LegalInfo = () => {
   const privacySections = [
     {
       title: "1. Information We Collect",
@@ -274,4 +274,4 @@ const PrivacyPolicy = () => {
   );
 };
 
-export default PrivacyPolicy;
+export default LegalInfo;
