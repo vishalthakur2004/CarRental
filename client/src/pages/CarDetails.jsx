@@ -12,14 +12,14 @@ import { motion } from "motion/react";
 const CarDetails = () => {
   const { id } = useParams();
 
-  const { cars, axios, pickupDate, setPickupDate, returnDate, setReturnDate } =
-    useAppContext();
+  const { cars } = useSelector((state) => state.cars);
+  const { pickupDate, returnDate } = useSelector((state) => state.booking);
+  const { currency } = useSelector((state) => state.app);
   const { isAuthenticated } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
   const [car, setCar] = useState(null);
-  const currency = import.meta.env.VITE_CURRENCY;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
