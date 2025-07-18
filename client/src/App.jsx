@@ -61,17 +61,99 @@ const App = () => {
       {!isOwnerPath && <Navbar />}
 
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/car-details/:id" element={<CarDetails />} />
-        <Route path="/cars" element={<Cars />} />
-        <Route path="/my-bookings" element={<MyBookings />} />
-        <Route path="/about-us" element={<AboutUs />} />
-        <Route path="/help-center" element={<HelpCenter />} />
-        <Route path="/terms-of-service" element={<TermsOfService />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/insurance" element={<Insurance />} />
-        <Route path="/cookies-policy" element={<CookiesPolicy />} />
-        <Route path="/owner" element={<Layout />}>
+        {/* Public Routes - accessible to all */}
+        <Route
+          path="/"
+          element={
+            <PublicLayout>
+              <Home />
+            </PublicLayout>
+          }
+        />
+        <Route
+          path="/car-details/:id"
+          element={
+            <PublicLayout>
+              <CarDetails />
+            </PublicLayout>
+          }
+        />
+        <Route
+          path="/cars"
+          element={
+            <PublicLayout>
+              <Cars />
+            </PublicLayout>
+          }
+        />
+        <Route
+          path="/about-us"
+          element={
+            <PublicLayout>
+              <AboutUs />
+            </PublicLayout>
+          }
+        />
+        <Route
+          path="/help-center"
+          element={
+            <PublicLayout>
+              <HelpCenter />
+            </PublicLayout>
+          }
+        />
+        <Route
+          path="/terms-of-service"
+          element={
+            <PublicLayout>
+              <TermsOfService />
+            </PublicLayout>
+          }
+        />
+        <Route
+          path="/privacy-policy"
+          element={
+            <PublicLayout>
+              <PrivacyPolicy />
+            </PublicLayout>
+          }
+        />
+        <Route
+          path="/insurance"
+          element={
+            <PublicLayout>
+              <Insurance />
+            </PublicLayout>
+          }
+        />
+        <Route
+          path="/cookies-policy"
+          element={
+            <PublicLayout>
+              <CookiesPolicy />
+            </PublicLayout>
+          }
+        />
+
+        {/* Protected Routes - require authentication */}
+        <Route
+          path="/my-bookings"
+          element={
+            <ProtectedRoute>
+              <MyBookings />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Owner Routes - require owner role */}
+        <Route
+          path="/owner"
+          element={
+            <OwnerRoute>
+              <Layout />
+            </OwnerRoute>
+          }
+        >
           <Route index element={<Dashboard />} />
           <Route path="add-car" element={<AddCar />} />
           <Route path="manage-cars" element={<ManageCars />} />
