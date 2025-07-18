@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Title from "../components/Title";
 import { motion } from "motion/react";
 
-const CookiesPolicy = () => {
+const DataUsage = () => {
   const [preferences, setPreferences] = useState({
     essential: true,
     analytics: true,
@@ -529,4 +529,4 @@ const CookiesPolicy = () => {
   );
 };
 
-export default CookiesPolicy;
+export default DataUsage;
