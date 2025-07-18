@@ -178,7 +178,7 @@ const CarDetails = () => {
             <label htmlFor="return-date">Return Date</label>
             <input
               value={returnDate}
-              onChange={(e) => setReturnDate(e.target.value)}
+              onChange={(e) => dispatch(setReturnDate(e.target.value))}
               type="date"
               className="border border-borderColor px-3 py-2 rounded-lg"
               required
