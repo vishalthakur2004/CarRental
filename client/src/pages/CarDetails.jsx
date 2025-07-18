@@ -165,7 +165,7 @@ const CarDetails = () => {
             <label htmlFor="pickup-date">Pickup Date</label>
             <input
               value={pickupDate}
-              onChange={(e) => setPickupDate(e.target.value)}
+              onChange={(e) => dispatch(setPickupDate(e.target.value))}
               type="date"
               className="border border-borderColor px-3 py-2 rounded-lg"
               required
