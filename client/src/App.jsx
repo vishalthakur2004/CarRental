@@ -22,6 +22,11 @@ import AuthModal from "./components/auth/AuthModal";
 import { Toaster } from "react-hot-toast";
 import { initializeAuth, fetchUserData } from "./store/slices/authSlice";
 import { fetchCars } from "./store/slices/carsSlice";
+import {
+  ProtectedRoute,
+  OwnerRoute,
+  PublicLayout,
+} from "./components/auth/AuthLayout";
 
 const App = () => {
   const dispatch = useDispatch();
