@@ -2,7 +2,7 @@ import React from "react";
 import Title from "../components/Title";
 import { motion } from "motion/react";
 
-const TermsOfService = () => {
+const UserAgreement = () => {
   const termsData = [
     {
       title: "1. Acceptance of Terms",
@@ -188,4 +188,4 @@ const TermsOfService = () => {
   );
 };
 
-export default TermsOfService;
+export default UserAgreement;
