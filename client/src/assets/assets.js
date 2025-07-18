@@ -92,6 +92,7 @@ export const assets = {
   banner_car_image,
   car_image1,
   upload_icon,
+  default_avatar,
   user_profile,
   car_image2,
   car_image3,
