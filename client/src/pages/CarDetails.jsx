@@ -13,6 +13,8 @@ const CarDetails = () => {
 
   const { cars, axios, pickupDate, setPickupDate, returnDate, setReturnDate } =
     useAppContext();
+  const { isAuthenticated } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
   const [car, setCar] = useState(null);
@@ -20,6 +22,14 @@ const CarDetails = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Check if user is authenticated before allowing booking
+    if (!isAuthenticated) {
+      toast.error("Please login to book a car");
+      dispatch(setShowLogin(true));
+      return;
+    }
+
     try {
       const { data } = await axios.post("/api/bookings/create", {
         car: id,
