@@ -14,10 +14,10 @@ import ManageCars from "./pages/owner/ManageCars";
 import ManageBookings from "./pages/owner/ManageBookings";
 import AboutUs from "./pages/AboutUs";
 import HelpCenter from "./pages/HelpCenter";
-import TermsOfService from "./pages/TermsOfService";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
+import UserAgreement from "./pages/UserAgreement";
+import LegalInfo from "./pages/LegalInfo";
 import Insurance from "./pages/Insurance";
-import CookiesPolicy from "./pages/CookiesPolicy";
+import DataUsage from "./pages/DataUsage";
 import AuthModal from "./components/auth/AuthModal";
 import { Toaster } from "react-hot-toast";
 import { initializeAuth, fetchUserData } from "./store/slices/authSlice";
@@ -106,7 +106,7 @@ const App = () => {
           path="/terms-of-service"
           element={
             <PublicLayout>
-              <TermsOfService />
+              <UserAgreement />
             </PublicLayout>
           }
         />
@@ -114,7 +114,7 @@ const App = () => {
           path="/privacy-policy"
           element={
             <PublicLayout>
-              <PrivacyPolicy />
+              <LegalInfo />
             </PublicLayout>
           }
         />
@@ -130,7 +130,7 @@ const App = () => {
           path="/cookies-policy"
           element={
             <PublicLayout>
-              <CookiesPolicy />
+              <DataUsage />
             </PublicLayout>
           }
         />
