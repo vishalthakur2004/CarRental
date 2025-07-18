@@ -36,7 +36,9 @@ import main_car from "./main_car.png";
 import banner_car_image from "./banner_car_image.png";
 import user_profile from "./user_profile.png";
 import upload_icon from "./upload_icon.svg";
-import default_avatar from "./default-avatar.svg";
+// Using inline SVG to avoid import issues
+const default_avatar =
+  "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxjaXJjbGUgY3g9IjE1MCIgY3k9IjE1MCIgcj0iMTUwIiBmaWxsPSIjRTVFN0VCIi8+CjxjaXJjbGUgY3g9IjE1MCIgY3k9IjExMCIgcj0iNDAiIGZpbGw9IiM5Q0EzQUYiLz4KPHA+YXRoIGQ9Ik0xNTAgMTcwQzExMCAxNzAgODAgMjAwIDgwIDI0MFYyODBDODAgMjkwLjc2IDg4LjI0IDMwMCA5OSAzMDBIMjAxQzIxMS43NiAzMDAgMjIwIDI5MC43NiAyMjAgMjgwVjI0MEMyMjAgMjAwIDE5MCAxNzAgMTUwIDE3MFoiIGZpbGw9IiM5Q0EzQUYiLz4KPHN2Zz4K";
 import car_image1 from "./car_image1.png";
 import car_image2 from "./car_image2.png";
 import car_image3 from "./car_image3.png";
