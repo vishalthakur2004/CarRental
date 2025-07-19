@@ -331,7 +331,7 @@ const Insurance = () => {
                   Average Claim Processing Time
                 </div>
 
-                <div className="text-3xl font-bold text-primary mb-2">$0</div>
+                <div className="text-3xl font-bold text-primary mb-2">₹0</div>
                 <div className="text-gray-600">Hidden Fees</div>
               </div>
             </motion.div>
