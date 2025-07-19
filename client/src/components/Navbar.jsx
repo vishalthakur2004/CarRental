@@ -126,7 +126,7 @@ const Navbar = () => {
                       }}
                       className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50 flex items-center gap-2"
                     >
-                      <img src={assets.user_icon} alt="" className="w-4 h-4" />
+                      <img src={assets.users_icon} alt="" className="w-4 h-4" />
                       My Profile
                     </button>
 
@@ -138,7 +138,7 @@ const Navbar = () => {
                       className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50 flex items-center gap-2"
                     >
                       <img
-                        src={assets.calendar_icon}
+                        src={assets.calendar_icon_colored}
                         alt=""
                         className="w-4 h-4"
                       />
@@ -154,11 +154,7 @@ const Navbar = () => {
                       }}
                       className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 flex items-center gap-2"
                     >
-                      <img
-                        src={assets.logout_icon}
-                        alt=""
-                        className="w-4 h-4"
-                      />
+                      <img src={assets.close_icon} alt="" className="w-4 h-4" />
                       Logout
                     </button>
                   </div>
