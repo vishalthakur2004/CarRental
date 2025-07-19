@@ -71,6 +71,94 @@ export const getOwnerCars = async (req, res) => {
   }
 };
 
+// API to Get Single Car for Editing
+export const getOwnerCar = async (req, res) => {
+  try {
+    const { _id } = req.user;
+    const { carId } = req.params;
+
+    const car = await Car.findOne({ _id: carId, owner: _id });
+
+    if (!car) {
+      return res.json({
+        success: false,
+        message: "Car not found or unauthorized",
+      });
+    }
+
+    res.json({ success: true, car });
+  } catch (error) {
+    console.log(error.message);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+// API to Edit Car
+export const editCar = async (req, res) => {
+  try {
+    const { _id } = req.user;
+    const { carId } = req.params;
+    let carData = JSON.parse(req.body.carData);
+    const imageFile = req.file;
+
+    // Find the car and verify ownership
+    const existingCar = await Car.findOne({ _id: carId, owner: _id });
+
+    if (!existingCar) {
+      return res.json({
+        success: false,
+        message: "Car not found or unauthorized",
+      });
+    }
+
+    let image = existingCar.image; // Keep existing image by default
+
+    // If new image is uploaded, process it
+    if (imageFile) {
+      if (imagekit) {
+        // Upload Image to ImageKit
+        const fileBuffer = fs.readFileSync(imageFile.path);
+        const response = await imagekit.upload({
+          file: fileBuffer,
+          fileName: imageFile.originalname,
+          folder: "/cars",
+        });
+
+        // optimization through imagekit URL transformation
+        var optimizedImageUrl = imagekit.url({
+          path: response.filePath,
+          transformation: [
+            { width: "1280" }, // Width resizing
+            { quality: "auto" }, // Auto compression
+            { format: "webp" }, // Convert to modern format
+          ],
+        });
+
+        image = optimizedImageUrl;
+      } else {
+        // Fallback: use a placeholder or base64 data for development
+        image = `/uploads/${imageFile.filename}`;
+      }
+    }
+
+    // Update the car with new data
+    const updatedCar = await Car.findByIdAndUpdate(
+      carId,
+      { ...carData, image },
+      { new: true },
+    );
+
+    res.json({
+      success: true,
+      message: "Car updated successfully",
+      car: updatedCar,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.json({ success: false, message: error.message });
+  }
+};
+
 // API to Toggle Car Availability
 export const toggleCarAvailability = async (req, res) => {
   try {
@@ -87,6 +175,43 @@ export const toggleCarAvailability = async (req, res) => {
     await car.save();
 
     res.json({ success: true, message: "Availability Toggled" });
+  } catch (error) {
+    console.log(error.message);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+// API to Update Car Status
+export const updateCarStatus = async (req, res) => {
+  try {
+    const { _id } = req.user;
+    const { carId, status } = req.body;
+
+    // Validate status
+    const validStatuses = ["Available", "Booked", "On Rent", "Not Available"];
+    if (!validStatuses.includes(status)) {
+      return res.json({ success: false, message: "Invalid status" });
+    }
+
+    const car = await Car.findById(carId);
+
+    if (!car) {
+      return res.json({ success: false, message: "Car not found" });
+    }
+
+    // Checking if car belongs to the user
+    if (car.owner.toString() !== _id.toString()) {
+      return res.json({ success: false, message: "Unauthorized" });
+    }
+
+    car.status = status;
+
+    // Also update isAvailable based on status
+    car.isAvaliable = status === "Available";
+
+    await car.save();
+
+    res.json({ success: true, message: `Car status updated to ${status}` });
   } catch (error) {
     console.log(error.message);
     res.json({ success: false, message: error.message });

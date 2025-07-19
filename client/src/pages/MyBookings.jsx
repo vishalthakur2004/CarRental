@@ -107,7 +107,19 @@ const MyBookings = () => {
                 />
                 <div>
                   <p className="text-gray-500">Pick-up Location</p>
-                  <p>{booking.car.location}</p>
+                  <p>{booking.car.pickupLocation || booking.car.location}</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-2 mt-3">
+                <img
+                  src={assets.location_icon_colored}
+                  alt=""
+                  className="w-4 h-4 mt-1"
+                />
+                <div>
+                  <p className="text-gray-500">Drop-off Location</p>
+                  <p>{booking.car.dropLocation || booking.car.location}</p>
                 </div>
               </div>
             </div>

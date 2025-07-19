@@ -7,6 +7,9 @@ import {
   verifyOTP,
   resendOTP,
   updateUserImage,
+  changePassword,
+  forgetPassword,
+  resetPassword,
 } from "../controllers/userController.js";
 import { protect } from "../middleware/auth.js";
 import upload from "../middleware/multer.js";
@@ -25,5 +28,8 @@ userRouter.post(
   protect,
   updateUserImage,
 );
+userRouter.post("/change-password", protect, changePassword);
+userRouter.post("/forget-password", forgetPassword);
+userRouter.post("/reset-password", resetPassword);
 
 export default userRouter;

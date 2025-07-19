@@ -31,6 +31,19 @@ const CarDetails = () => {
       return;
     }
 
+    // Check if car is available for booking
+    if (car.status && car.status !== "Available") {
+      toast.error(
+        `This car is currently ${car.status.toLowerCase()} and cannot be booked`,
+      );
+      return;
+    }
+
+    if (!car.isAvaliable) {
+      toast.error("This car is not available for booking");
+      return;
+    }
+
     try {
       const { data } = await axios.post("/api/bookings/create", {
         car: id,
@@ -127,20 +140,51 @@ const CarDetails = () => {
             {/* Features */}
             <div>
               <h1 className="text-xl font-medium mb-3">Features</h1>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                {[
-                  "360 Camera",
-                  "Bluetooth",
-                  "GPS",
-                  "Heated Seats",
-                  "Rear View Mirror",
-                ].map((item) => (
-                  <li key={item} className="flex items-center text-gray-500">
-                    <img src={assets.check_icon} className="h-4 mr-2" alt="" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
+              {car.features && car.features.length > 0 ? (
+                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {car.features.map((feature, index) => (
+                    <li key={index} className="flex items-center text-gray-500">
+                      <img
+                        src={assets.check_icon}
+                        className="h-4 mr-2"
+                        alt=""
+                      />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-gray-400 italic">
+                  No features listed for this car
+                </p>
+              )}
+            </div>
+
+            {/* Pickup and Drop Locations */}
+            <div>
+              <h1 className="text-xl font-medium mb-3">
+                Pickup & Drop Locations
+              </h1>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="flex items-center bg-light p-4 rounded-lg">
+                  <img src={assets.location_icon} alt="" className="h-5 mr-3" />
+                  <div>
+                    <p className="font-medium text-gray-700">Pickup Location</p>
+                    <p className="text-gray-500">
+                      {car.pickupLocation || "Not specified"}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center bg-light p-4 rounded-lg">
+                  <img src={assets.location_icon} alt="" className="h-5 mr-3" />
+                  <div>
+                    <p className="font-medium text-gray-700">Drop Location</p>
+                    <p className="text-gray-500">
+                      {car.dropLocation || "Not specified"}
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </motion.div>
         </motion.div>
@@ -186,8 +230,21 @@ const CarDetails = () => {
             />
           </div>
 
-          <button className="w-full bg-primary hover:bg-primary-dull transition-all py-3 font-medium text-white rounded-xl cursor-pointer">
-            Book Now
+          <button
+            disabled={
+              (car.status && car.status !== "Available") || !car.isAvaliable
+            }
+            className={`w-full py-3 font-medium rounded-xl transition-all ${
+              (car.status && car.status !== "Available") || !car.isAvaliable
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-primary hover:bg-primary-dull text-white cursor-pointer"
+            }`}
+          >
+            {car.status && car.status !== "Available"
+              ? `Car is ${car.status}`
+              : !car.isAvaliable
+                ? "Not Available"
+                : "Book Now"}
           </button>
 
           <p className="text-center text-sm">

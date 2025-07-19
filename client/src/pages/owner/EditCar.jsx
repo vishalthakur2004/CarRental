@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Title from "../../components/owner/Title";
 import { assets, cityList } from "../../assets/assets";
 import { useSelector } from "react-redux";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-const AddCar = () => {
+const EditCar = () => {
   const { currency } = useSelector((state) => state.app);
+  const { carId } = useParams();
+  const navigate = useNavigate();
 
   const [image, setImage] = useState(null);
+  const [currentImageUrl, setCurrentImageUrl] = useState("");
   const [car, setCar] = useState({
     brand: "",
     model: "",
@@ -26,8 +30,49 @@ const AddCar = () => {
 
   const [features, setFeatures] = useState([]);
   const [newFeature, setNewFeature] = useState("");
-
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingData, setIsLoadingData] = useState(true);
+
+  // Fetch car data for editing
+  useEffect(() => {
+    const fetchCarData = async () => {
+      try {
+        const { data } = await axios.get(`/api/owner/car/${carId}`);
+        if (data.success) {
+          const carData = data.car;
+          setCar({
+            brand: carData.brand || "",
+            model: carData.model || "",
+            year: carData.year || 0,
+            pricePerDay: carData.pricePerDay || 0,
+            category: carData.category || "",
+            transmission: carData.transmission || "",
+            fuel_type: carData.fuel_type || "",
+            seating_capacity: carData.seating_capacity || 0,
+            location: carData.location || "",
+            description: carData.description || "",
+            pickupLocation: carData.pickupLocation || "",
+            dropLocation: carData.dropLocation || "",
+          });
+          setFeatures(carData.features || []);
+          setCurrentImageUrl(carData.image || "");
+        } else {
+          toast.error(data.message);
+          navigate("/owner/manage-cars");
+        }
+      } catch (error) {
+        toast.error("Failed to load car data");
+        navigate("/owner/manage-cars");
+      } finally {
+        setIsLoadingData(false);
+      }
+    };
+
+    if (carId) {
+      fetchCarData();
+    }
+  }, [carId, navigate]);
+
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     if (isLoading) return null;
@@ -35,30 +80,19 @@ const AddCar = () => {
     setIsLoading(true);
     try {
       const formData = new FormData();
-      formData.append("image", image);
+      if (image) {
+        formData.append("image", image);
+      }
       formData.append("carData", JSON.stringify({ ...car, features }));
 
-      const { data } = await axios.post("/api/owner/add-car", formData);
+      const { data } = await axios.put(
+        `/api/owner/edit-car/${carId}`,
+        formData,
+      );
 
       if (data.success) {
         toast.success(data.message);
-        setImage(null);
-        setCar({
-          brand: "",
-          model: "",
-          year: 0,
-          pricePerDay: 0,
-          category: "",
-          transmission: "",
-          fuel_type: "",
-          seating_capacity: 0,
-          location: "",
-          description: "",
-          pickupLocation: "",
-          dropLocation: "",
-        });
-        setFeatures([]);
-        setNewFeature("");
+        navigate("/owner/manage-cars");
       } else {
         toast.error(data.message);
       }
@@ -69,11 +103,43 @@ const AddCar = () => {
     }
   };
 
+  const addFeature = () => {
+    if (newFeature.trim() && !features.includes(newFeature.trim())) {
+      setFeatures([...features, newFeature.trim()]);
+      setNewFeature("");
+    }
+  };
+
+  const removeFeature = (index) => {
+    setFeatures(features.filter((_, i) => i !== index));
+  };
+
+  if (isLoadingData) {
+    return (
+      <div className="px-4 py-10 md:px-10 flex-1 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-4 border-gray-300 border-t-primary mx-auto mb-4"></div>
+          <p className="text-gray-500">Loading car details...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="px-4 py-10 md:px-10 flex-1">
+      <div className="flex items-center gap-3 mb-6">
+        <button
+          onClick={() => navigate("/owner/manage-cars")}
+          className="flex items-center gap-2 text-gray-500 hover:text-gray-700"
+        >
+          <img src={assets.arrow_icon} alt="" className="rotate-180 w-4 h-4" />
+          Back to Manage Cars
+        </button>
+      </div>
+
       <Title
-        title="Add New Car"
-        subTitle="Fill in details to list a new car for booking, including pricing, availability, and car specifications."
+        title="Edit Car Details"
+        subTitle="Update the information for your listed car, including pricing, availability, and specifications."
       />
 
       <form
@@ -81,12 +147,16 @@ const AddCar = () => {
         className="flex flex-col gap-5 text-gray-500 text-sm mt-6 max-w-xl"
       >
         {/* Car Image */}
-        <div className="flex items-center gap-2 w-full">
-          <label htmlFor="car-image">
+        <div className="flex items-center gap-4 w-full">
+          <label htmlFor="car-image" className="cursor-pointer">
             <img
-              src={image ? URL.createObjectURL(image) : assets.upload_icon}
-              alt=""
-              className="h-14 rounded cursor-pointer"
+              src={
+                image
+                  ? URL.createObjectURL(image)
+                  : currentImageUrl || assets.upload_icon
+              }
+              alt="Car"
+              className="h-14 w-14 rounded object-cover border border-gray-200"
             />
             <input
               type="file"
@@ -96,7 +166,14 @@ const AddCar = () => {
               onChange={(e) => setImage(e.target.files[0])}
             />
           </label>
-          <p className="text-sm text-gray-500">Upload a picture of your car</p>
+          <div>
+            <p className="text-sm text-gray-500 mb-1">
+              {image ? "New image selected" : "Current car image"}
+            </p>
+            <p className="text-xs text-gray-400">
+              Click image to {image ? "change" : "update"}
+            </p>
+          </div>
         </div>
 
         {/* Car Brand & Model */}
@@ -155,6 +232,7 @@ const AddCar = () => {
               onChange={(e) => setCar({ ...car, category: e.target.value })}
               value={car.category}
               className="px-3 py-2 mt-1 border border-borderColor rounded-md outline-none"
+              required
             >
               <option value="">Select a category</option>
               <option value="Sedan">Sedan</option>
@@ -172,6 +250,7 @@ const AddCar = () => {
               onChange={(e) => setCar({ ...car, transmission: e.target.value })}
               value={car.transmission}
               className="px-3 py-2 mt-1 border border-borderColor rounded-md outline-none"
+              required
             >
               <option value="">Select a transmission</option>
               <option value="Automatic">Automatic</option>
@@ -185,6 +264,7 @@ const AddCar = () => {
               onChange={(e) => setCar({ ...car, fuel_type: e.target.value })}
               value={car.fuel_type}
               className="px-3 py-2 mt-1 border border-borderColor rounded-md outline-none"
+              required
             >
               <option value="">Select a fuel type</option>
               <option value="Gas">Gas</option>
@@ -216,6 +296,7 @@ const AddCar = () => {
             onChange={(e) => setCar({ ...car, location: e.target.value })}
             value={car.location}
             className="px-3 py-2 mt-1 border border-borderColor rounded-md outline-none"
+            required
           >
             <option value="">Select a location</option>
             {cityList.map((city, index) => (
@@ -225,6 +306,7 @@ const AddCar = () => {
             ))}
           </select>
         </div>
+
         {/* Pickup and Drop Locations */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="flex flex-col w-full">
@@ -276,28 +358,14 @@ const AddCar = () => {
               onKeyPress={(e) => {
                 if (e.key === "Enter") {
                   e.preventDefault();
-                  if (
-                    newFeature.trim() &&
-                    !features.includes(newFeature.trim())
-                  ) {
-                    setFeatures([...features, newFeature.trim()]);
-                    setNewFeature("");
-                  }
+                  addFeature();
                 }
               }}
             />
             <button
               type="button"
               className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dull"
-              onClick={() => {
-                if (
-                  newFeature.trim() &&
-                  !features.includes(newFeature.trim())
-                ) {
-                  setFeatures([...features, newFeature.trim()]);
-                  setNewFeature("");
-                }
-              }}
+              onClick={addFeature}
             >
               Add
             </button>
@@ -313,9 +381,7 @@ const AddCar = () => {
                   <button
                     type="button"
                     className="text-gray-500 hover:text-red-500 ml-1"
-                    onClick={() =>
-                      setFeatures(features.filter((_, i) => i !== index))
-                    }
+                    onClick={() => removeFeature(index)}
                   >
                     ×
                   </button>
@@ -341,13 +407,25 @@ const AddCar = () => {
           ></textarea>
         </div>
 
-        <button className="flex items-center gap-2 px-4 py-2.5 mt-4 bg-primary text-white rounded-md font-medium w-max cursor-pointer">
-          <img src={assets.tick_icon} alt="" />
-          {isLoading ? "Listing..." : "List Your Car"}
-        </button>
+        <div className="flex gap-4">
+          <button
+            type="button"
+            onClick={() => navigate("/owner/manage-cars")}
+            className="flex items-center gap-2 px-4 py-2.5 mt-4 border border-gray-300 text-gray-600 rounded-md font-medium w-max cursor-pointer hover:bg-gray-50"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="flex items-center gap-2 px-4 py-2.5 mt-4 bg-primary text-white rounded-md font-medium w-max cursor-pointer hover:bg-primary-dull"
+          >
+            <img src={assets.tick_icon} alt="" />
+            {isLoading ? "Updating..." : "Update Car"}
+          </button>
+        </div>
       </form>
     </div>
   );
 };
 
-export default AddCar;
+export default EditCar;
