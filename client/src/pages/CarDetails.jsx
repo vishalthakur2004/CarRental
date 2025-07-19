@@ -21,6 +21,8 @@ const CarDetails = () => {
 
   const navigate = useNavigate();
   const [car, setCar] = useState(null);
+  const [userBookingStatus, setUserBookingStatus] = useState(null);
+  const [userBooking, setUserBooking] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
