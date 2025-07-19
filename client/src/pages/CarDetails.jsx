@@ -105,14 +105,23 @@ const CarDetails = () => {
           transition={{ duration: 0.6 }}
           className="lg:col-span-2"
         >
-          <motion.img
-            initial={{ scale: 0.98, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            src={car.image}
-            alt=""
-            className="w-full h-auto md:max-h-100 object-cover rounded-xl mb-6 shadow-md"
-          />
+          <div className="relative">
+            <motion.img
+              initial={{ scale: 0.98, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              src={car.image}
+              alt=""
+              className="w-full h-auto md:max-h-100 object-cover rounded-xl mb-6 shadow-md"
+            />
+            <BookingStatus
+              carId={car._id}
+              carStatus={
+                car.status || (car.isAvaliable ? "Available" : "Not Available")
+              }
+              onStatusUpdate={handleStatusUpdate}
+            />
+          </div>
           <motion.div
             className="space-y-6"
             initial={{ opacity: 0 }}
