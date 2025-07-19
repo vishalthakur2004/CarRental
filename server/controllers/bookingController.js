@@ -106,6 +106,32 @@ export const getOwnerBookings = async (req, res) => {
   }
 };
 
+// API to get user's booking status for a specific car
+export const getUserCarBookingStatus = async (req, res) => {
+  try {
+    const { _id } = req.user;
+    const { carId } = req.params;
+
+    const userBooking = await Booking.findOne({
+      car: carId,
+      user: _id,
+    }).sort({ createdAt: -1 });
+
+    if (!userBooking) {
+      return res.json({ success: true, status: "no_booking" });
+    }
+
+    res.json({
+      success: true,
+      status: userBooking.status,
+      booking: userBooking,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.json({ success: false, message: error.message });
+  }
+};
+
 // API to change booking status
 export const changeBookingStatus = async (req, res) => {
   try {
