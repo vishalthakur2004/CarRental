@@ -152,13 +152,20 @@ const ManageCars = () => {
 
                 <td className="flex items-center p-3 gap-2">
                   <button
+                    onClick={() => navigate(`/owner/edit-car/${car._id}`)}
+                    className="text-green-600 hover:text-green-800 text-xs font-medium px-2 py-1 border border-green-200 rounded hover:bg-green-50 transition-colors"
+                  >
+                    Edit
+                  </button>
+
+                  <button
                     onClick={() => {
                       setSelectedCar(car);
                       setShowStatusModal(true);
                     }}
                     className="text-blue-600 hover:text-blue-800 text-xs font-medium px-2 py-1 border border-blue-200 rounded hover:bg-blue-50 transition-colors"
                   >
-                    Update Status
+                    Status
                   </button>
 
                   <img
