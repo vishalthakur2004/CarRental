@@ -19,5 +19,11 @@ userRouter.post("/resend-otp", resendOTP);
 userRouter.post("/login", loginUser);
 userRouter.get("/data", protect, getUserData);
 userRouter.get("/cars", getCars);
+userRouter.post(
+  "/update-image",
+  upload.single("image"),
+  protect,
+  updateUserImage,
+);
 
 export default userRouter;
