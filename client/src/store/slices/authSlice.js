@@ -308,6 +308,19 @@ const authSlice = createSlice({
           localStorage.removeItem("token");
           delete axios.defaults.headers.common["Authorization"];
         }
+      })
+
+      // Update User Image cases
+      .addCase(updateUserImage.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateUserImage.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(updateUserImage.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });
