@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 const ManageCars = () => {
   const { isOwner } = useSelector((state) => state.auth);
   const { currency } = useSelector((state) => state.app);
+  const navigate = useNavigate();
 
   const [cars, setCars] = useState([]);
   const [showStatusModal, setShowStatusModal] = useState(false);
