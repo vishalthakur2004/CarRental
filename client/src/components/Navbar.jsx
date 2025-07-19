@@ -13,6 +13,7 @@ const Navbar = () => {
 
   const location = useLocation();
   const [open, setOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
   const changeRole = async () => {
