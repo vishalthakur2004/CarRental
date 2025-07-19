@@ -1,6 +1,7 @@
 import React from "react";
 import { assets } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
+import BookingStatus from "./BookingStatus";
 
 const CarCard = ({ car }) => {
   const currency = import.meta.env.VITE_CURRENCY;
