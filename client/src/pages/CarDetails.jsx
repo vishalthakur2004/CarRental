@@ -8,6 +8,7 @@ import { setPickupDate, setReturnDate } from "../store/slices/bookingSlice";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { motion } from "motion/react";
+import BookingStatus from "../components/BookingStatus";
 
 const CarDetails = () => {
   const { id } = useParams();
@@ -20,6 +21,8 @@ const CarDetails = () => {
 
   const navigate = useNavigate();
   const [car, setCar] = useState(null);
+  const [userBookingStatus, setUserBookingStatus] = useState(null);
+  const [userBooking, setUserBooking] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,6 +31,17 @@ const CarDetails = () => {
     if (!isAuthenticated) {
       toast.error("Please login to book a car");
       dispatch(setShowLogin(true));
+      return;
+    }
+
+    // Check if user already has a booking for this car
+    if (userBookingStatus === "confirmed") {
+      toast.error("You have already booked this car");
+      return;
+    }
+
+    if (userBookingStatus === "pending") {
+      toast.error("You already have a pending booking for this car");
       return;
     }
 
@@ -53,6 +67,8 @@ const CarDetails = () => {
 
       if (data.success) {
         toast.success(data.message);
+        // Update user booking status
+        setUserBookingStatus("pending");
         navigate("/my-bookings");
       } else {
         toast.error(data.message);
@@ -60,6 +76,11 @@ const CarDetails = () => {
     } catch (error) {
       toast.error(error.message);
     }
+  };
+
+  const handleStatusUpdate = (status, booking) => {
+    setUserBookingStatus(status);
+    setUserBooking(booking);
   };
 
   useEffect(() => {
@@ -84,14 +105,23 @@ const CarDetails = () => {
           transition={{ duration: 0.6 }}
           className="lg:col-span-2"
         >
-          <motion.img
-            initial={{ scale: 0.98, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            src={car.image}
-            alt=""
-            className="w-full h-auto md:max-h-100 object-cover rounded-xl mb-6 shadow-md"
-          />
+          <div className="relative">
+            <motion.img
+              initial={{ scale: 0.98, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              src={car.image}
+              alt=""
+              className="w-full h-auto md:max-h-100 object-cover rounded-xl mb-6 shadow-md"
+            />
+            <BookingStatus
+              carId={car._id}
+              carStatus={
+                car.status || (car.isAvaliable ? "Available" : "Not Available")
+              }
+              onStatusUpdate={handleStatusUpdate}
+            />
+          </div>
           <motion.div
             className="space-y-6"
             initial={{ opacity: 0 }}
@@ -232,19 +262,29 @@ const CarDetails = () => {
 
           <button
             disabled={
-              (car.status && car.status !== "Available") || !car.isAvaliable
+              userBookingStatus === "confirmed" ||
+              userBookingStatus === "pending" ||
+              (car.status && car.status !== "Available") ||
+              !car.isAvaliable
             }
             className={`w-full py-3 font-medium rounded-xl transition-all ${
-              (car.status && car.status !== "Available") || !car.isAvaliable
+              userBookingStatus === "confirmed" ||
+              userBookingStatus === "pending" ||
+              (car.status && car.status !== "Available") ||
+              !car.isAvaliable
                 ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                 : "bg-primary hover:bg-primary-dull text-white cursor-pointer"
             }`}
           >
-            {car.status && car.status !== "Available"
-              ? `Car is ${car.status}`
-              : !car.isAvaliable
-                ? "Not Available"
-                : "Book Now"}
+            {userBookingStatus === "confirmed"
+              ? "Already Booked by You"
+              : userBookingStatus === "pending"
+                ? "Booking Pending"
+                : car.status && car.status !== "Available"
+                  ? `Car is ${car.status}`
+                  : !car.isAvaliable
+                    ? "Not Available"
+                    : "Book Now"}
           </button>
 
           <p className="text-center text-sm">

@@ -1,6 +1,7 @@
 import React from "react";
 import { assets } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
+import BookingStatus from "./BookingStatus";
 
 const CarCard = ({ car }) => {
   const currency = import.meta.env.VITE_CURRENCY;
@@ -21,22 +22,12 @@ const CarCard = ({ car }) => {
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
 
-        {(car.status || car.isAvaliable) && (
-          <p
-            className={`absolute top-4 left-4 text-white text-xs px-2.5 py-1 rounded-full ${
-              car.status === "Available" || (car.isAvaliable && !car.status)
-                ? "bg-green-500/90"
-                : car.status === "Booked"
-                  ? "bg-blue-500/90"
-                  : car.status === "On Rent"
-                    ? "bg-orange-500/90"
-                    : "bg-red-500/90"
-            }`}
-          >
-            {car.status ||
-              (car.isAvaliable ? "Available Now" : "Not Available")}
-          </p>
-        )}
+        <BookingStatus
+          carId={car._id}
+          carStatus={
+            car.status || (car.isAvaliable ? "Available" : "Not Available")
+          }
+        />
 
         <div className="absolute bottom-4 right-4 bg-black/80 backdrop-blur-sm text-white px-3 py-2 rounded-lg">
           <span className="font-semibold">
