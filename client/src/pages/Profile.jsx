@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import ProfileImageUpload from "../components/ProfileImageUpload";
+import ChangePassword from "../components/auth/ChangePassword";
 import { motion } from "motion/react";
 import { assets } from "../assets/assets";
 
 const Profile = () => {
   const { user, isAuthenticated } = useSelector((state) => state.auth);
+  const [showChangePassword, setShowChangePassword] = useState(false);
 
   if (!isAuthenticated) {
     return <Navigate to="/" replace />;
@@ -92,11 +94,31 @@ const Profile = () => {
                     </span>
                   </div>
                 </div>
+
+                {/* Password Section */}
+                <div className="border border-gray-200 rounded-lg p-4">
+                  <label className="block text-sm font-medium text-gray-600 mb-3">
+                    Password & Security
+                  </label>
+                  <button
+                    onClick={() => setShowChangePassword(true)}
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition-colors font-medium"
+                  >
+                    Change Password
+                  </button>
+                  <p className="text-xs text-gray-500 mt-2">
+                    Update your password to keep your account secure
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {showChangePassword && (
+        <ChangePassword onClose={() => setShowChangePassword(false)} />
+      )}
     </motion.div>
   );
 };
