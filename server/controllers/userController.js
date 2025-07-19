@@ -2,6 +2,8 @@ import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import Car from "../models/Car.js";
+import imagekit from "../configs/imageKit.js";
+import fs from "fs";
 import {
   generateOTP,
   generateTempToken,
