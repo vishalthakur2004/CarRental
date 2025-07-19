@@ -219,7 +219,7 @@ export const dummyCarData = [
     seating_capacity: 4,
     fuel_type: "Diesel",
     transmission: "Manual",
-    pricePerDay: 130,
+    pricePerDay: 3500,
     location: "Delhi",
     description:
       "The Toyota Corolla is a mid-size luxury sedan produced by Toyota. The Corolla made its debut in 2008 as the first sedan ever produced by Toyota.",
