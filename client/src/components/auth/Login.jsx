@@ -6,6 +6,7 @@ import {
   setShowRegister,
 } from "../../store/slices/authSlice";
 import { useNavigate } from "react-router-dom";
+import ForgetPassword from "./ForgetPassword";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ const Login = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showForgetPassword, setShowForgetPassword] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -78,15 +80,23 @@ const Login = () => {
           />
         </div>
 
-        <p>
-          Create an account?{" "}
+        <div className="flex justify-between items-center w-full text-sm">
+          <p>
+            Create an account?{" "}
+            <span
+              onClick={handleShowRegister}
+              className="text-primary cursor-pointer hover:underline"
+            >
+              Sign up here
+            </span>
+          </p>
           <span
-            onClick={handleShowRegister}
+            onClick={() => setShowForgetPassword(true)}
             className="text-primary cursor-pointer hover:underline"
           >
-            Sign up here
+            Forgot password?
           </span>
-        </p>
+        </div>
 
         <button
           type="submit"
@@ -96,6 +106,13 @@ const Login = () => {
           {loading ? "Logging in..." : "Login"}
         </button>
       </form>
+
+      {showForgetPassword && (
+        <ForgetPassword
+          onClose={() => setShowForgetPassword(false)}
+          onBackToLogin={() => setShowForgetPassword(false)}
+        />
+      )}
     </div>
   );
 };
