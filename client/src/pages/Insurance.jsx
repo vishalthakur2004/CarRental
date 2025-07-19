@@ -31,7 +31,7 @@ const Insurance = () => {
         "Everything in Basic Protection",
         "Personal Accident Insurance",
         "Personal Effects Coverage",
-        "��40,000 damage excess",
+        "₹40,000 damage excess",
         "Windscreen & Tire Protection",
         "Key Replacement Coverage",
       ],
@@ -292,7 +292,7 @@ const Insurance = () => {
                   "Simple, transparent pricing with no hidden fees",
                   "24/7 claims support and emergency assistance",
                   "Fast claim processing and settlement",
-                  "Coverage valid in all 50 states",
+                  "Coverage valid across all Indian states",
                   "No deductible on comprehensive plans",
                 ].map((benefit, index) => (
                   <motion.div
