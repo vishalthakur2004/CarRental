@@ -262,19 +262,29 @@ const CarDetails = () => {
 
           <button
             disabled={
-              (car.status && car.status !== "Available") || !car.isAvaliable
+              userBookingStatus === "confirmed" ||
+              userBookingStatus === "pending" ||
+              (car.status && car.status !== "Available") ||
+              !car.isAvaliable
             }
             className={`w-full py-3 font-medium rounded-xl transition-all ${
-              (car.status && car.status !== "Available") || !car.isAvaliable
+              userBookingStatus === "confirmed" ||
+              userBookingStatus === "pending" ||
+              (car.status && car.status !== "Available") ||
+              !car.isAvaliable
                 ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                 : "bg-primary hover:bg-primary-dull text-white cursor-pointer"
             }`}
           >
-            {car.status && car.status !== "Available"
-              ? `Car is ${car.status}`
-              : !car.isAvaliable
-                ? "Not Available"
-                : "Book Now"}
+            {userBookingStatus === "confirmed"
+              ? "Already Booked by You"
+              : userBookingStatus === "pending"
+                ? "Booking Pending"
+                : car.status && car.status !== "Available"
+                  ? `Car is ${car.status}`
+                  : !car.isAvaliable
+                    ? "Not Available"
+                    : "Book Now"}
           </button>
 
           <p className="text-center text-sm">
