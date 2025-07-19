@@ -237,7 +237,7 @@ export const dummyCarData = [
     seating_capacity: 4,
     fuel_type: "Hybrid",
     transmission: "Automatic",
-    pricePerDay: 200,
+    pricePerDay: 6500,
     location: "Bengaluru",
     description:
       "The Jeep Wrangler is a mid-size luxury SUV produced by Jeep. The Wrangler made its debut in 2003 as the first SUV ever produced by Jeep.",
