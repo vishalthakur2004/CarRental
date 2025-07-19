@@ -25,7 +25,12 @@ const createTransporter = () => {
 };
 
 // Send OTP email
-export const sendOTPEmail = async (email, otp, name = "User") => {
+export const sendOTPEmail = async (
+  email,
+  otp,
+  name = "User",
+  purpose = "Account Verification",
+) => {
   try {
     // For demo purposes, we'll just log the OTP
     console.log(`=== OTP EMAIL ===`);
