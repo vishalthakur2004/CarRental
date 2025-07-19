@@ -317,5 +317,5 @@ export const dummyDashboardData = {
   pendingBookings: 0,
   completedBookings: 2,
   recentBookings: [dummyMyBookingsData[0], dummyMyBookingsData[1]],
-  monthlyRevenue: 840,
+  monthlyRevenue: 17500,
 };
