@@ -72,14 +72,92 @@ const Navbar = () => {
             {isOwner ? "Dashboard" : "List cars"}
           </button>
 
-          <button
-            onClick={() => {
-              user ? dispatch(logout()) : dispatch(setShowLogin(true));
-            }}
-            className="cursor-pointer px-8 py-2 bg-primary hover:bg-primary-dull transition-all text-white rounded-lg"
-          >
-            {user ? "Logout" : "Login"}
-          </button>
+          {user ? (
+            <div className="relative">
+              <button
+                className="flex items-center gap-2 cursor-pointer"
+                onClick={() => setOpen(!open)}
+              >
+                <img
+                  src={user?.image || assets.default_avatar}
+                  alt="Profile"
+                  className="h-8 w-8 rounded-full object-cover border border-gray-300"
+                />
+                <span className="max-sm:block hidden">{user.name}</span>
+                <img
+                  src={assets.arrow_icon}
+                  alt=""
+                  className={`w-3 h-3 transition-transform ${open ? "rotate-180" : ""}`}
+                />
+              </button>
+
+              {open && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="absolute right-0 top-12 bg-white border border-gray-200 rounded-lg shadow-lg min-w-48 z-50"
+                >
+                  <div className="p-3 border-b border-gray-100">
+                    <p className="font-medium text-gray-800">{user.name}</p>
+                    <p className="text-sm text-gray-500">{user.email}</p>
+                  </div>
+
+                  <div className="py-2">
+                    <button
+                      onClick={() => {
+                        navigate("/profile");
+                        setOpen(false);
+                      }}
+                      className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+                    >
+                      <img src={assets.user_icon} alt="" className="w-4 h-4" />
+                      My Profile
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        navigate("/my-bookings");
+                        setOpen(false);
+                      }}
+                      className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+                    >
+                      <img
+                        src={assets.calendar_icon}
+                        alt=""
+                        className="w-4 h-4"
+                      />
+                      My Bookings
+                    </button>
+
+                    <hr className="my-2" />
+
+                    <button
+                      onClick={() => {
+                        dispatch(logout());
+                        setOpen(false);
+                      }}
+                      className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 flex items-center gap-2"
+                    >
+                      <img
+                        src={assets.logout_icon}
+                        alt=""
+                        className="w-4 h-4"
+                      />
+                      Logout
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+            </div>
+          ) : (
+            <button
+              onClick={() => dispatch(setShowLogin(true))}
+              className="cursor-pointer px-8 py-2 bg-primary hover:bg-primary-dull transition-all text-white rounded-lg"
+            >
+              Login
+            </button>
+          )}
         </div>
       </div>
 
