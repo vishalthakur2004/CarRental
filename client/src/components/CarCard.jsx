@@ -21,9 +21,20 @@ const CarCard = ({ car }) => {
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
 
-        {car.isAvaliable && (
-          <p className="absolute top-4 left-4 bg-primary/90 text-white text-xs px-2.5 py-1 rounded-full">
-            Available Now
+        {(car.status || car.isAvaliable) && (
+          <p
+            className={`absolute top-4 left-4 text-white text-xs px-2.5 py-1 rounded-full ${
+              car.status === "Available" || (car.isAvaliable && !car.status)
+                ? "bg-green-500/90"
+                : car.status === "Booked"
+                  ? "bg-blue-500/90"
+                  : car.status === "On Rent"
+                    ? "bg-orange-500/90"
+                    : "bg-red-500/90"
+            }`}
+          >
+            {car.status ||
+              (car.isAvaliable ? "Available Now" : "Not Available")}
           </p>
         )}
 
