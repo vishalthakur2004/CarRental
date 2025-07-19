@@ -35,6 +35,7 @@ export const sendOTPEmail = async (
     // For demo purposes, we'll just log the OTP
     console.log(`=== OTP EMAIL ===`);
     console.log(`To: ${email}`);
+    console.log(`Purpose: ${purpose}`);
     console.log(`OTP: ${otp}`);
     console.log(`================`);
 
