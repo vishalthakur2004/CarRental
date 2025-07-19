@@ -8,6 +8,7 @@ import { setPickupDate, setReturnDate } from "../store/slices/bookingSlice";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { motion } from "motion/react";
+import BookingStatus from "../components/BookingStatus";
 
 const CarDetails = () => {
   const { id } = useParams();
