@@ -31,6 +31,19 @@ const CarDetails = () => {
       return;
     }
 
+    // Check if car is available for booking
+    if (car.status && car.status !== "Available") {
+      toast.error(
+        `This car is currently ${car.status.toLowerCase()} and cannot be booked`,
+      );
+      return;
+    }
+
+    if (!car.isAvaliable) {
+      toast.error("This car is not available for booking");
+      return;
+    }
+
     try {
       const { data } = await axios.post("/api/bookings/create", {
         car: id,
@@ -217,8 +230,21 @@ const CarDetails = () => {
             />
           </div>
 
-          <button className="w-full bg-primary hover:bg-primary-dull transition-all py-3 font-medium text-white rounded-xl cursor-pointer">
-            Book Now
+          <button
+            disabled={
+              (car.status && car.status !== "Available") || !car.isAvaliable
+            }
+            className={`w-full py-3 font-medium rounded-xl transition-all ${
+              (car.status && car.status !== "Available") || !car.isAvaliable
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-primary hover:bg-primary-dull text-white cursor-pointer"
+            }`}
+          >
+            {car.status && car.status !== "Available"
+              ? `Car is ${car.status}`
+              : !car.isAvaliable
+                ? "Not Available"
+                : "Book Now"}
           </button>
 
           <p className="text-center text-sm">
