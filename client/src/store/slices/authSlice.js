@@ -110,6 +110,28 @@ export const fetchUserData = createAsyncThunk(
   },
 );
 
+export const updateUserImage = createAsyncThunk(
+  "auth/updateUserImage",
+  async (imageFile, { rejectWithValue }) => {
+    try {
+      const formData = new FormData();
+      formData.append("image", imageFile);
+
+      const { data } = await axios.post("/api/user/update-image", formData);
+      if (data.success) {
+        toast.success(data.message);
+        return data;
+      } else {
+        toast.error(data.message);
+        return rejectWithValue(data.message);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || error.message);
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  },
+);
+
 const initialState = {
   user: null,
   token: localStorage.getItem("token"),
@@ -286,6 +308,19 @@ const authSlice = createSlice({
           localStorage.removeItem("token");
           delete axios.defaults.headers.common["Authorization"];
         }
+      })
+
+      // Update User Image cases
+      .addCase(updateUserImage.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateUserImage.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(updateUserImage.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });

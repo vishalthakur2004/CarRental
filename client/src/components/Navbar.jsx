@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { assets, menuLinks } from "../assets/assets";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -13,7 +13,22 @@ const Navbar = () => {
 
   const location = useLocation();
   const [open, setOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const navigate = useNavigate();
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const changeRole = async () => {
     try {
@@ -72,14 +87,88 @@ const Navbar = () => {
             {isOwner ? "Dashboard" : "List cars"}
           </button>
 
-          <button
-            onClick={() => {
-              user ? dispatch(logout()) : dispatch(setShowLogin(true));
-            }}
-            className="cursor-pointer px-8 py-2 bg-primary hover:bg-primary-dull transition-all text-white rounded-lg"
-          >
-            {user ? "Logout" : "Login"}
-          </button>
+          {user ? (
+            <div className="relative" ref={dropdownRef}>
+              <button
+                className="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+              >
+                <img
+                  src={user?.image || assets.default_avatar}
+                  alt="Profile"
+                  className="h-8 w-8 rounded-full object-cover border border-gray-300"
+                />
+                <span className="max-sm:block hidden">{user.name}</span>
+                <img
+                  src={assets.arrow_icon}
+                  alt=""
+                  className={`w-3 h-3 transition-transform ${dropdownOpen ? "rotate-180" : ""}`}
+                />
+              </button>
+
+              {dropdownOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="absolute right-0 top-12 bg-white border border-gray-200 rounded-lg shadow-lg min-w-48 z-50"
+                >
+                  <div className="p-3 border-b border-gray-100">
+                    <p className="font-medium text-gray-800">{user.name}</p>
+                    <p className="text-sm text-gray-500">{user.email}</p>
+                  </div>
+
+                  <div className="py-2">
+                    <button
+                      onClick={() => {
+                        navigate("/profile");
+                        setDropdownOpen(false);
+                      }}
+                      className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+                    >
+                      <img src={assets.users_icon} alt="" className="w-4 h-4" />
+                      My Profile
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        navigate("/my-bookings");
+                        setDropdownOpen(false);
+                      }}
+                      className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+                    >
+                      <img
+                        src={assets.calendar_icon_colored}
+                        alt=""
+                        className="w-4 h-4"
+                      />
+                      My Bookings
+                    </button>
+
+                    <hr className="my-2" />
+
+                    <button
+                      onClick={() => {
+                        dispatch(logout());
+                        setDropdownOpen(false);
+                      }}
+                      className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 flex items-center gap-2"
+                    >
+                      <img src={assets.close_icon} alt="" className="w-4 h-4" />
+                      Logout
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+            </div>
+          ) : (
+            <button
+              onClick={() => dispatch(setShowLogin(true))}
+              className="cursor-pointer px-8 py-2 bg-primary hover:bg-primary-dull transition-all text-white rounded-lg"
+            >
+              Login
+            </button>
+          )}
         </div>
       </div>
 

@@ -10,38 +10,38 @@ const Insurance = () => {
     {
       id: "basic",
       name: "Basic Protection",
-      price: "$15/day",
+      price: "₹1,200/day",
       recommended: false,
       features: [
         "Collision Damage Waiver (CDW)",
         "Theft Protection",
         "Third-party Liability Coverage",
-        "$1,000 damage excess",
+        "₹80,000 damage excess",
         "Roadside Assistance",
       ],
       description: "Essential coverage for peace of mind during your rental",
-      coverage: "Up to $25,000",
+      coverage: "Up to ₹20,00,000",
     },
     {
       id: "standard",
       name: "Standard Protection",
-      price: "$25/day",
+      price: "₹2,000/day",
       recommended: true,
       features: [
         "Everything in Basic Protection",
         "Personal Accident Insurance",
         "Personal Effects Coverage",
-        "$500 damage excess",
+        "₹40,000 damage excess",
         "Windscreen & Tire Protection",
         "Key Replacement Coverage",
       ],
       description: "Comprehensive protection for most travelers",
-      coverage: "Up to $50,000",
+      coverage: "Up to ₹40,00,000",
     },
     {
       id: "premium",
       name: "Premium Protection",
-      price: "$35/day",
+      price: "₹2,800/day",
       recommended: false,
       features: [
         "Everything in Standard Protection",
@@ -53,7 +53,7 @@ const Insurance = () => {
       ],
       description:
         "Maximum protection with zero excess for complete peace of mind",
-      coverage: "Up to $100,000",
+      coverage: "Up to ₹80,00,000",
     },
   ];
 
@@ -292,7 +292,7 @@ const Insurance = () => {
                   "Simple, transparent pricing with no hidden fees",
                   "24/7 claims support and emergency assistance",
                   "Fast claim processing and settlement",
-                  "Coverage valid in all 50 states",
+                  "Coverage valid across all Indian states",
                   "No deductible on comprehensive plans",
                 ].map((benefit, index) => (
                   <motion.div
@@ -331,7 +331,7 @@ const Insurance = () => {
                   Average Claim Processing Time
                 </div>
 
-                <div className="text-3xl font-bold text-primary mb-2">$0</div>
+                <div className="text-3xl font-bold text-primary mb-2">₹0</div>
                 <div className="text-gray-600">Hidden Fees</div>
               </div>
             </motion.div>

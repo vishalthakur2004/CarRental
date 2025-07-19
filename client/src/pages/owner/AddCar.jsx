@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Title from "../../components/owner/Title";
-import { assets } from "../../assets/assets";
+import { assets, cityList } from "../../assets/assets";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -209,10 +209,11 @@ const AddCar = () => {
             className="px-3 py-2 mt-1 border border-borderColor rounded-md outline-none"
           >
             <option value="">Select a location</option>
-            <option value="New York">New York</option>
-            <option value="Los Angeles">Los Angeles</option>
-            <option value="Houston">Houston</option>
-            <option value="Chicago">Chicago</option>
+            {cityList.map((city, index) => (
+              <option key={index} value={city}>
+                {city}
+              </option>
+            ))}
           </select>
         </div>
         {/* Car Description */}

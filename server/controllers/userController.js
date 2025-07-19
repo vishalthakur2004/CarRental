@@ -2,6 +2,8 @@ import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import Car from "../models/Car.js";
+import imagekit from "../configs/imageKit.js";
+import fs from "fs";
 import {
   generateOTP,
   generateTempToken,
@@ -209,6 +211,48 @@ export const getCars = async (req, res) => {
   try {
     const cars = await Car.find({ isAvaliable: true });
     res.json({ success: true, cars });
+  } catch (error) {
+    console.log(error.message);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+// API to update user profile image
+export const updateUserImage = async (req, res) => {
+  try {
+    const { _id } = req.user;
+
+    const imageFile = req.file;
+
+    let image = null;
+
+    if (imagekit && imageFile) {
+      // Upload Image to ImageKit
+      const fileBuffer = fs.readFileSync(imageFile.path);
+      const response = await imagekit.upload({
+        file: fileBuffer,
+        fileName: imageFile.originalname,
+        folder: "/users",
+      });
+
+      // optimization through imagekit URL transformation
+      var optimizedImageUrl = imagekit.url({
+        path: response.filePath,
+        transformation: [
+          { width: "400" }, // Width resizing
+          { quality: "auto" }, // Auto compression
+          { format: "webp" }, // Convert to modern format
+        ],
+      });
+
+      image = optimizedImageUrl;
+    } else {
+      // Fallback: use a placeholder for development
+      image = imageFile ? `/uploads/${imageFile.filename}` : null;
+    }
+
+    await User.findByIdAndUpdate(_id, { image });
+    res.json({ success: true, message: "Profile image updated successfully" });
   } catch (error) {
     console.log(error.message);
     res.json({ success: false, message: error.message });

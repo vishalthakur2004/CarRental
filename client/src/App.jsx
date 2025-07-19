@@ -18,6 +18,7 @@ import UserAgreement from "./pages/UserAgreement";
 import LegalInfo from "./pages/LegalInfo";
 import Insurance from "./pages/Insurance";
 import DataUsage from "./pages/DataUsage";
+import Profile from "./pages/Profile";
 import AuthModal from "./components/auth/AuthModal";
 import { Toaster } from "react-hot-toast";
 import { initializeAuth, fetchUserData } from "./store/slices/authSlice";
@@ -141,6 +142,14 @@ const App = () => {
           element={
             <ProtectedRoute>
               <MyBookings />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
             </ProtectedRoute>
           }
         />
