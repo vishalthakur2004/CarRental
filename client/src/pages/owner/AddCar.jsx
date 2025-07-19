@@ -20,7 +20,12 @@ const AddCar = () => {
     seating_capacity: 0,
     location: "",
     description: "",
+    pickupLocation: "",
+    dropLocation: "",
   });
+
+  const [features, setFeatures] = useState([]);
+  const [newFeature, setNewFeature] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
   const onSubmitHandler = async (e) => {
@@ -31,7 +36,7 @@ const AddCar = () => {
     try {
       const formData = new FormData();
       formData.append("image", image);
-      formData.append("carData", JSON.stringify(car));
+      formData.append("carData", JSON.stringify({ ...car, features }));
 
       const { data } = await axios.post("/api/owner/add-car", formData);
 
@@ -49,7 +54,11 @@ const AddCar = () => {
           seating_capacity: 0,
           location: "",
           description: "",
+          pickupLocation: "",
+          dropLocation: "",
         });
+        setFeatures([]);
+        setNewFeature("");
       } else {
         toast.error(data.message);
       }
@@ -216,6 +225,109 @@ const AddCar = () => {
             ))}
           </select>
         </div>
+        {/* Pickup and Drop Locations */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="flex flex-col w-full">
+            <label>Pickup Location</label>
+            <select
+              onChange={(e) =>
+                setCar({ ...car, pickupLocation: e.target.value })
+              }
+              value={car.pickupLocation}
+              className="px-3 py-2 mt-1 border border-borderColor rounded-md outline-none"
+              required
+            >
+              <option value="">Select pickup location</option>
+              {cityList.map((city, index) => (
+                <option key={index} value={city}>
+                  {city}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="flex flex-col w-full">
+            <label>Drop Location</label>
+            <select
+              onChange={(e) => setCar({ ...car, dropLocation: e.target.value })}
+              value={car.dropLocation}
+              className="px-3 py-2 mt-1 border border-borderColor rounded-md outline-none"
+              required
+            >
+              <option value="">Select drop location</option>
+              {cityList.map((city, index) => (
+                <option key={index} value={city}>
+                  {city}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {/* Car Features */}
+        <div className="flex flex-col w-full">
+          <label>Car Features</label>
+          <div className="flex gap-2 mt-1 mb-2">
+            <input
+              type="text"
+              placeholder="e.g. Bluetooth, GPS, Air Conditioning..."
+              className="px-3 py-2 flex-1 border border-borderColor rounded-md outline-none"
+              value={newFeature}
+              onChange={(e) => setNewFeature(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  if (
+                    newFeature.trim() &&
+                    !features.includes(newFeature.trim())
+                  ) {
+                    setFeatures([...features, newFeature.trim()]);
+                    setNewFeature("");
+                  }
+                }
+              }}
+            />
+            <button
+              type="button"
+              className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dull"
+              onClick={() => {
+                if (
+                  newFeature.trim() &&
+                  !features.includes(newFeature.trim())
+                ) {
+                  setFeatures([...features, newFeature.trim()]);
+                  setNewFeature("");
+                }
+              }}
+            >
+              Add
+            </button>
+          </div>
+          {features.length > 0 && (
+            <div className="flex flex-wrap gap-2 mt-2">
+              {features.map((feature, index) => (
+                <span
+                  key={index}
+                  className="inline-flex items-center gap-1 px-3 py-1 bg-light text-gray-700 rounded-full text-sm"
+                >
+                  {feature}
+                  <button
+                    type="button"
+                    className="text-gray-500 hover:text-red-500 ml-1"
+                    onClick={() =>
+                      setFeatures(features.filter((_, i) => i !== index))
+                    }
+                  >
+                    ×
+                  </button>
+                </span>
+              ))}
+            </div>
+          )}
+          <p className="text-xs text-gray-400 mt-1">
+            Press Enter or click Add to add a feature
+          </p>
+        </div>
+
         {/* Car Description */}
         <div className="flex flex-col w-full">
           <label>Description</label>
