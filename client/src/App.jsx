@@ -10,6 +10,7 @@ import Footer from "./components/Footer";
 import Layout from "./pages/owner/Layout";
 import Dashboard from "./pages/owner/Dashboard";
 import AddCar from "./pages/owner/AddCar";
+import EditCar from "./pages/owner/EditCar";
 import ManageCars from "./pages/owner/ManageCars";
 import ManageBookings from "./pages/owner/ManageBookings";
 import AboutUs from "./pages/AboutUs";
