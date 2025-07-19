@@ -76,8 +76,8 @@ const Navbar = () => {
           {user ? (
             <div className="relative">
               <button
-                className="flex items-center gap-2 cursor-pointer"
-                onClick={() => setOpen(!open)}
+                className="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                onClick={() => setDropdownOpen(!dropdownOpen)}
               >
                 <img
                   src={user?.image || assets.default_avatar}
@@ -88,11 +88,11 @@ const Navbar = () => {
                 <img
                   src={assets.arrow_icon}
                   alt=""
-                  className={`w-3 h-3 transition-transform ${open ? "rotate-180" : ""}`}
+                  className={`w-3 h-3 transition-transform ${dropdownOpen ? "rotate-180" : ""}`}
                 />
               </button>
 
-              {open && (
+              {dropdownOpen && (
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
