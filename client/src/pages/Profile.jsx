@@ -70,7 +70,7 @@ const Profile = () => {
                       src={
                         user?.role === "owner"
                           ? assets.carIconColored
-                          : assets.user_icon
+                          : assets.users_icon
                       }
                       alt=""
                       className="w-5 h-5"
