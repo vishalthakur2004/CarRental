@@ -93,6 +93,43 @@ export const toggleCarAvailability = async (req, res) => {
   }
 };
 
+// API to Update Car Status
+export const updateCarStatus = async (req, res) => {
+  try {
+    const { _id } = req.user;
+    const { carId, status } = req.body;
+
+    // Validate status
+    const validStatuses = ["Available", "Booked", "On Rent", "Not Available"];
+    if (!validStatuses.includes(status)) {
+      return res.json({ success: false, message: "Invalid status" });
+    }
+
+    const car = await Car.findById(carId);
+
+    if (!car) {
+      return res.json({ success: false, message: "Car not found" });
+    }
+
+    // Checking if car belongs to the user
+    if (car.owner.toString() !== _id.toString()) {
+      return res.json({ success: false, message: "Unauthorized" });
+    }
+
+    car.status = status;
+
+    // Also update isAvailable based on status
+    car.isAvaliable = status === "Available";
+
+    await car.save();
+
+    res.json({ success: true, message: `Car status updated to ${status}` });
+  } catch (error) {
+    console.log(error.message);
+    res.json({ success: false, message: error.message });
+  }
+};
+
 // Api to delete a car
 export const deleteCar = async (req, res) => {
   try {
