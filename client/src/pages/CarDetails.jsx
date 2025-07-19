@@ -34,6 +34,17 @@ const CarDetails = () => {
       return;
     }
 
+    // Check if user already has a booking for this car
+    if (userBookingStatus === "confirmed") {
+      toast.error("You have already booked this car");
+      return;
+    }
+
+    if (userBookingStatus === "pending") {
+      toast.error("You already have a pending booking for this car");
+      return;
+    }
+
     // Check if car is available for booking
     if (car.status && car.status !== "Available") {
       toast.error(
@@ -56,6 +67,8 @@ const CarDetails = () => {
 
       if (data.success) {
         toast.success(data.message);
+        // Update user booking status
+        setUserBookingStatus("pending");
         navigate("/my-bookings");
       } else {
         toast.error(data.message);
@@ -63,6 +76,11 @@ const CarDetails = () => {
     } catch (error) {
       toast.error(error.message);
     }
+  };
+
+  const handleStatusUpdate = (status, booking) => {
+    setUserBookingStatus(status);
+    setUserBooking(booking);
   };
 
   useEffect(() => {
