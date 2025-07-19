@@ -88,7 +88,7 @@ const Navbar = () => {
           </button>
 
           {user ? (
-            <div className="relative">
+            <div className="relative" ref={dropdownRef}>
               <button
                 className="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-gray-100 transition-colors"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
