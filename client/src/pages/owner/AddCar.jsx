@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Title from "../../components/owner/Title";
-import { assets } from "../../assets/assets";
+import { assets, cityList } from "../../assets/assets";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import toast from "react-hot-toast";
