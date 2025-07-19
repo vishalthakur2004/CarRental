@@ -284,7 +284,7 @@ export const dummyMyBookingsData = [
     pickupDate: "2025-06-12T00:00:00.000Z",
     returnDate: "2025-06-12T00:00:00.000Z",
     status: "pending",
-    price: 130,
+    price: 3500,
     createdAt: "2025-06-10T12:57:25.613Z",
   },
   {
