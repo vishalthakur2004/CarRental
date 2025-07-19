@@ -6,8 +6,10 @@ import {
   registerUser,
   verifyOTP,
   resendOTP,
+  updateUserImage,
 } from "../controllers/userController.js";
 import { protect } from "../middleware/auth.js";
+import upload from "../middleware/multer.js";
 
 const userRouter = express.Router();
 
