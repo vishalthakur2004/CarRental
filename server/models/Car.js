@@ -18,6 +18,11 @@ const carSchema = new mongoose.Schema(
     features: [{ type: String }],
     pickupLocation: { type: String, required: true },
     dropLocation: { type: String, required: true },
+    status: {
+      type: String,
+      enum: ["Available", "Booked", "On Rent", "Not Available"],
+      default: "Available",
+    },
     isAvaliable: { type: Boolean, default: true },
   },
   { timestamps: true },
