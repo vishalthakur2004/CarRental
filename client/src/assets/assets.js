@@ -201,7 +201,7 @@ export const dummyCarData = [
     seating_capacity: 4,
     fuel_type: "Hybrid",
     transmission: "Semi-Automatic",
-    pricePerDay: 300,
+    pricePerDay: 8500,
     location: "Mumbai",
     description:
       "The BMW X5 is a mid-size luxury SUV produced by BMW. The X5 made its debut in 1999 as the first SUV ever produced by BMW.",
