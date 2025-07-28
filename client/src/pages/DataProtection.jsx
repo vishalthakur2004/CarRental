@@ -1,7 +1,7 @@
 import React from 'react'
 import { motion } from 'motion/react'
 
-const PrivacyPolicy = () => {
+const DataProtection = () => {
   const sections = [
     {
       title: "1. Information We Collect",
@@ -277,4 +277,4 @@ const PrivacyPolicy = () => {
   )
 }
 
-export default PrivacyPolicy
+export default DataProtection
