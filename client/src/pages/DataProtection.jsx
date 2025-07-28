@@ -1,7 +1,7 @@
 import React from 'react'
 import { motion } from 'motion/react'
 
-const PrivacyPolicy = () => {
+const DataProtection = () => {
   const sections = [
     {
       title: "1. Information We Collect",
@@ -268,7 +268,7 @@ const PrivacyPolicy = () => {
             >
               <p><strong>Email:</strong> privacy@carrental.com</p>
               <p><strong>Phone:</strong> +91 1800-123-4567</p>
-              <p><strong>Address:</strong> Data Protection Officer, 123 Business District, Mumbai, Maharashtra 400001, India</p>
+              <p><strong>Address:</strong> Data Protection Officer, 123 Business District, Jalandhar, Punjab 144011, India</p>
             </motion.div>
           </motion.div>
         </div>
@@ -277,4 +277,4 @@ const PrivacyPolicy = () => {
   )
 }
 
-export default PrivacyPolicy
+export default DataProtection
