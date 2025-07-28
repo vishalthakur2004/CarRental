@@ -78,7 +78,7 @@ const Footer = () => {
                     <h2 className='text-base font-medium text-gray-800 uppercase'>Contact</h2>
                     <ul className='mt-3 flex flex-col gap-1.5'>
                         <li>123 Business District</li>
-                        <li>Mumbai, Maharashtra 400001</li>
+                        <li>Jalandhar, Punjab 144011</li>
                         <li>+91 1800-123-4567</li>
                         <li>info@carrental.com</li>
                     </ul>
