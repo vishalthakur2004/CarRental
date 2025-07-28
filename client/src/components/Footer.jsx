@@ -1,6 +1,7 @@
 import React from 'react'
 import { assets } from '../assets/assets'
-import { motion } from 'motion/react';
+import { motion } from 'motion/react'
+import { Link } from 'react-router-dom'
 
 const Footer = () => {
   return (
@@ -39,10 +40,10 @@ const Footer = () => {
                         transition={{ duration: 0.5, delay: 0.5 }}
                     
                     className='flex items-center gap-3 mt-6'>
-                        <a href="#"> <img src={assets.facebook_logo} className='w-5 h-5' alt="" /> </a>
-                        <a href="#"> <img src={assets.instagram_logo} className='w-5 h-5' alt="" /> </a>
-                        <a href="#"> <img src={assets.twitter_logo} className='w-5 h-5' alt="" /> </a>
-                        <a href="#"> <img src={assets.gmail_logo} className='w-5 h-5' alt="" /> </a>
+                        <a href="#" className="hover:scale-110 transition-transform duration-200"> <img src={assets.facebook_logo} className='w-5 h-5' alt="Facebook" /> </a>
+                        <a href="#" className="hover:scale-110 transition-transform duration-200"> <img src={assets.instagram_logo} className='w-5 h-5' alt="Instagram" /> </a>
+                        <a href="#" className="hover:scale-110 transition-transform duration-200"> <img src={assets.twitter_logo} className='w-5 h-5' alt="Twitter" /> </a>
+                        <a href="#" className="hover:scale-110 transition-transform duration-200"> <img src={assets.gmail_logo} className='w-5 h-5' alt="Email" /> </a>
                     </motion.div>
                 </div>
 
@@ -56,30 +57,30 @@ const Footer = () => {
                 <div>
                     <h2 className='text-base font-medium text-gray-800 uppercase'>Quick Links</h2>
                     <ul className='mt-3 flex flex-col gap-1.5'>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Browse Cars</a></li>
-                        <li><a href="#">List Your Car</a></li>
-                        <li><a href="#">About Us</a></li>
+                        <li><Link to="/" className="hover:text-primary transition-colors duration-200">Home</Link></li>
+                        <li><Link to="/cars" className="hover:text-primary transition-colors duration-200">Browse Cars</Link></li>
+                        <li><Link to="/list-your-car" className="hover:text-primary transition-colors duration-200">List Your Car</Link></li>
+                        <li><Link to="/about-us" className="hover:text-primary transition-colors duration-200">About Us</Link></li>
                     </ul>
                 </div>
 
                 <div>
                     <h2 className='text-base font-medium text-gray-800 uppercase'>Resources</h2>
                     <ul className='mt-3 flex flex-col gap-1.5'>
-                        <li><a href="#">Help Center</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Insurance</a></li>
+                        <li><Link to="/help-center" className="hover:text-primary transition-colors duration-200">Help Center</Link></li>
+                        <li><Link to="/terms-of-service" className="hover:text-primary transition-colors duration-200">Terms of Service</Link></li>
+                        <li><Link to="/privacy-policy" className="hover:text-primary transition-colors duration-200">Privacy Policy</Link></li>
+                        <li><Link to="/insurance" className="hover:text-primary transition-colors duration-200">Insurance</Link></li>
                     </ul>
                 </div>
 
                 <div>
                     <h2 className='text-base font-medium text-gray-800 uppercase'>Contact</h2>
                     <ul className='mt-3 flex flex-col gap-1.5'>
-                        <li>1234 Luxury Drive</li>
-                        <li>San Francisco, CA 94107</li>
-                        <li>+1 234 567890</li>
-                        <li>info@example.com</li>
+                        <li>123 Business District</li>
+                        <li>Mumbai, Maharashtra 400001</li>
+                        <li>+91 1800-123-4567</li>
+                        <li>info@carrental.com</li>
                     </ul>
                 </div>
 
@@ -97,13 +98,13 @@ const Footer = () => {
                 transition={{ duration: 0.6, delay: 0.6 }}
                 
             className='flex flex-col md:flex-row gap-2 items-center justify-between py-5'>
-                <p>© {new Date().getFullYear()} Brand. All rights reserved.</p>
+                <p>© {new Date().getFullYear()} CarRental. All rights reserved.</p>
                 <ul className='flex items-center gap-4'>
-                    <li><a href="#">Privacy</a></li>
+                    <li><Link to="/privacy-policy" className="hover:text-primary transition-colors duration-200">Privacy</Link></li>
                     <li>|</li>
-                    <li><a href="#">Terms</a></li>
+                    <li><Link to="/terms-of-service" className="hover:text-primary transition-colors duration-200">Terms</Link></li>
                     <li>|</li>
-                    <li><a href="#">Cookies</a></li>
+                    <li><Link to="/privacy-policy" className="hover:text-primary transition-colors duration-200">Cookies</Link></li>
                 </ul>
             </motion.div>
         </motion.div>
