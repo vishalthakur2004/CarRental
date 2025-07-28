@@ -40,10 +40,10 @@ const Footer = () => {
                         transition={{ duration: 0.5, delay: 0.5 }}
                     
                     className='flex items-center gap-3 mt-6'>
-                        <a href="#"> <img src={assets.facebook_logo} className='w-5 h-5' alt="" /> </a>
-                        <a href="#"> <img src={assets.instagram_logo} className='w-5 h-5' alt="" /> </a>
-                        <a href="#"> <img src={assets.twitter_logo} className='w-5 h-5' alt="" /> </a>
-                        <a href="#"> <img src={assets.gmail_logo} className='w-5 h-5' alt="" /> </a>
+                        <a href="#" className="hover:scale-110 transition-transform duration-200"> <img src={assets.facebook_logo} className='w-5 h-5' alt="Facebook" /> </a>
+                        <a href="#" className="hover:scale-110 transition-transform duration-200"> <img src={assets.instagram_logo} className='w-5 h-5' alt="Instagram" /> </a>
+                        <a href="#" className="hover:scale-110 transition-transform duration-200"> <img src={assets.twitter_logo} className='w-5 h-5' alt="Twitter" /> </a>
+                        <a href="#" className="hover:scale-110 transition-transform duration-200"> <img src={assets.gmail_logo} className='w-5 h-5' alt="Email" /> </a>
                     </motion.div>
                 </div>
 
