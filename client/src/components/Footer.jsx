@@ -69,7 +69,7 @@ const Footer = () => {
                     <ul className='mt-3 flex flex-col gap-1.5'>
                         <li><Link to="/help-center" className="hover:text-primary transition-colors duration-200">Help Center</Link></li>
                         <li><Link to="/terms-of-service" className="hover:text-primary transition-colors duration-200">Terms of Service</Link></li>
-                        <li><Link to="/privacy-policy" className="hover:text-primary transition-colors duration-200">Privacy Policy</Link></li>
+                        <li><Link to="/data-protection" className="hover:text-primary transition-colors duration-200">Privacy Policy</Link></li>
                         <li><Link to="/insurance" className="hover:text-primary transition-colors duration-200">Insurance</Link></li>
                     </ul>
                 </div>
@@ -100,11 +100,11 @@ const Footer = () => {
             className='flex flex-col md:flex-row gap-2 items-center justify-between py-5'>
                 <p>© {new Date().getFullYear()} CarRental. All rights reserved.</p>
                 <ul className='flex items-center gap-4'>
-                    <li><Link to="/privacy-policy" className="hover:text-primary transition-colors duration-200">Privacy</Link></li>
+                    <li><Link to="/data-protection" className="hover:text-primary transition-colors duration-200">Privacy</Link></li>
                     <li>|</li>
                     <li><Link to="/terms-of-service" className="hover:text-primary transition-colors duration-200">Terms</Link></li>
                     <li>|</li>
-                    <li><Link to="/privacy-policy" className="hover:text-primary transition-colors duration-200">Cookies</Link></li>
+                    <li><Link to="/data-protection" className="hover:text-primary transition-colors duration-200">Cookies</Link></li>
                 </ul>
             </motion.div>
         </motion.div>
