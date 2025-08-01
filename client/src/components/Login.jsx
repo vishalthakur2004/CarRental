@@ -10,6 +10,13 @@ const Login = () => {
     const [name, setName] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
+    const [otp, setOtp] = React.useState("");
+    const [verificationToken, setVerificationToken] = React.useState("");
+    const [showOtpInput, setShowOtpInput] = React.useState(false);
+    const [otpSent, setOtpSent] = React.useState(false);
+    const [loading, setLoading] = React.useState(false);
+    const [canResend, setCanResend] = React.useState(false);
+    const [resendTimer, setResendTimer] = React.useState(0);
 
     const onSubmitHandler = async (event)=>{
         try {
