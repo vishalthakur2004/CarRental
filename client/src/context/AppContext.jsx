@@ -64,7 +64,9 @@ export const AppProvider = ({ children })=>{
     // useEffect to retrieve the token from localStorage
     useEffect(()=>{
         const token = localStorage.getItem('token')
-        setToken(token)
+        if (token) {
+            setToken(token)
+        }
         fetchCars()
     },[])
 
