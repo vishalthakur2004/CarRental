@@ -18,25 +18,169 @@ const Login = () => {
     const [canResend, setCanResend] = React.useState(false);
     const [resendTimer, setResendTimer] = React.useState(0);
 
-    const onSubmitHandler = async (event)=>{
+    // Timer effect for resend functionality
+    React.useEffect(() => {
+        let interval;
+        if (resendTimer > 0) {
+            interval = setInterval(() => {
+                setResendTimer(prev => {
+                    if (prev <= 1) {
+                        setCanResend(true);
+                        return 0;
+                    }
+                    return prev - 1;
+                });
+            }, 1000);
+        }
+        return () => clearInterval(interval);
+    }, [resendTimer]);
+
+    // Send OTP for email verification
+    const handleSendOTP = async (e) => {
+        e.preventDefault();
+        if (!email) {
+            toast.error('Please enter your email');
+            return;
+        }
+
+        setLoading(true);
         try {
-            event.preventDefault();
-            const {data} = await axios.post(`/api/user/${state}`, {name, email, password})
+            const { data } = await axios.post('/api/otp/send-otp', { email });
 
             if (data.success) {
-                navigate('/')
-                setToken(data.token)
-                localStorage.setItem('token', data.token)
-                setShowLogin(false)
-            }else{
-                toast.error(data.message)
+                toast.success(data.message);
+                setShowOtpInput(true);
+                setOtpSent(true);
+                setCanResend(false);
+                setResendTimer(30); // 30 seconds before resend
+            } else {
+                toast.error(data.message);
             }
-
         } catch (error) {
-            toast.error(error.message)
+            toast.error('Failed to send OTP. Please try again.');
         }
-        
-    }
+        setLoading(false);
+    };
+
+    // Verify OTP
+    const handleVerifyOTP = async (e) => {
+        e.preventDefault();
+        if (!otp || otp.length !== 6) {
+            toast.error('Please enter a valid 6-digit OTP');
+            return;
+        }
+
+        setLoading(true);
+        try {
+            const { data } = await axios.post('/api/otp/verify-otp', { email, otp });
+
+            if (data.success) {
+                toast.success(data.message);
+                setVerificationToken(data.verificationToken);
+                setShowOtpInput(false);
+                // Now show the name/password form for final registration
+            } else {
+                toast.error(data.message);
+            }
+        } catch (error) {
+            toast.error('OTP verification failed. Please try again.');
+        }
+        setLoading(false);
+    };
+
+    // Resend OTP
+    const handleResendOTP = async () => {
+        setLoading(true);
+        try {
+            const { data } = await axios.post('/api/otp/resend-otp', { email });
+
+            if (data.success) {
+                toast.success(data.message);
+                setCanResend(false);
+                setResendTimer(30);
+                setOtp(''); // Clear current OTP
+            } else {
+                toast.error(data.message);
+            }
+        } catch (error) {
+            toast.error('Failed to resend OTP. Please try again.');
+        }
+        setLoading(false);
+    };
+
+    // Final registration after OTP verification
+    const handleFinalRegistration = async (e) => {
+        e.preventDefault();
+        if (!name || !password || password.length < 8) {
+            toast.error('Please fill all fields. Password must be at least 8 characters.');
+            return;
+        }
+
+        setLoading(true);
+        try {
+            const { data } = await axios.post('/api/user/register', {
+                name,
+                email,
+                password,
+                verificationToken
+            });
+
+            if (data.success) {
+                toast.success(data.message);
+                navigate('/');
+                setToken(data.token);
+                localStorage.setItem('token', data.token);
+                setShowLogin(false);
+                resetForm();
+            } else {
+                toast.error(data.message);
+            }
+        } catch (error) {
+            toast.error('Registration failed. Please try again.');
+        }
+        setLoading(false);
+    };
+
+    // Login handler
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        try {
+            const { data } = await axios.post('/api/user/login', { email, password });
+
+            if (data.success) {
+                navigate('/');
+                setToken(data.token);
+                localStorage.setItem('token', data.token);
+                setShowLogin(false);
+                resetForm();
+            } else {
+                toast.error(data.message);
+            }
+        } catch (error) {
+            toast.error('Login failed. Please try again.');
+        }
+        setLoading(false);
+    };
+
+    // Reset form
+    const resetForm = () => {
+        setName('');
+        setEmail('');
+        setPassword('');
+        setOtp('');
+        setVerificationToken('');
+        setShowOtpInput(false);
+        setOtpSent(false);
+        setCanResend(false);
+        setResendTimer(0);
+    };
+
+    // Handle state change (login/register)
+    const handleStateChange = (newState) => {
+        setState(newState);
+        resetForm();
+    };
 
   return (
     <div onClick={()=> setShowLogin(false)} className='fixed top-0 bottom-0 left-0 right-0 z-100 flex items-center text-sm text-gray-600 bg-black/50'>
