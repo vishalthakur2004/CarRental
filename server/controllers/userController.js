@@ -11,13 +11,19 @@ const generateToken = (userId)=>{
     return jwt.sign(payload, process.env.JWT_SECRET)
 }
 
-// Register User
+// Register User (after email verification)
 export const registerUser = async (req, res)=>{
     try {
-        const {name, email, password} = req.body
+        const {name, email, password, verificationToken} = req.body
 
-        if(!name || !email || !password || password.length < 8){
-            return res.json({success: false, message: 'Fill all the fields'})
+        if(!name || !email || !password || !verificationToken || password.length < 8){
+            return res.json({success: false, message: 'Fill all the fields and verify your email first'})
+        }
+
+        // Verify that email was verified with OTP
+        const otpRecord = await OTP.findById(verificationToken);
+        if (!otpRecord || otpRecord.email !== email || !otpRecord.verified) {
+            return res.json({success: false, message: 'Email verification required. Please verify your email first.'})
         }
 
         const userExists = await User.findOne({email})
@@ -27,8 +33,12 @@ export const registerUser = async (req, res)=>{
 
         const hashedPassword = await bcrypt.hash(password, 10)
         const user = await User.create({name, email, password: hashedPassword})
+
+        // Clean up OTP record after successful registration
+        await OTP.findByIdAndDelete(verificationToken);
+
         const token = generateToken(user._id.toString())
-        res.json({success: true, token})
+        res.json({success: true, token, message: 'Account created successfully!'})
 
     } catch (error) {
         console.log(error.message);
