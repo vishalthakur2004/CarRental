@@ -149,11 +149,12 @@ const Login = () => {
             const { data } = await axios.post('/api/user/login', { email, password });
 
             if (data.success) {
-                navigate('/');
                 setToken(data.token);
                 localStorage.setItem('token', data.token);
                 setShowLogin(false);
                 resetForm();
+                toast.success(data.message || 'Login successful!');
+                navigate('/');
             } else {
                 toast.error(data.message);
             }
