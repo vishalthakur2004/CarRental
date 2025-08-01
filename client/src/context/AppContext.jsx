@@ -29,10 +29,21 @@ export const AppProvider = ({ children })=>{
             setUser(data.user)
             setIsOwner(data.user.role === 'owner')
            }else{
-            navigate('/')
+            // If user data fetch fails, clear invalid token
+            localStorage.removeItem('token')
+            setToken(null)
+            setUser(null)
+            setIsOwner(false)
+            delete axios.defaults.headers.common['Authorization']
            }
         } catch (error) {
-            toast.error(error.message)
+            // If request fails (e.g., invalid token), clear auth state
+            localStorage.removeItem('token')
+            setToken(null)
+            setUser(null)
+            setIsOwner(false)
+            delete axios.defaults.headers.common['Authorization']
+            console.error('Auth error:', error.message)
         }
     }
     // Function to fetch all cars from the server
@@ -56,15 +67,18 @@ export const AppProvider = ({ children })=>{
         setToken(null)
         setUser(null)
         setIsOwner(false)
-        axios.defaults.headers.common['Authorization'] = ''
-        toast.success('You have been logged out')
+        delete axios.defaults.headers.common['Authorization']
+        navigate('/')
+        toast.success('Logged out successfully')
     }
 
 
     // useEffect to retrieve the token from localStorage
     useEffect(()=>{
         const token = localStorage.getItem('token')
-        setToken(token)
+        if (token) {
+            setToken(token)
+        }
         fetchCars()
     },[])
 
