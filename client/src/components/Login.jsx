@@ -126,12 +126,12 @@ const Login = () => {
             });
 
             if (data.success) {
-                toast.success(data.message);
-                navigate('/');
                 setToken(data.token);
                 localStorage.setItem('token', data.token);
                 setShowLogin(false);
                 resetForm();
+                toast.success(data.message || 'Registration successful!');
+                navigate('/');
             } else {
                 toast.error(data.message);
             }
