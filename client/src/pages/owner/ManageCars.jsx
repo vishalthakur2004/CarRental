@@ -86,6 +86,9 @@ const ManageCars = () => {
                   <div className='max-md:hidden'>
                     <p className='font-medium'>{car.brand} {car.model}</p>
                     <p className='text-xs text-gray-500'>{car.seating_capacity} • {car.transmission}</p>
+                    <p className='text-xs text-gray-400 mt-1'>
+                      📍 {car.address?.city ? `${car.address.city}, ${car.address.state}` : car.location}
+                    </p>
                   </div>
                 </td>
 
