@@ -100,23 +100,23 @@ const Hero = () => {
                       </div>
 
                       <div>
-                        <label className='block text-base font-semibold text-gray-700 mb-3'>City</label>
+                        <label className='block text-sm font-semibold text-gray-700 mb-2'>City</label>
                         <div className='relative'>
                           <select
                             required
                             value={pickupLocation}
                             onChange={(e)=>setPickupLocation(e.target.value)}
                             disabled={!selectedState}
-                            className='w-full px-5 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none appearance-none bg-white disabled:bg-gray-100 disabled:cursor-not-allowed text-gray-700 text-base transition-all duration-200 hover:border-gray-300'
-                            style={{boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'}}
+                            className='w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none appearance-none bg-white disabled:bg-gray-100 disabled:cursor-not-allowed text-gray-700 text-sm transition-all duration-200 hover:border-gray-300'
+                            style={{boxShadow: '0 2px 4px -1px rgba(0, 0, 0, 0.1)'}}
                           >
                             <option value="">{selectedState ? 'Select state first' : 'Select state first'}</option>
                             {selectedState && stateCityMapping[selectedState] &&
                               stateCityMapping[selectedState].map((city, index)=> <option key={`${city}-${index}`} value={city}>{city}</option>)
                             }
                           </select>
-                          <div className='absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none'>
-                            <svg className='w-6 h-6 text-gray-400' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                          <div className='absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none'>
+                            <svg className='w-5 h-5 text-gray-400' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
                               <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
                             </svg>
                           </div>
