@@ -24,11 +24,11 @@ const Hero = () => {
         {/* Background Car Image */}
         <div className='absolute inset-0 overflow-hidden'>
           <img
-            src={assets.main_car}
-            alt="luxury car"
-            className='absolute right-0 top-1/2 transform -translate-y-1/2 h-[80%] w-auto object-contain opacity-60'
+            src="https://cdn.builder.io/api/v1/image/assets%2Fa8ad21f625f145b9b44bbf4836b445c0%2F93280d94b36642faaaa14d16fa52d884?format=webp&width=800"
+            alt="luxury black car"
+            className='absolute right-0 top-1/2 transform -translate-y-1/2 h-[90%] w-auto object-contain opacity-70'
           />
-          <div className='absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/70 to-transparent'></div>
+          <div className='absolute inset-0 bg-gradient-to-r from-black via-gray-900/90 to-transparent'></div>
         </div>
 
         {/* Content Container */}
