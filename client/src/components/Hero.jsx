@@ -168,19 +168,19 @@ const Hero = () => {
                 </div>
 
                 {/* Search Button */}
-                <div className='pt-8 border-t border-gray-200'>
+                <div className='pt-6 border-t border-gray-200'>
                   <motion.button
                     type="submit"
-                    whileHover={{ scale: 1.02, y: -2 }}
+                    whileHover={{ scale: 1.02, y: -1 }}
                     whileTap={{ scale: 0.98 }}
-                    className='w-full bg-blue-600 hover:bg-blue-700 text-white py-5 px-8 rounded-xl font-bold text-lg transition-all duration-300 flex items-center justify-center gap-4 group'
-                    style={{boxShadow: '0 10px 25px -5px rgba(59, 130, 246, 0.5)', color: '#ffffff'}}
+                    className='w-full bg-blue-600 hover:bg-blue-700 text-white py-4 px-8 rounded-lg font-bold text-base transition-all duration-300 flex items-center justify-center gap-3 group'
+                    style={{boxShadow: '0 8px 20px -5px rgba(59, 130, 246, 0.4)', color: '#ffffff'}}
                   >
-                    <svg className='w-6 h-6' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                    <svg className='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
                       <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z' />
                     </svg>
                     <span>Search Available Cars</span>
-                    <svg className='w-6 h-6 group-hover:translate-x-1 transition-transform' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                    <svg className='w-5 h-5 group-hover:translate-x-1 transition-transform' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
                       <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M9 5l7 7-7 7' />
                     </svg>
                   </motion.button>
