@@ -116,6 +116,24 @@ const CarDetails = () => {
                   <p className='text-gray-500'>{car.description}</p>
                 </div>
 
+                {/* Pickup Address */}
+                {car.address && (
+                  <div>
+                    <h1 className='text-xl font-medium mb-3'>Pickup Location</h1>
+                    <div className='bg-gray-50 p-4 rounded-lg'>
+                      <div className='flex items-start gap-2'>
+                        <img src={assets.location_icon_colored} alt="" className='w-5 h-5 mt-1'/>
+                        <div>
+                          <p className='font-medium'>{car.address.city}, {car.address.state}</p>
+                          {car.address.street && <p className='text-gray-600 text-sm mt-1'>{car.address.street}</p>}
+                          {car.address.landmark && <p className='text-gray-500 text-sm'>Near {car.address.landmark}</p>}
+                          {car.address.zipCode && <p className='text-gray-500 text-sm'>ZIP: {car.address.zipCode}</p>}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {/* Features */}
                 <div>
                   <h1 className='text-xl font-medium mb-3'>Features</h1>
