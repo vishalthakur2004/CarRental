@@ -19,7 +19,7 @@ const ManageCars = () => {
         toast.error(data.message)
       }
     } catch (error) {
-      toast.error(error.message)
+      toast.error('Failed to load your cars. Please refresh the page.')
     }
   }
 
@@ -33,7 +33,7 @@ const ManageCars = () => {
         toast.error(data.message)
       }
     } catch (error) {
-      toast.error(error.message)
+      toast.error('Failed to update car availability. Please try again.')
     }
   }
 
@@ -52,7 +52,7 @@ const ManageCars = () => {
         toast.error(data.message)
       }
     } catch (error) {
-      toast.error(error.message)
+      toast.error('Failed to delete car. Please try again.')
     }
   }
 
