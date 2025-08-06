@@ -58,10 +58,10 @@ const Hero = () => {
               className='bg-white rounded-2xl shadow-2xl p-6 lg:p-8 max-w-4xl'
               style={{boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.4)'}}
             >
-              <form onSubmit={handleSearch} className='space-y-8'>
+              <form onSubmit={handleSearch} className='space-y-6'>
 
                 {/* Form Header */}
-                <div className='grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16'>
+                <div className='grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12'>
 
                   {/* Find Your Perfect Ride Section */}
                   <div>
