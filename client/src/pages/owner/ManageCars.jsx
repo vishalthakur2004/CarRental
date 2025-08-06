@@ -40,7 +40,7 @@ const ManageCars = () => {
   const deleteCar = async (carId)=>{
     try {
 
-      const confirm = window.confirm('Are you sure you want to delete this car?')
+      const confirm = window.confirm('⚠️ Delete Car?\n\nThis action cannot be undone. The car will be permanently removed from your listings.\n\nAre you sure you want to continue?')
 
       if(!confirm) return null
 
