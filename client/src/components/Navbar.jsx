@@ -54,6 +54,15 @@ const Navbar = () => {
 
                 <button onClick={()=> isOwner ? navigate('/owner') : changeRole()} className="cursor-pointer">{isOwner ? 'Dashboard' : 'List cars'}</button>
 
+                {user && (
+                    <button
+                        onClick={() => navigate('/owner/add-car')}
+                        className="cursor-pointer px-4 py-2 bg-green-600 hover:bg-green-700 transition-all text-white rounded-lg text-sm font-medium"
+                    >
+                        Add Car
+                    </button>
+                )}
+
                 <div className='flex items-center gap-4'>
                     {user && (
                         <span className='text-sm font-medium text-gray-700'>
