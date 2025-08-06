@@ -1,17 +1,9 @@
 import React, { useState } from 'react'
 import Title from '../../components/owner/Title'
-import { assets, cityList } from '../../assets/assets'
+import { assets } from '../../assets/assets'
 import { useAppContext } from '../../context/AppContext'
+import { stateCityMapping, statesList } from '../../data/stateCityMapping'
 import toast from 'react-hot-toast'
-
-// Indian states list
-const statesList = [
-  'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa',
-  'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala',
-  'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland',
-  'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura',
-  'Uttar Pradesh', 'Uttarakhand', 'West Bengal', 'Delhi', 'Chandigarh', 'Puducherry'
-]
 
 const AddCar = () => {
 
@@ -84,23 +76,26 @@ const AddCar = () => {
   }
 
   return (
-    <div className='px-4 py-10 md:px-10 flex-1'>
+    <div className='px-4 py-6 sm:py-8 lg:py-10 md:px-6 lg:px-10 flex-1'>
 
       <Title title="Add New Car" subTitle="Fill in details to list a new car for booking, including pricing, availability, and car specifications."/>
 
-      <form onSubmit={onSubmitHandler} className='flex flex-col gap-5 text-gray-500 text-sm mt-6 max-w-xl'>
+      <form onSubmit={onSubmitHandler} className='flex flex-col gap-4 sm:gap-5 text-gray-500 text-sm mt-6 max-w-2xl'>
 
         {/* Car Image */}
-        <div className='flex items-center gap-2 w-full'>
-          <label htmlFor="car-image">
-            <img src={image ? URL.createObjectURL(image) : assets.upload_icon} alt="" className='h-14 rounded cursor-pointer'/>
+        <div className='flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 w-full'>
+          <label htmlFor="car-image" className='cursor-pointer'>
+            <img src={image ? URL.createObjectURL(image) : assets.upload_icon} alt="" className='h-16 sm:h-20 w-16 sm:w-20 rounded-lg object-cover border-2 border-dashed border-gray-300 hover:border-primary transition-colors'/>
             <input type="file" id="car-image" accept="image/*" hidden onChange={e=> setImage(e.target.files[0])}/>
           </label>
-          <p className='text-sm text-gray-500'>Upload a picture of your car</p>
+          <div>
+            <p className='text-sm sm:text-base text-gray-700 font-medium'>Upload Car Image</p>
+            <p className='text-xs sm:text-sm text-gray-500'>Click to upload a picture of your car</p>
+          </div>
         </div>
 
         {/* Car Brand & Model */}
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6'>
           <div className='flex flex-col w-full'>
             <label>Brand</label>
             <input type="text" placeholder="e.g. BMW, Mercedes, Audi..." required className='px-3 py-2 mt-1 border border-borderColor rounded-md outline-none' value={car.brand} onChange={e=> setCar({...car, brand: e.target.value})}/>
@@ -113,7 +108,7 @@ const AddCar = () => {
         </div>
 
         {/* Car Year, Price, Category */}
-        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6'>
           <div className='flex flex-col w-full'>
             <label>Year</label>
             <input type="number" placeholder="2025" required className='px-3 py-2 mt-1 border border-borderColor rounded-md outline-none' value={car.year} onChange={e=> setCar({...car, year: e.target.value})}/>
@@ -134,7 +129,7 @@ const AddCar = () => {
         </div>
 
          {/* Car Transmission, Fuel Type, Seating Capacity */}
-        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6'>
           <div className='flex flex-col w-full'>
             <label>Transmission</label>
             <select onChange={e=> setCar({...car, transmission: e.target.value})} value={car.transmission} className='px-3 py-2 mt-1 border border-borderColor rounded-md outline-none'>
@@ -165,10 +160,32 @@ const AddCar = () => {
          <div className='flex flex-col w-full'>
             <label className='font-medium text-gray-700 mb-2'>Pickup Location & Address</label>
 
-            {/* Main Location (City) */}
+            {/* State and City Selection */}
             <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mb-4'>
               <div className='flex flex-col'>
-                <label className='text-sm text-gray-600'>Main Pickup City</label>
+                <label className='text-sm text-gray-600'>State *</label>
+                <select
+                  onChange={e=> {
+                    const selectedState = e.target.value;
+                    setCar({
+                      ...car,
+                      address: {...car.address, state: selectedState, city: ''},
+                      location: '' // Reset city selection when state changes
+                    })
+                  }}
+                  value={car.address.state}
+                  className='px-3 py-2 mt-1 border border-borderColor rounded-md outline-none'
+                  required
+                >
+                  <option value="">Select state first</option>
+                  {statesList.map((state, index) => (
+                    <option key={index} value={state}>{state}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className='flex flex-col'>
+                <label className='text-sm text-gray-600'>Main Pickup City *</label>
                 <select
                   onChange={e=> {
                     const selectedCity = e.target.value;
@@ -177,27 +194,20 @@ const AddCar = () => {
                   value={car.location}
                   className='px-3 py-2 mt-1 border border-borderColor rounded-md outline-none'
                   required
+                  disabled={!car.address.state}
                 >
-                  <option value="">Select pickup city</option>
-                  {cityList.map((city, index) => (
-                    <option key={index} value={city}>{city}</option>
-                  ))}
+                  <option value="">
+                    {car.address.state ? 'Select pickup city' : 'Select state first'}
+                  </option>
+                  {car.address.state && stateCityMapping[car.address.state] &&
+                    stateCityMapping[car.address.state].map((city, index) => (
+                      <option key={index} value={city}>{city}</option>
+                    ))
+                  }
                 </select>
-              </div>
-
-              <div className='flex flex-col'>
-                <label className='text-sm text-gray-600'>State</label>
-                <select
-                  onChange={e=> setCar({...car, address: {...car.address, state: e.target.value}})}
-                  value={car.address.state}
-                  className='px-3 py-2 mt-1 border border-borderColor rounded-md outline-none'
-                  required
-                >
-                  <option value="">Select state</option>
-                  {statesList.map((state, index) => (
-                    <option key={index} value={state}>{state}</option>
-                  ))}
-                </select>
+                {!car.address.state && (
+                  <p className='text-xs text-gray-500 mt-1'>Please select a state first to see available cities</p>
+                )}
               </div>
             </div>
 
