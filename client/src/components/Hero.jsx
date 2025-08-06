@@ -18,8 +18,8 @@ const Hero = () => {
 
   return (
     <div className='relative overflow-hidden'>
-      {/* Hero Section with Dark Background */}
-      <div className='relative min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black'>
+      {/* Hero Section with Dark Luxury Background */}
+      <div className='relative min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800'>
 
         {/* Background Car Image */}
         <div className='absolute inset-0 overflow-hidden'>
