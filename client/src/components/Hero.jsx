@@ -40,7 +40,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className='text-left mb-12 lg:mb-16 max-w-3xl'
+              className='text-left mb-12 lg:mb-16 max-w-2xl'
             >
               <h1 className='text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight mb-8' style={{color: '#ffffff'}}>
                 Luxury Cars on Rent
@@ -55,7 +55,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
-              className='bg-white rounded-2xl shadow-2xl p-8 lg:p-10 max-w-6xl'
+              className='bg-white rounded-2xl shadow-2xl p-6 lg:p-8 max-w-4xl'
               style={{boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.4)'}}
             >
               <form onSubmit={handleSearch} className='space-y-8'>
