@@ -40,12 +40,12 @@ const Hero = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className='text-left mb-12 lg:mb-16 max-w-2xl'
+              className='text-left mb-12 lg:mb-16 max-w-3xl'
             >
-              <h1 className='text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight mb-6'>
+              <h1 className='text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight mb-8' style={{color: '#ffffff'}}>
                 Luxury Cars on Rent
               </h1>
-              <p className='text-xl sm:text-2xl text-gray-300 font-medium'>
+              <p className='text-xl sm:text-2xl lg:text-3xl font-medium leading-relaxed' style={{color: '#9ca3af'}}>
                 Discover premium vehicles for your perfect journey
               </p>
             </motion.div>
