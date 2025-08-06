@@ -1,17 +1,9 @@
 import React, { useState } from 'react'
 import Title from '../../components/owner/Title'
-import { assets, cityList } from '../../assets/assets'
+import { assets } from '../../assets/assets'
 import { useAppContext } from '../../context/AppContext'
+import { stateCityMapping, statesList } from '../../data/stateCityMapping'
 import toast from 'react-hot-toast'
-
-// Indian states list
-const statesList = [
-  'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa',
-  'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala',
-  'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland',
-  'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura',
-  'Uttar Pradesh', 'Uttarakhand', 'West Bengal', 'Delhi', 'Chandigarh', 'Puducherry'
-]
 
 const AddCar = () => {
 
@@ -165,10 +157,32 @@ const AddCar = () => {
          <div className='flex flex-col w-full'>
             <label className='font-medium text-gray-700 mb-2'>Pickup Location & Address</label>
 
-            {/* Main Location (City) */}
+            {/* State and City Selection */}
             <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mb-4'>
               <div className='flex flex-col'>
-                <label className='text-sm text-gray-600'>Main Pickup City</label>
+                <label className='text-sm text-gray-600'>State *</label>
+                <select
+                  onChange={e=> {
+                    const selectedState = e.target.value;
+                    setCar({
+                      ...car,
+                      address: {...car.address, state: selectedState, city: ''},
+                      location: '' // Reset city selection when state changes
+                    })
+                  }}
+                  value={car.address.state}
+                  className='px-3 py-2 mt-1 border border-borderColor rounded-md outline-none'
+                  required
+                >
+                  <option value="">Select state first</option>
+                  {statesList.map((state, index) => (
+                    <option key={index} value={state}>{state}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className='flex flex-col'>
+                <label className='text-sm text-gray-600'>Main Pickup City *</label>
                 <select
                   onChange={e=> {
                     const selectedCity = e.target.value;
@@ -177,27 +191,20 @@ const AddCar = () => {
                   value={car.location}
                   className='px-3 py-2 mt-1 border border-borderColor rounded-md outline-none'
                   required
+                  disabled={!car.address.state}
                 >
-                  <option value="">Select pickup city</option>
-                  {cityList.map((city, index) => (
-                    <option key={index} value={city}>{city}</option>
-                  ))}
+                  <option value="">
+                    {car.address.state ? 'Select pickup city' : 'Select state first'}
+                  </option>
+                  {car.address.state && stateCityMapping[car.address.state] &&
+                    stateCityMapping[car.address.state].map((city, index) => (
+                      <option key={index} value={city}>{city}</option>
+                    ))
+                  }
                 </select>
-              </div>
-
-              <div className='flex flex-col'>
-                <label className='text-sm text-gray-600'>State</label>
-                <select
-                  onChange={e=> setCar({...car, address: {...car.address, state: e.target.value}})}
-                  value={car.address.state}
-                  className='px-3 py-2 mt-1 border border-borderColor rounded-md outline-none'
-                  required
-                >
-                  <option value="">Select state</option>
-                  {statesList.map((state, index) => (
-                    <option key={index} value={state}>{state}</option>
-                  ))}
-                </select>
+                {!car.address.state && (
+                  <p className='text-xs text-gray-500 mt-1'>Please select a state first to see available cities</p>
+                )}
               </div>
             </div>
 
