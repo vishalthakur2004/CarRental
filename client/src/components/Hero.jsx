@@ -21,21 +21,36 @@ const Hero = () => {
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
     transition={{ duration: 0.8 }}
-    className='min-h-screen flex flex-col items-center justify-center gap-8 sm:gap-12 lg:gap-14 bg-light text-center px-4'>
+    className='min-h-screen flex flex-col items-center justify-center gap-8 sm:gap-12 lg:gap-14 bg-gradient-to-br from-light via-white to-blue-50 text-center px-4 relative overflow-hidden'>
 
-        <motion.h1 initial={{ y: 50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-        className='text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold max-w-4xl leading-tight'>Luxury cars on Rent</motion.h1>
+      {/* Background Elements */}
+      <div className='absolute inset-0 overflow-hidden pointer-events-none'>
+        <div className='absolute -top-40 -right-40 w-80 h-80 bg-primary/5 rounded-full blur-3xl'></div>
+        <div className='absolute -bottom-40 -left-40 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl'></div>
+        <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-primary/3 to-blue-500/3 rounded-full blur-3xl'></div>
+      </div>
+
+        <motion.div
+        initial={{ y: 50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+        className='relative z-10'>
+          <h1 className='text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold max-w-4xl leading-tight bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent mb-4'>
+            Luxury Cars on Rent
+          </h1>
+          <p className='text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto font-medium'>
+            Discover premium vehicles for your perfect journey
+          </p>
+        </motion.div>
       
       <motion.div
       initial={{ scale: 0.95, opacity: 0, y: 50 }}
       animate={{ scale: 1, opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.4 }}
-      className='w-full max-w-6xl xl:max-w-7xl'>
+      className='w-full max-w-6xl xl:max-w-7xl relative z-10'>
 
         {/* Modern Search Card */}
-        <div className='bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 p-6 sm:p-8 lg:p-10'>
+        <div className='bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 p-6 sm:p-8 lg:p-10 hover:shadow-3xl transition-all duration-500'>
           <div className='mb-6'>
             <h2 className='text-xl sm:text-2xl font-bold text-gray-800 mb-2'>Find Your Perfect Ride</h2>
             <p className='text-gray-600 text-sm sm:text-base'>Choose your destination and dates to get started</p>
@@ -172,11 +187,17 @@ const Hero = () => {
         </div>
       </motion.div>
 
-      <motion.img
+      <motion.div
         initial={{ y: 100, opacity: 0 }}
-       animate={{ y: 0, opacity: 1 }}
-       transition={{ duration: 0.8, delay: 0.6 }}
-      src={assets.main_car} alt="car" className='max-h-48 sm:max-h-60 md:max-h-72 lg:max-h-80 xl:max-h-96 w-auto object-contain'/>
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, delay: 0.6 }}
+        className='relative z-10'>
+        <img
+          src={assets.main_car}
+          alt="car"
+          className='max-h-48 sm:max-h-60 md:max-h-72 lg:max-h-80 xl:max-h-96 w-auto object-contain filter drop-shadow-2xl'
+        />
+      </motion.div>
     </motion.div>
   )
 }
