@@ -28,71 +28,101 @@ const Navbar = () => {
     }
 
   return (
-    <motion.div 
+    <motion.div
     initial={{y: -20, opacity: 0}}
     animate={{y: 0, opacity: 1}}
     transition={{duration: 0.5}}
-    className={`flex items-center justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-4 text-gray-600 border-b border-borderColor relative transition-all ${location.pathname === "/" && "bg-light"}`}>
+    className={`flex items-center justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-4 bg-white shadow-sm relative transition-all z-50`}>
 
         <Link to='/'>
-            <motion.img whileHover={{scale: 1.05}} src={assets.logo} alt="logo" className="h-8"/>
+            <motion.div whileHover={{scale: 1.05}} className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                    <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/>
+                        <path d="M3 4a1 1 0 00-1 1v1a1 1 0 001 1h1l1.68 5.39a3 3 0 002.22 2.61c.58.13 1.17.11 1.75-.04L13 14a1 1 0 001-1V9a1 1 0 00-1-1H6.78l-.22-.89A3 3 0 003.64 4H3z"/>
+                    </svg>
+                </div>
+                <span className="text-xl font-bold text-gray-800">CarRental</span>
+            </motion.div>
         </Link>
 
-        <div className={`max-sm:fixed max-sm:h-screen max-sm:w-full max-sm:top-16 max-sm:border-t border-borderColor right-0 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 lg:gap-8 max-sm:p-6 transition-all duration-300 z-50 ${location.pathname === "/" ? "bg-light" : "bg-white"} ${open ? "max-sm:translate-x-0" : "max-sm:translate-x-full"}`}>
-            {menuLinks.map((link, index)=> (
+        <div className={`max-sm:fixed max-sm:h-screen max-sm:w-full max-sm:top-16 max-sm:border-t border-gray-200 right-0 flex flex-col sm:flex-row items-start sm:items-center gap-6 lg:gap-8 max-sm:p-6 transition-all duration-300 z-50 bg-white ${open ? "max-sm:translate-x-0" : "max-sm:translate-x-full"}`}>
+
+            {/* Navigation Links */}
+            <nav className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8">
                 <Link
-                    key={index}
-                    to={link.path}
-                    className='hover:text-primary transition-colors duration-200 text-base max-sm:text-lg max-sm:py-2'
+                    to="/"
+                    className={`text-base font-medium transition-colors duration-200 max-sm:text-lg max-sm:py-2 ${location.pathname === "/" ? "text-blue-600" : "text-gray-700 hover:text-blue-600"}`}
                     onClick={() => setOpen(false)}
                 >
-                    {link.name}
+                    Home
                 </Link>
-            ))}
+                <Link
+                    to="/cars"
+                    className={`text-base font-medium transition-colors duration-200 max-sm:text-lg max-sm:py-2 ${location.pathname === "/cars" ? "text-blue-600" : "text-gray-700 hover:text-blue-600"}`}
+                    onClick={() => setOpen(false)}
+                >
+                    Cars
+                </Link>
+                <Link
+                    to="/my-bookings"
+                    className={`text-base font-medium transition-colors duration-200 max-sm:text-lg max-sm:py-2 ${location.pathname === "/my-bookings" ? "text-blue-600" : "text-gray-700 hover:text-blue-600"}`}
+                    onClick={() => setOpen(false)}
+                >
+                    My Bookings
+                </Link>
+                <button
+                    onClick={()=> {navigate('/cars'); setOpen(false)}}
+                    className="text-base font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200 max-sm:text-lg max-sm:py-2"
+                >
+                    Search cars
+                </button>
+            </nav>
 
-            <div className='hidden lg:flex items-center text-sm gap-2 border border-borderColor px-3 py-2 rounded-full max-w-56 bg-white/50 backdrop-blur-sm'>
-                <input type="text" className="py-1 w-full bg-transparent outline-none placeholder-gray-500 text-sm" placeholder="Search cars"/>
-                <img src={assets.search_icon} alt="search" className='w-4 h-4 opacity-60'/>
-            </div>
+            {/* Search Icon */}
+            <button
+                onClick={() => {navigate('/cars'); setOpen(false)}}
+                className='hidden lg:flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 transition-colors duration-200'
+            >
+                <img src={assets.search_icon} alt="search" className='w-5 h-5 opacity-60'/>
+            </button>
 
-            <div className='flex max-sm:flex-col items-start sm:items-center gap-4 sm:gap-6 max-sm:w-full max-sm:mt-4'>
-
+            {/* User Actions */}
+            <div className='flex max-sm:flex-col items-start sm:items-center gap-4 max-sm:w-full max-sm:mt-4'>
                 <button
                     onClick={()=> {isOwner ? navigate('/owner') : changeRole(); setOpen(false)}}
-                    className="cursor-pointer hover:text-primary transition-colors duration-200 text-base max-sm:text-lg max-sm:py-2"
+                    className="text-base font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200 max-sm:text-lg max-sm:py-2"
                 >
                     {isOwner ? 'Dashboard' : 'List cars'}
                 </button>
 
-                {user && (
+                {user ? (
+                    <div className='flex max-sm:flex-col items-center max-sm:items-start gap-4 max-sm:w-full'>
+                        <span className='text-sm font-medium text-gray-600 max-sm:text-base max-sm:py-1'>
+                            Dashboard, {user.name}
+                        </span>
+                        <button
+                            onClick={()=> {logout(); setOpen(false)}}
+                            className="text-base font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200 max-sm:text-lg max-sm:py-2"
+                        >
+                            Logout
+                        </button>
+                    </div>
+                ) : (
                     <button
-                        onClick={() => {navigate('/owner/add-car'); setOpen(false)}}
-                        className="cursor-pointer px-4 py-2 bg-green-600 hover:bg-green-700 transition-all text-white rounded-lg text-sm font-medium max-sm:w-full max-sm:text-center max-sm:text-base"
+                        onClick={()=> {setShowLogin(true); setOpen(false)}}
+                        className="text-base font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200 max-sm:text-lg max-sm:py-2"
                     >
-                        Add Car
+                        Login
                     </button>
                 )}
-
-                <div className='flex max-sm:flex-col items-center max-sm:items-start gap-4 max-sm:w-full'>
-                    {user && (
-                        <span className='text-sm font-medium text-gray-700 max-sm:text-base max-sm:py-1'>
-                            Welcome, {user.name}
-                        </span>
-                    )}
-                    <button
-                        onClick={()=> {user ? logout() : setShowLogin(true); setOpen(false)}}
-                        className="cursor-pointer px-6 sm:px-8 py-2 bg-primary hover:bg-primary-dull transition-all text-white rounded-lg max-sm:w-full max-sm:text-center max-sm:text-base"
-                    >
-                        {user ? 'Logout' : 'Login'}
-                    </button>
-                </div>
             </div>
         </div>
 
         <button className='sm:hidden cursor-pointer p-2 hover:bg-gray-100 rounded-md transition-colors duration-200' aria-label="Menu" onClick={()=> setOpen(!open)}>
             <img src={open ? assets.close_icon : assets.menu_icon} alt="menu" className='w-6 h-6'/>
         </button>
-      
+
     </motion.div>
   )
 }
