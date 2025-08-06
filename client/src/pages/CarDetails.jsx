@@ -96,7 +96,7 @@ const CarDetails = () => {
                     {icon: assets.users_icon, text: `${car.seating_capacity} Seats`},
                     {icon: assets.fuel_icon, text: car.fuel_type},
                     {icon: assets.car_icon, text: car.transmission},
-                    {icon: assets.location_icon, text: car.location},
+                    {icon: assets.location_icon, text: car.address?.city ? `${car.address.city}, ${car.address.state}` : car.location},
                   ].map(({icon, text})=>(
                     <motion.div 
                     initial={{ opacity: 0, y: 10 }}
