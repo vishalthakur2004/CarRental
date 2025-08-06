@@ -60,7 +60,7 @@ export const AppProvider = ({ children })=>{
             const {data} = await publicAxios.get('/api/user/cars')
             data.success ? setCars(data.cars) : toast.error(data.message)
         } catch (error) {
-            toast.error(error.message)
+            toast.error('Failed to load available cars. Please refresh the page.')
         }
     }
 
