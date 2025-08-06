@@ -170,7 +170,10 @@ const AddCar = () => {
               <div className='flex flex-col'>
                 <label className='text-sm text-gray-600'>Main Pickup City</label>
                 <select
-                  onChange={e=> setCar({...car, location: e.target.value, address: {...car.address, city: e.target.value}})}
+                  onChange={e=> {
+                    const selectedCity = e.target.value;
+                    setCar({...car, location: selectedCity, address: {...car.address, city: selectedCity}})
+                  }}
                   value={car.location}
                   className='px-3 py-2 mt-1 border border-borderColor rounded-md outline-none'
                   required
