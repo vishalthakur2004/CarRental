@@ -108,7 +108,7 @@ const AddCar = () => {
         </div>
 
         {/* Car Year, Price, Category */}
-        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6'>
           <div className='flex flex-col w-full'>
             <label>Year</label>
             <input type="number" placeholder="2025" required className='px-3 py-2 mt-1 border border-borderColor rounded-md outline-none' value={car.year} onChange={e=> setCar({...car, year: e.target.value})}/>
@@ -129,7 +129,7 @@ const AddCar = () => {
         </div>
 
          {/* Car Transmission, Fuel Type, Seating Capacity */}
-        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6'>
           <div className='flex flex-col w-full'>
             <label>Transmission</label>
             <select onChange={e=> setCar({...car, transmission: e.target.value})} value={car.transmission} className='px-3 py-2 mt-1 border border-borderColor rounded-md outline-none'>
