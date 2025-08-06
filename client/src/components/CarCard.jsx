@@ -44,7 +44,10 @@ const CarCard = ({car}) => {
             </div>
             <div className='flex items-center text-sm text-muted-foreground'>
                 <img src={assets.location_icon} alt="" className='h-4 mr-2'/>
-                <span>{car.location}</span>
+                <span title={car.address?.street || car.location}>
+                    {car.address?.city || car.location}
+                    {car.address?.state && `, ${car.address.state}`}
+                </span>
             </div>
         </div>
 
