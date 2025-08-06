@@ -1,14 +1,27 @@
 import React from 'react'
 import { assets } from '../assets/assets'
 import { useNavigate } from 'react-router-dom'
+import { useAppContext } from '../context/AppContext'
+import toast from 'react-hot-toast'
 
 const CarCard = ({car}) => {
 
     const currency = import.meta.env.VITE_CURRENCY
     const navigate = useNavigate()
+    const { user, setShowLogin } = useAppContext()
+
+    const handleCarClick = () => {
+        if (user) {
+            navigate(`/car-details/${car._id}`)
+            scrollTo(0, 0)
+        } else {
+            toast.error('Please login to view car details')
+            setShowLogin(true)
+        }
+    }
 
   return (
-    <div onClick={()=> {navigate(`/car-details/${car._id}`); scrollTo(0,0)}} className='group rounded-xl overflow-hidden shadow-lg hover:-translate-y-1 transition-all duration-500 cursor-pointer bg-white'>
+    <div onClick={handleCarClick} className='group rounded-xl overflow-hidden shadow-lg hover:-translate-y-1 transition-all duration-500 cursor-pointer bg-white'>
       
       <div className='relative h-40 sm:h-48 overflow-hidden'> 
         <img src={car.image} alt="Car Image" className='w-full h-full object-cover transition-transform duration-500 group-hover:scale-105'/>
