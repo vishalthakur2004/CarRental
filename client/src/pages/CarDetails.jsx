@@ -18,10 +18,23 @@ const CarDetails = () => {
 
   const handleSubmit = async (e)=>{
     e.preventDefault();
+
+    // Check if user is logged in before booking
+    if (!user) {
+      toast.error('Please login to book this car')
+      setShowLogin(true)
+      return
+    }
+
+    if (!pickupDate || !returnDate) {
+      toast.error('Please select pickup and return dates')
+      return
+    }
+
     try {
       const {data} = await axios.post('/api/bookings/create', {
         car: id,
-        pickupDate, 
+        pickupDate,
         returnDate
       })
 
@@ -32,7 +45,12 @@ const CarDetails = () => {
         toast.error(data.message)
       }
     } catch (error) {
-      toast.error(error.message)
+      if (error.response?.status === 401) {
+        toast.error('Please login to book this car')
+        setShowLogin(true)
+      } else {
+        toast.error(error.response?.data?.message || 'Failed to book car. Please try again.')
+      }
     }
   }
 
