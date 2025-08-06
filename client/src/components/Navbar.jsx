@@ -23,7 +23,7 @@ const Navbar = () => {
                 toast.error(data.message)
             }
         } catch (error) {
-            toast.error(error.message)
+            toast.error('Failed to update account status. Please try again.')
         }
     }
 
@@ -53,6 +53,15 @@ const Navbar = () => {
             <div className='flex max-sm:flex-col items-start sm:items-center gap-6'>
 
                 <button onClick={()=> isOwner ? navigate('/owner') : changeRole()} className="cursor-pointer">{isOwner ? 'Dashboard' : 'List cars'}</button>
+
+                {user && (
+                    <button
+                        onClick={() => navigate('/owner/add-car')}
+                        className="cursor-pointer px-4 py-2 bg-green-600 hover:bg-green-700 transition-all text-white rounded-lg text-sm font-medium"
+                    >
+                        Add Car
+                    </button>
+                )}
 
                 <div className='flex items-center gap-4'>
                     {user && (

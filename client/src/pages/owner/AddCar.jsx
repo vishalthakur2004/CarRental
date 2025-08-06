@@ -1,8 +1,17 @@
 import React, { useState } from 'react'
 import Title from '../../components/owner/Title'
-import { assets } from '../../assets/assets'
+import { assets, cityList } from '../../assets/assets'
 import { useAppContext } from '../../context/AppContext'
 import toast from 'react-hot-toast'
+
+// Indian states list
+const statesList = [
+  'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa',
+  'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala',
+  'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland',
+  'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura',
+  'Uttar Pradesh', 'Uttarakhand', 'West Bengal', 'Delhi', 'Chandigarh', 'Puducherry'
+]
 
 const AddCar = () => {
 
@@ -19,6 +28,13 @@ const AddCar = () => {
     fuel_type: '',
     seating_capacity: 0,
     location: '',
+    address: {
+      street: '',
+      city: '',
+      state: '',
+      zipCode: '',
+      landmark: ''
+    },
     description: '',
   })
 
@@ -48,13 +64,20 @@ const AddCar = () => {
           fuel_type: '',
           seating_capacity: 0,
           location: '',
+          address: {
+            street: '',
+            city: '',
+            state: '',
+            zipCode: '',
+            landmark: ''
+          },
           description: '',
         })
       }else{
         toast.error(data.message)
       }
     } catch (error) {
-      toast.error(error.message)
+      toast.error('Failed to add car. Please check your details and try again.')
     }finally{
       setIsLoading(false)
     }
@@ -138,16 +161,81 @@ const AddCar = () => {
           </div>
         </div>
 
-         {/* Car Location */}
+         {/* Car Location & Address */}
          <div className='flex flex-col w-full'>
-            <label>Location</label>
-            <select onChange={e=> setCar({...car, location: e.target.value})} value={car.location} className='px-3 py-2 mt-1 border border-borderColor rounded-md outline-none'>
-              <option value="">Select a location</option>
-              <option value="New York">New York</option>
-              <option value="Los Angeles">Los Angeles</option>
-              <option value="Houston">Houston</option>
-              <option value="Chicago">Chicago</option>
-            </select>
+            <label className='font-medium text-gray-700 mb-2'>Pickup Location & Address</label>
+
+            {/* Main Location (City) */}
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mb-4'>
+              <div className='flex flex-col'>
+                <label className='text-sm text-gray-600'>Main Pickup City</label>
+                <select
+                  onChange={e=> {
+                    const selectedCity = e.target.value;
+                    setCar({...car, location: selectedCity, address: {...car.address, city: selectedCity}})
+                  }}
+                  value={car.location}
+                  className='px-3 py-2 mt-1 border border-borderColor rounded-md outline-none'
+                  required
+                >
+                  <option value="">Select pickup city</option>
+                  {cityList.map((city, index) => (
+                    <option key={index} value={city}>{city}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className='flex flex-col'>
+                <label className='text-sm text-gray-600'>State</label>
+                <select
+                  onChange={e=> setCar({...car, address: {...car.address, state: e.target.value}})}
+                  value={car.address.state}
+                  className='px-3 py-2 mt-1 border border-borderColor rounded-md outline-none'
+                  required
+                >
+                  <option value="">Select state</option>
+                  {statesList.map((state, index) => (
+                    <option key={index} value={state}>{state}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {/* Detailed Address */}
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+              <div className='flex flex-col'>
+                <label className='text-sm text-gray-600'>Street Address</label>
+                <input
+                  type="text"
+                  placeholder="e.g. 123 Main Street, Area Name"
+                  className='px-3 py-2 mt-1 border border-borderColor rounded-md outline-none'
+                  value={car.address.street}
+                  onChange={e=> setCar({...car, address: {...car.address, street: e.target.value}})}
+                />
+              </div>
+
+              <div className='flex flex-col'>
+                <label className='text-sm text-gray-600'>ZIP Code</label>
+                <input
+                  type="text"
+                  placeholder="e.g. 110001"
+                  className='px-3 py-2 mt-1 border border-borderColor rounded-md outline-none'
+                  value={car.address.zipCode}
+                  onChange={e=> setCar({...car, address: {...car.address, zipCode: e.target.value}})}
+                />
+              </div>
+            </div>
+
+            <div className='flex flex-col mt-4'>
+              <label className='text-sm text-gray-600'>Landmark (Optional)</label>
+              <input
+                type="text"
+                placeholder="e.g. Near Metro Station, Shopping Mall"
+                className='px-3 py-2 mt-1 border border-borderColor rounded-md outline-none'
+                value={car.address.landmark}
+                onChange={e=> setCar({...car, address: {...car.address, landmark: e.target.value}})}
+              />
+            </div>
          </div>
         {/* Car Description */}
          <div className='flex flex-col w-full'>

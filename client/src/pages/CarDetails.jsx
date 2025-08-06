@@ -10,7 +10,7 @@ const CarDetails = () => {
 
   const {id} = useParams()
 
-  const {cars, axios, pickupDate, setPickupDate, returnDate, setReturnDate} = useAppContext()
+  const {cars, axios, pickupDate, setPickupDate, returnDate, setReturnDate, user, setShowLogin} = useAppContext()
 
   const navigate = useNavigate()
   const [car, setCar] = useState(null)
@@ -18,10 +18,23 @@ const CarDetails = () => {
 
   const handleSubmit = async (e)=>{
     e.preventDefault();
+
+    // Check if user is logged in before booking
+    if (!user) {
+      toast.error('Please login to book this car')
+      setShowLogin(true)
+      return
+    }
+
+    if (!pickupDate || !returnDate) {
+      toast.error('Please select pickup and return dates')
+      return
+    }
+
     try {
       const {data} = await axios.post('/api/bookings/create', {
         car: id,
-        pickupDate, 
+        pickupDate,
         returnDate
       })
 
@@ -32,7 +45,12 @@ const CarDetails = () => {
         toast.error(data.message)
       }
     } catch (error) {
-      toast.error(error.message)
+      if (error.response?.status === 401) {
+        toast.error('Please login to book this car')
+        setShowLogin(true)
+      } else {
+        toast.error(error.response?.data?.message || 'Failed to book car. Please try again.')
+      }
     }
   }
 
@@ -78,7 +96,7 @@ const CarDetails = () => {
                     {icon: assets.users_icon, text: `${car.seating_capacity} Seats`},
                     {icon: assets.fuel_icon, text: car.fuel_type},
                     {icon: assets.car_icon, text: car.transmission},
-                    {icon: assets.location_icon, text: car.location},
+                    {icon: assets.location_icon, text: car.address?.city ? `${car.address.city}, ${car.address.state}` : car.location},
                   ].map(({icon, text})=>(
                     <motion.div 
                     initial={{ opacity: 0, y: 10 }}
@@ -97,6 +115,24 @@ const CarDetails = () => {
                   <h1 className='text-xl font-medium mb-3'>Description</h1>
                   <p className='text-gray-500'>{car.description}</p>
                 </div>
+
+                {/* Pickup Address */}
+                {car.address && (
+                  <div>
+                    <h1 className='text-xl font-medium mb-3'>Pickup Location</h1>
+                    <div className='bg-gray-50 p-4 rounded-lg'>
+                      <div className='flex items-start gap-2'>
+                        <img src={assets.location_icon_colored} alt="" className='w-5 h-5 mt-1'/>
+                        <div>
+                          <p className='font-medium'>{car.address.city}, {car.address.state}</p>
+                          {car.address.street && <p className='text-gray-600 text-sm mt-1'>{car.address.street}</p>}
+                          {car.address.landmark && <p className='text-gray-500 text-sm'>Near {car.address.landmark}</p>}
+                          {car.address.zipCode && <p className='text-gray-500 text-sm'>ZIP: {car.address.zipCode}</p>}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 {/* Features */}
                 <div>

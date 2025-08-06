@@ -21,10 +21,6 @@ const ListYourCar = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (!user) {
-      setShowLogin(true)
-      return
-    }
     // Navigate to owner dashboard add car page
     navigate('/owner/add-car')
   }

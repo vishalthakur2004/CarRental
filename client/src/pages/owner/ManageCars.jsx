@@ -19,7 +19,7 @@ const ManageCars = () => {
         toast.error(data.message)
       }
     } catch (error) {
-      toast.error(error.message)
+      toast.error('Failed to load your cars. Please refresh the page.')
     }
   }
 
@@ -33,14 +33,14 @@ const ManageCars = () => {
         toast.error(data.message)
       }
     } catch (error) {
-      toast.error(error.message)
+      toast.error('Failed to update car availability. Please try again.')
     }
   }
 
   const deleteCar = async (carId)=>{
     try {
 
-      const confirm = window.confirm('Are you sure you want to delete this car?')
+      const confirm = window.confirm('⚠️ Delete Car?\n\nThis action cannot be undone. The car will be permanently removed from your listings.\n\nAre you sure you want to continue?')
 
       if(!confirm) return null
 
@@ -52,7 +52,7 @@ const ManageCars = () => {
         toast.error(data.message)
       }
     } catch (error) {
-      toast.error(error.message)
+      toast.error('Failed to delete car. Please try again.')
     }
   }
 
@@ -86,6 +86,9 @@ const ManageCars = () => {
                   <div className='max-md:hidden'>
                     <p className='font-medium'>{car.brand} {car.model}</p>
                     <p className='text-xs text-gray-500'>{car.seating_capacity} • {car.transmission}</p>
+                    <p className='text-xs text-gray-400 mt-1'>
+                      📍 {car.address?.city ? `${car.address.city}, ${car.address.state}` : car.location}
+                    </p>
                   </div>
                 </td>
 
