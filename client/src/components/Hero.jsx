@@ -65,16 +65,16 @@ const Hero = () => {
 
                   {/* Find Your Perfect Ride Section */}
                   <div>
-                    <div className='flex items-center gap-4 mb-8'>
-                      <div className='w-8 h-8 text-blue-600 flex-shrink-0'>
+                    <div className='flex items-center gap-3 mb-6'>
+                      <div className='w-6 h-6 text-blue-600 flex-shrink-0'>
                         <svg fill='currentColor' viewBox='0 0 20 20'>
                           <path fillRule='evenodd' d='M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z' clipRule='evenodd' />
                         </svg>
                       </div>
-                      <h2 className='text-2xl lg:text-3xl font-bold text-gray-800 tracking-tight'>Find Your Perfect Ride</h2>
+                      <h2 className='text-xl lg:text-2xl font-bold text-gray-800 tracking-tight'>Find Your Perfect Ride</h2>
                     </div>
 
-                    <div className='space-y-6'>
+                    <div className='space-y-4'>
                       <div>
                         <label className='block text-base font-semibold text-gray-700 mb-3'>State</label>
                         <div className='relative'>
