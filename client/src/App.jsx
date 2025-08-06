@@ -38,15 +38,27 @@ const App = () => {
       <Route path='/' element={<Home/>}/>
       <Route path='/car-details/:id' element={<CarDetails/>}/>
       <Route path='/cars' element={<Cars/>}/>
-      <Route path='/my-bookings' element={<MyBookings/>}/>
+      <Route path='/my-bookings' element={
+        <ProtectedRoute>
+          <MyBookings/>
+        </ProtectedRoute>
+      }/>
       <Route path='/about-us' element={<AboutUs/>}/>
-      <Route path='/list-your-car' element={<ListYourCar/>}/>
+      <Route path='/list-your-car' element={
+        <ProtectedRoute>
+          <ListYourCar/>
+        </ProtectedRoute>
+      }/>
       <Route path='/help-center' element={<HelpCenter/>}/>
       <Route path='/terms-of-service' element={<TermsOfService/>}/>
       <Route path='/privacy-policy' element={<Navigate to="/data-protection" replace />}/>
       <Route path='/data-protection' element={<DataProtection/>}/>
       <Route path='/insurance' element={<Insurance/>}/>
-      <Route path='/owner' element={<Layout />}>
+      <Route path='/owner' element={
+        <ProtectedRoute requireOwner={true}>
+          <Layout />
+        </ProtectedRoute>
+      }>
         <Route index element={<Dashboard />}/>
         <Route path="add-car" element={<AddCar />}/>
         <Route path="manage-cars" element={<ManageCars />}/>
