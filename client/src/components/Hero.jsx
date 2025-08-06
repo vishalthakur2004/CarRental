@@ -138,15 +138,15 @@ const Hero = () => {
 
                     <div className='space-y-4'>
                       <div>
-                        <label htmlFor='pickup-date' className='block text-base font-semibold text-gray-700 mb-3'>Pickup Date</label>
+                        <label htmlFor='pickup-date' className='block text-sm font-semibold text-gray-700 mb-2'>Pickup Date</label>
                         <input
                           value={pickupDate}
                           onChange={e=>setPickupDate(e.target.value)}
                           type="date"
                           id="pickup-date"
                           min={new Date().toISOString().split('T')[0]}
-                          className='w-full px-5 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-gray-700 text-base transition-all duration-200 hover:border-gray-300'
-                          style={{boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'}}
+                          className='w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-gray-700 text-sm transition-all duration-200 hover:border-gray-300'
+                          style={{boxShadow: '0 2px 4px -1px rgba(0, 0, 0, 0.1)'}}
                           required
                         />
                       </div>
