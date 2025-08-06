@@ -23,7 +23,7 @@ const Cars = () => {
   const [filteredCars, setFilteredCars] = useState([])
 
   const applyFilter = async ()=>{
-     
+
     if(input === ''){
       setFilteredCars(cars)
       return null
@@ -31,9 +31,13 @@ const Cars = () => {
 
     const filtered = cars.slice().filter((car)=>{
       return car.brand.toLowerCase().includes(input.toLowerCase())
-      || car.model.toLowerCase().includes(input.toLowerCase())  
-      || car.category.toLowerCase().includes(input.toLowerCase())  
+      || car.model.toLowerCase().includes(input.toLowerCase())
+      || car.category.toLowerCase().includes(input.toLowerCase())
       || car.transmission.toLowerCase().includes(input.toLowerCase())
+      || car.location.toLowerCase().includes(input.toLowerCase())
+      || (car.address && car.address.city && car.address.city.toLowerCase().includes(input.toLowerCase()))
+      || (car.address && car.address.state && car.address.state.toLowerCase().includes(input.toLowerCase()))
+      || (car.address && car.address.street && car.address.street.toLowerCase().includes(input.toLowerCase()))
     })
     setFilteredCars(filtered)
   }
