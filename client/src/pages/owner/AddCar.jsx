@@ -55,6 +55,13 @@ const AddCar = () => {
           fuel_type: '',
           seating_capacity: 0,
           location: '',
+          address: {
+            street: '',
+            city: '',
+            state: '',
+            zipCode: '',
+            landmark: ''
+          },
           description: '',
         })
       }else{
