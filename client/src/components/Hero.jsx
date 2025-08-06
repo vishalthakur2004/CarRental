@@ -127,16 +127,16 @@ const Hero = () => {
 
                   {/* Rental Period Section */}
                   <div>
-                    <div className='flex items-center gap-4 mb-8'>
-                      <div className='w-8 h-8 text-blue-600 flex-shrink-0'>
+                    <div className='flex items-center gap-3 mb-6'>
+                      <div className='w-6 h-6 text-blue-600 flex-shrink-0'>
                         <svg fill='currentColor' viewBox='0 0 20 20'>
                           <path fillRule='evenodd' d='M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z' clipRule='evenodd' />
                         </svg>
                       </div>
-                      <h2 className='text-2xl lg:text-3xl font-bold text-gray-800 tracking-tight'>Rental Period</h2>
+                      <h2 className='text-xl lg:text-2xl font-bold text-gray-800 tracking-tight'>Rental Period</h2>
                     </div>
 
-                    <div className='space-y-6'>
+                    <div className='space-y-4'>
                       <div>
                         <label htmlFor='pickup-date' className='block text-base font-semibold text-gray-700 mb-3'>Pickup Date</label>
                         <input
