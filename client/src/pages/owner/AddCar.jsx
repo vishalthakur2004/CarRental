@@ -77,7 +77,7 @@ const AddCar = () => {
         toast.error(data.message)
       }
     } catch (error) {
-      toast.error(error.message)
+      toast.error('Failed to add car. Please check your details and try again.')
     }finally{
       setIsLoading(false)
     }
