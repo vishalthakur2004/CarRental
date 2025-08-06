@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
-import { assets, cityList } from '../assets/assets'
+import { assets } from '../assets/assets'
+import { stateCityMapping, statesList } from '../data/stateCityMapping'
 import { useAppContext } from '../context/AppContext'
 import {motion} from 'motion/react'
 
 const Hero = () => {
 
     const [pickupLocation, setPickupLocation] = useState('')
+    const [selectedState, setSelectedState] = useState('')
 
     const {pickupDate, setPickupDate, returnDate, setReturnDate, navigate} = useAppContext()
 
@@ -33,13 +35,36 @@ const Hero = () => {
 
        onSubmit={handleSearch} className='flex flex-col md:flex-row items-start md:items-center justify-between p-6 rounded-lg md:rounded-full w-full max-w-80 md:max-w-200 bg-white shadow-[0px_8px_20px_rgba(0,0,0,0.1)]'>
 
-        <div className='flex flex-col md:flex-row items-start md:items-center gap-10 min-md:ml-8'>
+        <div className='flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-10 min-md:ml-8'>
             <div className='flex flex-col items-start gap-2'>
-                <select required value={pickupLocation} onChange={(e)=>setPickupLocation(e.target.value)}>
-                    <option value="">Pickup Location</option>
-                    {cityList.map((city, index)=> <option key={`${city}-${index}`} value={city}>{city}</option>)}
+                <select
+                  required
+                  value={selectedState}
+                  onChange={(e)=> {
+                    setSelectedState(e.target.value)
+                    setPickupLocation('') // Reset city when state changes
+                  }}
+                  className='px-3 py-2 border border-gray-300 rounded-md outline-none bg-white'
+                >
+                    <option value="">Select State</option>
+                    {statesList.map((state, index)=> <option key={`${state}-${index}`} value={state}>{state}</option>)}
                 </select>
-                <p className='px-1 text-sm text-gray-500'>{pickupLocation ? pickupLocation : 'Please select location'}</p>
+                <p className='px-1 text-sm text-gray-500'>{selectedState ? selectedState : 'Please select state'}</p>
+            </div>
+            <div className='flex flex-col items-start gap-2'>
+                <select
+                  required
+                  value={pickupLocation}
+                  onChange={(e)=>setPickupLocation(e.target.value)}
+                  disabled={!selectedState}
+                  className='px-3 py-2 border border-gray-300 rounded-md outline-none bg-white disabled:bg-gray-100 disabled:cursor-not-allowed'
+                >
+                    <option value="">{selectedState ? 'Select City' : 'Select state first'}</option>
+                    {selectedState && stateCityMapping[selectedState] &&
+                      stateCityMapping[selectedState].map((city, index)=> <option key={`${city}-${index}`} value={city}>{city}</option>)
+                    }
+                </select>
+                <p className='px-1 text-sm text-gray-500'>{pickupLocation ? pickupLocation : (selectedState ? 'Please select city' : 'Select state first')}</p>
             </div>
             <div className='flex flex-col items-start gap-2'>
                 <label htmlFor='pickup-date'>Pick-up Date</label>
