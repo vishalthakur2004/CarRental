@@ -9,6 +9,8 @@ const ManageBookings = () => {
   const { currency, axios } = useAppContext()
 
   const [bookings, setBookings] = useState([])
+  const [showCancelModal, setShowCancelModal] = useState(false)
+  const [selectedBooking, setSelectedBooking] = useState(null)
 
   const fetchOwnerBookings = async ()=>{
     try {
