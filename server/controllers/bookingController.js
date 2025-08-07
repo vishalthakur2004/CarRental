@@ -161,6 +161,61 @@ export const changeBookingStatus = async (req, res)=>{
 
         await booking.save();
 
+        // Get car details for notification
+        const populatedBooking = await Booking.findById(booking._id).populate('car user');
+        const carDetails = populatedBooking.car;
+        const userName = populatedBooking.user.name;
+
+        // Create notifications based on status change
+        let notificationData = {};
+
+        switch (status) {
+            case 'booked':
+                notificationData = {
+                    userTitle: 'Booking Confirmed',
+                    userMessage: `Your booking for ${carDetails.brand} ${carDetails.model} has been confirmed!`,
+                    ownerTitle: 'Booking Confirmed',
+                    ownerMessage: `You confirmed the booking for ${carDetails.brand} ${carDetails.model} by ${userName}.`
+                };
+                break;
+            case 'cancelled':
+                notificationData = {
+                    userTitle: 'Booking Cancelled',
+                    userMessage: `Your booking for ${carDetails.brand} ${carDetails.model} has been cancelled.${cancellationReason ? ' Reason: ' + cancellationReason : ''}`,
+                    ownerTitle: 'Booking Cancelled',
+                    ownerMessage: `You cancelled the booking for ${carDetails.brand} ${carDetails.model} by ${userName}.`
+                };
+                break;
+            case 'completed':
+                notificationData = {
+                    userTitle: 'Booking Completed',
+                    userMessage: `Your rental of ${carDetails.brand} ${carDetails.model} has been completed. Thank you for choosing us!`,
+                    ownerTitle: 'Booking Completed',
+                    ownerMessage: `The booking for ${carDetails.brand} ${carDetails.model} by ${userName} has been completed.`
+                };
+                break;
+        }
+
+        if (notificationData.userTitle) {
+            // Notify the user
+            await createNotification(
+                booking.user,
+                `booking_${status}`,
+                notificationData.userTitle,
+                notificationData.userMessage,
+                booking._id
+            );
+
+            // Notify the owner
+            await createNotification(
+                booking.owner,
+                `booking_${status}`,
+                notificationData.ownerTitle,
+                notificationData.ownerMessage,
+                booking._id
+            );
+        }
+
         res.json({ success: true, message: "Status Updated"})
     } catch (error) {
         console.log(error.message);
