@@ -44,9 +44,9 @@ const Hero = () => {
         </motion.div>
 
       <motion.div
-        initial={{ y: 100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.4 }}
+        initial={{ x: 200, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 1.2, delay: 0.4, ease: "easeOut" }}
         className='relative z-10 mb-8'>
         <img
           src={assets.main_car}
