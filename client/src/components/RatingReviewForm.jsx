@@ -108,8 +108,9 @@ const RatingReviewForm = ({ isOpen, onClose, booking, onReviewSubmitted }) => {
               </div>
             </div>
 
-            {/* Form */}
-            <form onSubmit={handleSubmit} className="p-6 space-y-6">
+            {/* Scrollable Form Container */}
+            <div className="flex-1 overflow-y-auto">
+              <form onSubmit={handleSubmit} className="p-6 space-y-6">
               {/* Rating */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-3">
@@ -204,7 +205,8 @@ const RatingReviewForm = ({ isOpen, onClose, booking, onReviewSubmitted }) => {
                   {isSubmitting ? 'Submitting...' : 'Submit Review'}
                 </button>
               </div>
-            </form>
+              </form>
+            </div>
           </motion.div>
         </motion.div>
       )}
