@@ -96,8 +96,8 @@ const BookingTimeline = ({ booking, userType = 'customer' }) => {
           {
             id: 'confirmed',
             title: 'Booking Confirmed',
-            description: userType === 'customer' 
-              ? 'Owner confirmed your booking' 
+            description: userType === 'customer'
+              ? 'Owner confirmed your booking'
               : 'You confirmed the booking',
             status: 'completed',
             icon: '✅',
@@ -106,18 +106,28 @@ const BookingTimeline = ({ booking, userType = 'customer' }) => {
           {
             id: 'pickup',
             title: 'Car Picked Up',
-            description: userType === 'customer' 
-              ? 'You picked up the car' 
+            description: userType === 'customer'
+              ? 'You picked up the car'
               : 'Customer picked up the car',
             status: 'completed',
             icon: '🚗',
             date: booking.pickupDate
           },
           {
+            id: 'on_rent',
+            title: 'On Rent',
+            description: userType === 'customer'
+              ? 'You enjoyed your ride'
+              : 'Car was with customer',
+            status: 'completed',
+            icon: '🛣️',
+            date: null
+          },
+          {
             id: 'returned',
             title: 'Car Returned',
-            description: userType === 'customer' 
-              ? 'You returned the car' 
+            description: userType === 'customer'
+              ? 'You returned the car'
               : 'Customer returned the car',
             status: 'completed',
             icon: '🔄',
@@ -126,8 +136,8 @@ const BookingTimeline = ({ booking, userType = 'customer' }) => {
           {
             id: 'completed',
             title: 'Booking Completed',
-            description: userType === 'customer' 
-              ? 'Rental completed successfully' 
+            description: userType === 'customer'
+              ? 'Rental completed successfully'
               : 'Rental completed successfully',
             status: 'completed',
             icon: '🎉',
