@@ -83,6 +83,24 @@ const CarDetails = () => {
        </button>
 
        <div className='grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12'>
+
+          {/* Calendar Section */}
+          <div className='lg:col-span-3 mb-8'>
+            <BookingCalendar
+              carId={id}
+              selectedDate={pickupDate}
+              onDateSelect={(date) => {
+                setPickupDate(date)
+                // Auto-set return date to next day if not set
+                if (!returnDate) {
+                  const nextDay = new Date(date)
+                  nextDay.setDate(nextDay.getDate() + 1)
+                  setReturnDate(nextDay.toISOString().split('T')[0])
+                }
+              }}
+              bookedDates={bookedDates}
+            />
+          </div>
           {/* Left: Car Image & Details */}
           <motion.div 
           initial={{ opacity: 0, y: 30 }}
