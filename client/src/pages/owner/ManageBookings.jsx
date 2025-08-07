@@ -241,6 +241,17 @@ const ManageBookings = () => {
         confirmColor="bg-blue-600"
       />
 
+      {/* Booking Details Modal with Timeline */}
+      <BookingDetailsModal
+        isOpen={showDetailsModal}
+        onClose={() => {
+          setShowDetailsModal(false)
+          setSelectedBooking(null)
+        }}
+        booking={selectedBooking}
+        userType="owner"
+      />
+
     </div>
   )
 }
