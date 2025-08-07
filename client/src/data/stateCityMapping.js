@@ -229,6 +229,12 @@ const rawStateCityMapping = {
   ]
 };
 
+// Sort all cities alphabetically
+export const stateCityMapping = Object.keys(rawStateCityMapping).reduce((acc, state) => {
+  acc[state] = rawStateCityMapping[state].sort();
+  return acc;
+}, {});
+
 // Indian states list
 export const statesList = [
   'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa',
