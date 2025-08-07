@@ -241,3 +241,66 @@ export const changeBookingStatus = async (req, res)=>{
         res.json({success: false, message: error.message})
     }
 }
+
+// API for users to cancel their own bookings
+export const cancelUserBooking = async (req, res) => {
+    try {
+        const { _id } = req.user;
+        const { bookingId, cancellationReason } = req.body;
+
+        const booking = await Booking.findById(bookingId);
+
+        if (!booking) {
+            return res.json({ success: false, message: "Booking not found" });
+        }
+
+        // Check if user owns this booking
+        if (booking.user.toString() !== _id.toString()) {
+            return res.json({ success: false, message: "Unauthorized" });
+        }
+
+        // Check if booking can be cancelled
+        if (booking.status === 'completed' || booking.status === 'cancelled') {
+            return res.json({
+                success: false,
+                message: "Cannot cancel completed or already cancelled bookings"
+            });
+        }
+
+        // Update booking status
+        booking.status = 'cancelled';
+        booking.cancellationReason = cancellationReason || 'Cancelled by customer';
+        await booking.save();
+
+        // Get booking details for notifications
+        const populatedBooking = await Booking.findById(booking._id).populate('car user');
+        const carDetails = populatedBooking.car;
+        const userName = populatedBooking.user.name;
+
+        // Create notifications for both user and owner
+        await createNotification(
+            booking.user,
+            'booking_cancelled',
+            'Booking Cancelled',
+            `You have cancelled your booking for ${carDetails.brand} ${carDetails.model}.`,
+            booking._id
+        );
+
+        await createNotification(
+            booking.owner,
+            'booking_cancelled',
+            'Customer Cancelled Booking',
+            `${userName} has cancelled their booking for ${carDetails.brand} ${carDetails.model}. Reason: ${cancellationReason || 'No reason provided'}`,
+            booking._id
+        );
+
+        res.json({
+            success: true,
+            message: "Booking cancelled successfully"
+        });
+
+    } catch (error) {
+        console.log(error.message);
+        res.json({ success: false, message: error.message });
+    }
+}
