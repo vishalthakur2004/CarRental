@@ -42,11 +42,23 @@ const Hero = () => {
             Discover premium vehicles for your perfect journey
           </p>
         </motion.div>
-      
+
+      <motion.div
+        initial={{ x: 200, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 1.2, delay: 0.4, ease: "easeOut" }}
+        className='relative z-10 mb-8'>
+        <img
+          src={assets.main_car}
+          alt="car"
+          className='max-h-48 sm:max-h-60 md:max-h-72 lg:max-h-80 xl:max-h-96 w-auto object-contain filter drop-shadow-2xl'
+        />
+      </motion.div>
+
       <motion.div
       initial={{ scale: 0.95, opacity: 0, y: 50 }}
       animate={{ scale: 1, opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.4 }}
+      transition={{ duration: 0.6, delay: 0.6 }}
       className='w-full max-w-6xl xl:max-w-7xl relative z-10'>
 
         {/* Modern Search Card */}
@@ -185,18 +197,6 @@ const Hero = () => {
             </div>
           </form>
         </div>
-      </motion.div>
-
-      <motion.div
-        initial={{ y: 100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.6 }}
-        className='relative z-10'>
-        <img
-          src={assets.main_car}
-          alt="car"
-          className='max-h-48 sm:max-h-60 md:max-h-72 lg:max-h-80 xl:max-h-96 w-auto object-contain filter drop-shadow-2xl'
-        />
       </motion.div>
     </motion.div>
   )

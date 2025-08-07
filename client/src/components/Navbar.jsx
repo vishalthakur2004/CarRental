@@ -67,7 +67,7 @@ const Navbar = () => {
                 {user && (
                     <button
                         onClick={() => {navigate('/owner/add-car'); setOpen(false)}}
-                        className="cursor-pointer px-4 py-2 bg-green-600 hover:bg-green-700 transition-all text-white rounded-lg text-sm font-medium max-sm:w-full max-sm:text-center max-sm:text-base"
+                        className="cursor-pointer px-4 py-2 border border-gray-300 hover:border-primary hover:text-primary transition-all text-gray-600 rounded-lg text-sm font-medium max-sm:w-full max-sm:text-center max-sm:text-base"
                     >
                         Add Car
                     </button>
