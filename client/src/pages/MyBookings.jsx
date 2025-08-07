@@ -150,6 +150,14 @@ const MyBookings = () => {
                 <p className='font-medium'>Total Price</p>
                 <h1 className='text-xl sm:text-2xl lg:text-3xl font-semibold text-primary mt-1'>{currency}{booking.price}</h1>
                 <p className='text-xs sm:text-sm mt-2'>Booked on {booking.createdAt.split('T')[0]}</p>
+
+                {/* View Timeline Button */}
+                <button
+                  onClick={() => handleViewDetails(booking)}
+                  className='w-full mt-3 px-3 py-2 bg-blue-50 text-blue-600 border border-blue-200 rounded-lg hover:bg-blue-100 transition-colors text-xs font-medium'
+                >
+                  📊 View Timeline
+                </button>
               </div>
 
               {/* Rating Section for Completed Bookings */}
