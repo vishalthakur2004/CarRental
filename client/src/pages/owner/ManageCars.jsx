@@ -147,21 +147,21 @@ const ManageCars = () => {
                       className='p-1.5 hover:bg-blue-50 rounded-md transition-colors'
                       title='Edit car'
                     >
-                      <img src={assets.edit_icon} alt="" className='w-5 h-5 sm:w-6 sm:h-6'/>
+                      <img src={assets.edit_icon} alt="" className='w-6 h-6 sm:w-8 sm:h-8'/>
                     </button>
                     <button
                       onClick={()=> handleToggleAvailability(car)}
                       className='p-1.5 hover:bg-gray-100 rounded-md transition-colors'
                       title={car.isAvaliable ? 'Hide car' : 'Show car'}
                     >
-                      <img src={car.isAvaliable ? assets.eye_close_icon : assets.eye_icon} alt="" className='w-5 h-5 sm:w-6 sm:h-6'/>
+                      <img src={car.isAvaliable ? assets.eye_close_icon : assets.eye_icon} alt="" className='w-6 h-6 sm:w-8 sm:h-8'/>
                     </button>
                     <button
                       onClick={()=> handleDeleteCar(car)}
                       className='p-1.5 hover:bg-red-50 rounded-md transition-colors'
                       title='Delete car'
                     >
-                      <img src={assets.delete_icon} alt="" className='w-5 h-5 sm:w-6 sm:h-6'/>
+                      <img src={assets.delete_icon} alt="" className='w-6 h-6 sm:w-8 sm:h-8'/>
                     </button>
                   </div>
                 </td>
