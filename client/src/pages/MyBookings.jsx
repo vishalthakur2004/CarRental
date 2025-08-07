@@ -227,6 +227,17 @@ const MyBookings = () => {
          onReviewSubmitted={handleReviewSubmitted}
        />
 
+       {/* User Cancellation Modal */}
+       <UserCancellationModal
+         isOpen={showCancelModal}
+         onClose={() => {
+           setShowCancelModal(false)
+           setSelectedBooking(null)
+         }}
+         booking={selectedBooking}
+         onCancellationSuccess={handleCancellationSuccess}
+       />
+
     </motion.div>
   )
 }
