@@ -77,7 +77,7 @@ const RatingReviewForm = ({ isOpen, onClose, booking, onReviewSubmitted }) => {
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b border-gray-200">
+            <div className="flex items-center justify-between p-6 border-b border-gray-200 flex-shrink-0">
               <h2 className="text-2xl font-bold text-gray-800">Rate Your Experience</h2>
               <button
                 onClick={handleClose}
