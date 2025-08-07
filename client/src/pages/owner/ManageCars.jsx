@@ -143,6 +143,13 @@ const ManageCars = () => {
                 <td className='p-3 sm:p-4'>
                   <div className='flex items-center gap-2 sm:gap-3'>
                     <button
+                      onClick={()=> handleEditCar(car)}
+                      className='p-1.5 hover:bg-blue-50 rounded-md transition-colors'
+                      title='Edit car'
+                    >
+                      <img src={assets.edit_icon} alt="" className='w-5 h-5 sm:w-6 sm:h-6'/>
+                    </button>
+                    <button
                       onClick={()=> handleToggleAvailability(car)}
                       className='p-1.5 hover:bg-gray-100 rounded-md transition-colors'
                       title={car.isAvaliable ? 'Hide car' : 'Show car'}
