@@ -31,6 +31,12 @@ const CarDetails = () => {
       return
     }
 
+    // Check if user is trying to book their own car
+    if (user._id === car.owner) {
+      toast.error('You cannot book your own car')
+      return
+    }
+
     if (!pickupDate || !returnDate) {
       toast.error('Please select pickup and return dates')
       return
