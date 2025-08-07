@@ -28,8 +28,36 @@ const MyBookings = () => {
     }
   }
 
+  const fetchUserReviews = async () => {
+    try {
+      const { data } = await axios.get('/api/reviews/user')
+      if (data.success) {
+        setUserReviews(data.reviews)
+      }
+    } catch (error) {
+      console.error('Failed to fetch user reviews:', error)
+    }
+  }
+
+  const handleRateBooking = (booking) => {
+    setSelectedBooking(booking)
+    setShowRatingForm(true)
+  }
+
+  const handleReviewSubmitted = () => {
+    fetchUserReviews()
+    fetchMyBookings()
+  }
+
+  const getBookingReview = (bookingId) => {
+    return userReviews.find(review => review.booking._id === bookingId)
+  }
+
   useEffect(()=>{
-    user && fetchMyBookings()
+    if (user) {
+      fetchMyBookings()
+      fetchUserReviews()
+    }
   },[user])
 
   return (
