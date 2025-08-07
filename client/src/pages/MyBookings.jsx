@@ -11,6 +11,9 @@ const MyBookings = () => {
   const { axios, user, currency } = useAppContext()
 
   const [bookings, setBookings] = useState([])
+  const [showRatingForm, setShowRatingForm] = useState(false)
+  const [selectedBooking, setSelectedBooking] = useState(null)
+  const [userReviews, setUserReviews] = useState([])
 
   const fetchMyBookings = async ()=>{
     try {
