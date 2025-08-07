@@ -40,16 +40,40 @@ const Navbar = () => {
         </Link>
 
         <div className={`max-md:fixed max-md:h-screen max-md:w-full max-md:top-16 max-md:border-t border-borderColor right-0 flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6 lg:gap-8 max-md:p-6 transition-all duration-300 z-50 ${location.pathname === "/" ? "bg-light" : "bg-white"} ${open ? "max-md:translate-x-0" : "max-md:translate-x-full"}`}>
-            {menuLinks.map((link, index)=> (
+            {/* Main navigation links */}
+            <Link
+                to="/"
+                className='hover:text-primary transition-colors duration-200 text-sm md:text-base max-md:text-lg max-md:py-2 whitespace-nowrap'
+                onClick={() => setOpen(false)}
+            >
+                Home
+            </Link>
+
+            <Link
+                to="/cars"
+                className='hover:text-primary transition-colors duration-200 text-sm md:text-base max-md:text-lg max-md:py-2 whitespace-nowrap'
+                onClick={() => setOpen(false)}
+            >
+                Cars
+            </Link>
+
+            {user && (
                 <Link
-                    key={index}
-                    to={link.path}
+                    to="/my-bookings"
                     className='hover:text-primary transition-colors duration-200 text-sm md:text-base max-md:text-lg max-md:py-2 whitespace-nowrap'
                     onClick={() => setOpen(false)}
                 >
-                    {link.name}
+                    My Bookings
                 </Link>
-            ))}
+            )}
+
+            <Link
+                to="/about-us"
+                className='hover:text-primary transition-colors duration-200 text-sm md:text-base max-md:text-lg max-md:py-2 whitespace-nowrap'
+                onClick={() => setOpen(false)}
+            >
+                About
+            </Link>
 
             <div className='hidden lg:flex items-center text-sm gap-2 border border-borderColor px-3 py-2 rounded-full max-w-56 bg-white/50 backdrop-blur-sm'>
                 <input type="text" className="py-1 w-full bg-transparent outline-none placeholder-gray-500 text-sm" placeholder="Search cars"/>
