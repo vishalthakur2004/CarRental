@@ -42,7 +42,19 @@ const Hero = () => {
             Discover premium vehicles for your perfect journey
           </p>
         </motion.div>
-      
+
+      <motion.div
+        initial={{ y: 100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, delay: 0.4 }}
+        className='relative z-10 mb-8'>
+        <img
+          src={assets.main_car}
+          alt="car"
+          className='max-h-48 sm:max-h-60 md:max-h-72 lg:max-h-80 xl:max-h-96 w-auto object-contain filter drop-shadow-2xl'
+        />
+      </motion.div>
+
       <motion.div
       initial={{ scale: 0.95, opacity: 0, y: 50 }}
       animate={{ scale: 1, opacity: 1, y: 0 }}
