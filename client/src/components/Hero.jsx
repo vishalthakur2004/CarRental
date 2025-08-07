@@ -155,7 +155,7 @@ const Hero = () => {
                           type="date"
                           id="pickup-date"
                           min={new Date().toISOString().split('T')[0]}
-                          className='w-full px-4 py-4 pr-4 border border-gray-200 rounded-xl outline-none text-sm text-gray-700 bg-gray-50/50 focus:border-primary focus:bg-white focus:shadow-md transition-all duration-300'
+                          className='w-full px-4 py-4 pr-4 border border-gray-300 rounded-xl outline-none text-sm text-gray-700 bg-white focus:border-primary focus:ring-2 focus:ring-primary/20 focus:shadow-md transition-all duration-300'
                           required
                       />
                     </div>
