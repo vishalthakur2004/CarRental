@@ -112,7 +112,7 @@ const Hero = () => {
                         value={pickupLocation}
                         onChange={(e)=>setPickupLocation(e.target.value)}
                         disabled={!selectedState}
-                        className='w-full px-4 py-4 pr-10 border border-gray-200 rounded-xl outline-none bg-gray-50/50 disabled:bg-gray-100 disabled:cursor-not-allowed text-sm focus:border-primary focus:bg-white focus:shadow-md transition-all duration-300 appearance-none cursor-pointer'
+                        className='w-full px-4 py-4 pr-10 border border-gray-300 rounded-xl outline-none bg-white disabled:bg-gray-100 disabled:cursor-not-allowed text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:shadow-md transition-all duration-300 appearance-none cursor-pointer'
                       >
                         <option value="">{selectedState ? 'Choose City' : 'Select state first'}</option>
                         {selectedState && stateCityMapping[selectedState] &&
