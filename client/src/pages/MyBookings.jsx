@@ -94,7 +94,14 @@ const MyBookings = () => {
             <div className='lg:col-span-2'>
               <div className='flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3'>
                 <p className='px-3 py-2 bg-light rounded-lg text-sm font-medium'>Booking #{index+1}</p>
-                <p className={`px-3 py-1.5 text-xs font-medium rounded-full ${booking.status === 'confirmed' ? 'bg-green-400/15 text-green-600' : booking.status === 'pending' ? 'bg-yellow-400/15 text-yellow-600' : 'bg-red-400/15 text-red-600'}`}>{booking.status}</p>
+                <p className={`px-3 py-1.5 text-xs font-medium rounded-full ${
+                  booking.status === 'booked' ? 'bg-green-400/15 text-green-600' :
+                  booking.status === 'completed' ? 'bg-blue-400/15 text-blue-600' :
+                  booking.status === 'pending' ? 'bg-yellow-400/15 text-yellow-600' :
+                  'bg-red-400/15 text-red-600'
+                }`}>
+                  {booking.status === 'booked' ? 'Confirmed' : booking.status}
+                </p>
               </div>
 
               <div className='flex items-start gap-3 mt-4'>
