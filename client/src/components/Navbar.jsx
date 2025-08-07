@@ -80,6 +80,9 @@ const Navbar = () => {
                             Welcome, {user.name}
                         </span>
                     )}
+
+                    {user && <NotificationIcon />}
+
                     <button
                         onClick={()=> {user ? logout() : setShowLogin(true); setOpen(false)}}
                         className="cursor-pointer px-6 sm:px-8 py-2 bg-primary hover:bg-primary-dull transition-all text-white rounded-lg max-sm:w-full max-sm:text-center max-sm:text-base"
