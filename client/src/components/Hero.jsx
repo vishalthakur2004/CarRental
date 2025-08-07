@@ -58,7 +58,7 @@ const Hero = () => {
       <motion.div
       initial={{ scale: 0.95, opacity: 0, y: 50 }}
       animate={{ scale: 1, opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.4 }}
+      transition={{ duration: 0.6, delay: 0.6 }}
       className='w-full max-w-6xl xl:max-w-7xl relative z-10'>
 
         {/* Modern Search Card */}
