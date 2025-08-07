@@ -70,6 +70,19 @@ const CarDetails = () => {
     }
   }
 
+  const fetchCarReviews = async () => {
+    try {
+      const { data } = await axios.get(`/api/reviews/car/${id}`)
+      if (data.success) {
+        setReviews(data.reviews)
+        setAvgRating(data.avgRating)
+        setTotalReviews(data.totalReviews)
+      }
+    } catch (error) {
+      console.log('Error fetching reviews:', error)
+    }
+  }
+
   useEffect(()=>{
     setCar(cars.find(car => car._id === id))
     if (id) {
