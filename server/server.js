@@ -23,6 +23,7 @@ app.use('/api/user', userRouter)
 app.use('/api/owner', ownerRouter)
 app.use('/api/bookings', bookingRouter)
 app.use('/api/otp', otpRouter)
+app.use('/api/reviews', reviewRouter)
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, ()=> console.log(`Server running on port ${PORT}`))
