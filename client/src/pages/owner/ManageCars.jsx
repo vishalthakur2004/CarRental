@@ -118,7 +118,7 @@ const ManageCars = () => {
                       className='p-1.5 hover:bg-red-50 rounded-md transition-colors'
                       title='Delete car'
                     >
-                      <img src={assets.delete_icon} alt="" className='w-4 h-4 sm:w-5 sm:h-5'/>
+                      <img src={assets.delete_icon} alt="" className='w-5 h-5 sm:w-6 sm:h-6'/>
                     </button>
                   </div>
                 </td>
