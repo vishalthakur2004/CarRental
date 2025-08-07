@@ -186,7 +186,7 @@ const MyBookings = () => {
                           ({getBookingReview(booking._id).rating}/5)
                         </span>
                       </div>
-                      <p className='text-xs text-green-600'>��� Review submitted</p>
+                      <p className='text-xs text-green-600'>✓ Review submitted</p>
                     </div>
                   ) : (
                     <div className='text-center lg:text-right'>
@@ -202,7 +202,7 @@ const MyBookings = () => {
                 </div>
               )}
 
-              {/* Cancel Booking Button for Pending/Confirmed Bookings */}
+              {/* Cancel Booking Button for Pending/Confirmed Bookings (not on rent) */}
               {(booking.status === 'pending' || booking.status === 'booked') && (
                 <div className='border-t pt-4'>
                   <div className='text-center lg:text-right'>
