@@ -25,7 +25,7 @@ const Sidebar = () => {
             toast.error(data.message)
           }
         } catch (error) {
-          toast.error(error.message)
+          toast.error('Failed to update profile image. Please try again.')
         }
     }
 

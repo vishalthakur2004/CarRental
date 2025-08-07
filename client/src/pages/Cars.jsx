@@ -23,7 +23,7 @@ const Cars = () => {
   const [filteredCars, setFilteredCars] = useState([])
 
   const applyFilter = async ()=>{
-     
+
     if(input === ''){
       setFilteredCars(cars)
       return null
@@ -31,9 +31,13 @@ const Cars = () => {
 
     const filtered = cars.slice().filter((car)=>{
       return car.brand.toLowerCase().includes(input.toLowerCase())
-      || car.model.toLowerCase().includes(input.toLowerCase())  
-      || car.category.toLowerCase().includes(input.toLowerCase())  
+      || car.model.toLowerCase().includes(input.toLowerCase())
+      || car.category.toLowerCase().includes(input.toLowerCase())
       || car.transmission.toLowerCase().includes(input.toLowerCase())
+      || car.location.toLowerCase().includes(input.toLowerCase())
+      || (car.address && car.address.city && car.address.city.toLowerCase().includes(input.toLowerCase()))
+      || (car.address && car.address.state && car.address.state.toLowerCase().includes(input.toLowerCase()))
+      || (car.address && car.address.street && car.address.street.toLowerCase().includes(input.toLowerCase()))
     })
     setFilteredCars(filtered)
   }
@@ -65,7 +69,7 @@ const Cars = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
 
-      className='flex flex-col items-center py-20 bg-light max-md:px-4'>
+      className='flex flex-col items-center py-12 sm:py-16 lg:py-20 bg-light px-4'>
         <Title title='Available Cars' subTitle='Browse our selection of premium vehicles available for your next adventure'/>
 
         <motion.div
@@ -73,12 +77,12 @@ const Cars = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.5 }}
 
-        className='flex items-center bg-white px-4 mt-6 max-w-140 w-full h-12 rounded-full shadow'>
-          <img src={assets.search_icon} alt="" className='w-4.5 h-4.5 mr-2'/>
+        className='flex items-center bg-white px-4 mt-6 max-w-sm sm:max-w-lg lg:max-w-2xl w-full h-12 sm:h-14 rounded-full shadow-md'>
+          <img src={assets.search_icon} alt="" className='w-4 h-4 sm:w-5 sm:h-5 mr-2 flex-shrink-0'/>
 
-          <input onChange={(e)=> setInput(e.target.value)} value={input} type="text" placeholder='Search by make, model, or features' className='w-full h-full outline-none text-gray-500'/>
+          <input onChange={(e)=> setInput(e.target.value)} value={input} type="text" placeholder='Search by make, model, location...' className='w-full h-full outline-none text-gray-700 text-sm sm:text-base placeholder:text-gray-500'/>
 
-          <img src={assets.filter_icon} alt="" className='w-4.5 h-4.5 ml-2'/>
+          <img src={assets.filter_icon} alt="" className='w-4 h-4 sm:w-5 sm:h-5 ml-2 flex-shrink-0'/>
         </motion.div>
       </motion.div>
 
@@ -87,10 +91,10 @@ const Cars = () => {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.6, duration: 0.5 }}
 
-      className='px-6 md:px-16 lg:px-24 xl:px-32 mt-10'>
-        <p className='text-gray-500 xl:px-20 max-w-7xl mx-auto'>Showing {filteredCars.length} Cars</p>
+      className='px-4 sm:px-6 md:px-16 lg:px-24 xl:px-32 mt-8 sm:mt-10'>
+        <p className='text-gray-500 text-sm sm:text-base xl:px-20 max-w-7xl mx-auto mb-4'>Showing {filteredCars.length} Cars</p>
 
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-4 xl:px-20 max-w-7xl mx-auto'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 xl:px-20 max-w-7xl mx-auto'>
           {filteredCars.map((car, index)=> (
             <motion.div key={index}
             initial={{ opacity: 0, y: 20 }}

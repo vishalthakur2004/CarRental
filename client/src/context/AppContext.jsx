@@ -43,7 +43,10 @@ export const AppProvider = ({ children })=>{
             setUser(null)
             setIsOwner(false)
             delete axios.defaults.headers.common['Authorization']
-            console.error('Auth error:', error.message)
+            // Only show auth error if user was previously authenticated
+            if (localStorage.getItem('token')) {
+                toast.error('Session expired. Please login again.')
+            }
         }
     }
     // Function to fetch all cars from the server
@@ -57,7 +60,7 @@ export const AppProvider = ({ children })=>{
             const {data} = await publicAxios.get('/api/user/cars')
             data.success ? setCars(data.cars) : toast.error(data.message)
         } catch (error) {
-            toast.error(error.message)
+            toast.error('Failed to load available cars. Please refresh the page.')
         }
     }
 

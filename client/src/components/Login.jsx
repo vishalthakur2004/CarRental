@@ -159,7 +159,8 @@ const Login = () => {
                 toast.error(data.message);
             }
         } catch (error) {
-            toast.error('Login failed. Please try again.');
+            const errorMessage = error.response?.data?.message || 'Login failed. Please check your credentials and try again.';
+            toast.error(errorMessage);
         }
         setLoading(false);
     };

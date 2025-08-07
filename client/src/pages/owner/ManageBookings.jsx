@@ -14,7 +14,7 @@ const ManageBookings = () => {
       const { data } = await axios.get('/api/bookings/owner')
       data.success ? setBookings(data.bookings) : toast.error(data.message)
     } catch (error) {
-      toast.error(error.message)
+      toast.error('Failed to load bookings. Please refresh the page.')
     }
   }
 
@@ -27,9 +27,9 @@ const ManageBookings = () => {
       }else{
         toast.error(data.message)
       }
-      
+
     } catch (error) {
-      toast.error(error.message)
+      toast.error('Failed to update booking status. Please try again.')
     }
   }
 
