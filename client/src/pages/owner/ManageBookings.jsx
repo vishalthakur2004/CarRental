@@ -192,6 +192,38 @@ const ManageBookings = () => {
         booking={selectedBooking}
       />
 
+      {/* Confirmation Modal */}
+      <BookingActionModal
+        isOpen={showConfirmModal}
+        onClose={() => {
+          setShowConfirmModal(false)
+          setSelectedBooking(null)
+        }}
+        onConfirm={confirmBookingAction}
+        booking={selectedBooking}
+        action="confirm"
+        title="Confirm Booking"
+        message="Are you sure you want to accept this booking request? The customer will be notified and the booking will be confirmed."
+        confirmText="Accept Booking"
+        confirmColor="bg-green-600"
+      />
+
+      {/* Complete Modal */}
+      <BookingActionModal
+        isOpen={showCompleteModal}
+        onClose={() => {
+          setShowCompleteModal(false)
+          setSelectedBooking(null)
+        }}
+        onConfirm={completeBookingAction}
+        booking={selectedBooking}
+        action="complete"
+        title="Mark as Completed"
+        message="Are you sure you want to mark this booking as completed? This action confirms that the rental period has ended and the car has been returned."
+        confirmText="Mark Complete"
+        confirmColor="bg-blue-600"
+      />
+
     </div>
   )
 }
