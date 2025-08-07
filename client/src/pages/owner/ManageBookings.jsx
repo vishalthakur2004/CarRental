@@ -44,6 +44,28 @@ const ManageBookings = () => {
     setShowCancelModal(true)
   }
 
+  const handleConfirmBooking = (booking) => {
+    setSelectedBooking(booking)
+    setShowConfirmModal(true)
+  }
+
+  const handleCompleteBooking = (booking) => {
+    setSelectedBooking(booking)
+    setShowCompleteModal(true)
+  }
+
+  const confirmBookingAction = async () => {
+    if (selectedBooking) {
+      await changeBookingStatus(selectedBooking._id, 'booked')
+    }
+  }
+
+  const completeBookingAction = async () => {
+    if (selectedBooking) {
+      await changeBookingStatus(selectedBooking._id, 'completed')
+    }
+  }
+
   const confirmCancelBooking = async (bookingId, cancellationReason) => {
     try {
       const { data } = await axios.post('/api/bookings/change-status', {
