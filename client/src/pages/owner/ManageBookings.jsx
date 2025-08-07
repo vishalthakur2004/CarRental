@@ -105,94 +105,124 @@ const ManageBookings = () => {
       
       <Title title="Manage Bookings" subTitle="Track all customer bookings, approve or cancel requests, and manage booking statuses."/>
 
-      <div className='max-w-3xl w-full rounded-md overflow-hidden border border-borderColor mt-6'>
+      <div className='max-w-6xl w-full rounded-lg overflow-hidden border border-borderColor mt-6 bg-white shadow-sm'>
 
-        <table className='w-full border-collapse text-left text-sm text-gray-600'>
-          <thead className='text-gray-500'>
-            <tr>
-              <th className="p-3 font-medium">Car</th>
-              <th className="p-3 font-medium max-md:hidden">Date Range</th>
-              <th className="p-3 font-medium">Total</th>
-              <th className="p-3 font-medium max-md:hidden">Payment</th>
-              <th className="p-3 font-medium">Actions</th>
-            </tr>
-          </thead>
+        <div className='overflow-x-auto'>
+          <table className='w-full border-collapse text-left text-sm text-gray-600 min-w-[700px]'>
+            <thead className='text-gray-500 bg-gray-50'>
+              <tr>
+                <th className="p-4 font-medium text-xs sm:text-sm">Car Details</th>
+                <th className="p-4 font-medium text-xs sm:text-sm max-md:hidden">Date Range</th>
+                <th className="p-4 font-medium text-xs sm:text-sm">Total</th>
+                <th className="p-4 font-medium text-xs sm:text-sm max-md:hidden">Payment</th>
+                <th className="p-4 font-medium text-xs sm:text-sm">Booking Stage & Actions</th>
+              </tr>
+            </thead>
           <tbody>
             {bookings.map((booking, index)=>(
               <tr key={index} className='border-t border-borderColor text-gray-500'>
 
-                <td className='p-3 flex items-center gap-3'>
+                <td className='p-4 flex items-center gap-3'>
                   <img src={booking.car.image} alt="" className='h-12 w-12 aspect-square rounded-md object-cover'/>
                   <p className='font-medium max-md:hidden'>{booking.car.brand} {booking.car.model}</p>
                 </td>
 
-                <td className='p-3 max-md:hidden'>
+                <td className='p-4 max-md:hidden'>
                   {booking.pickupDate.split('T')[0]} to {booking.returnDate.split('T')[0]}
                 </td>
 
-                <td className='p-3'>{currency}{booking.price}</td>
+                <td className='p-4'>{currency}{booking.price}</td>
 
-                <td className='p-3 max-md:hidden'>
+                <td className='p-4 max-md:hidden'>
                   <span className='bg-gray-100 px-3 py-1 rounded-full text-xs'>offline</span>
                 </td>
 
-                <td className='p-3'>
+                <td className='p-4'>
                   <div className="flex flex-col gap-2">
+                    {/* Booking Stage Workflow */}
                     {booking.status === 'pending' ? (
-                      <>
+                      <div className="flex flex-col gap-2">
+                        <div className="flex items-center gap-1 mb-1">
+                          <span className="w-2 h-2 bg-yellow-500 rounded-full"></span>
+                          <span className="text-xs font-medium text-yellow-600">Pending Review</span>
+                        </div>
                         <button
                           onClick={() => handleConfirmBooking(booking)}
-                          className="px-2 py-1 bg-green-50 text-green-600 rounded-md hover:bg-green-100 transition-colors text-xs font-medium"
+                          className="px-3 py-2 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 transition-colors text-sm font-medium border border-green-200"
                         >
-                          Accept Booking
+                          ✓ Accept Booking
                         </button>
                         <button
                           onClick={() => handleCancelBooking(booking)}
-                          className="px-2 py-1 bg-red-50 text-red-600 rounded-md hover:bg-red-100 transition-colors text-xs"
+                          className="px-3 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors text-sm border border-red-200"
                         >
-                          Cancel
+                          ✗ Decline Booking
                         </button>
-                      </>
+                      </div>
                     ) : booking.status === 'booked' ? (
-                      <>
-                        <span className="px-2 py-1 bg-green-100 text-green-600 rounded-full text-xs font-semibold text-center">
-                          Confirmed
-                        </span>
+                      <div className="flex flex-col gap-2">
+                        <div className="flex items-center gap-1 mb-1">
+                          <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                          <span className="text-xs font-medium text-green-600">Booking Confirmed</span>
+                        </div>
+                        <div className="px-3 py-2 bg-green-100 text-green-700 rounded-lg text-center text-sm font-medium border border-green-200">
+                          Awaiting Pickup
+                        </div>
                         <button
                           onClick={() => handleMarkPickedUp(booking)}
-                          className="px-2 py-1 bg-orange-50 text-orange-600 rounded-md hover:bg-orange-100 transition-colors text-xs"
+                          className="px-3 py-2 bg-orange-50 text-orange-600 rounded-lg hover:bg-orange-100 transition-colors text-sm font-medium border border-orange-200"
                         >
-                          Mark Picked Up
+                          🚗 Car Picked Up
                         </button>
-                      </>
+                      </div>
                     ) : booking.status === 'on_rent' ? (
-                      <>
-                        <span className="px-2 py-1 bg-orange-100 text-orange-600 rounded-full text-xs font-semibold text-center">
-                          On Rent
-                        </span>
+                      <div className="flex flex-col gap-2">
+                        <div className="flex items-center gap-1 mb-1">
+                          <span className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></span>
+                          <span className="text-xs font-medium text-orange-600">Currently On Rent</span>
+                        </div>
+                        <div className="px-3 py-2 bg-orange-100 text-orange-700 rounded-lg text-center text-sm font-medium border border-orange-200">
+                          Car in Use
+                        </div>
                         <button
                           onClick={() => handleCompleteBooking(booking)}
-                          className="px-2 py-1 bg-blue-50 text-blue-600 rounded-md hover:bg-blue-100 transition-colors text-xs"
+                          className="px-3 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors text-sm font-medium border border-blue-200"
                         >
-                          Mark Returned
+                          🏁 Car Returned
                         </button>
-                      </>
+                      </div>
                     ) : booking.status === 'completed' ? (
-                      <span className="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-xs font-semibold">
-                        Completed
-                      </span>
+                      <div className="flex flex-col gap-2">
+                        <div className="flex items-center gap-1 mb-1">
+                          <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                          <span className="text-xs font-medium text-blue-600">Completed</span>
+                        </div>
+                        <div className="px-3 py-2 bg-blue-100 text-blue-700 rounded-lg text-center text-sm font-medium border border-blue-200">
+                          ✓ Booking Complete
+                        </div>
+                        {booking.completedAt && (
+                          <p className="text-xs text-gray-500 text-center">
+                            Completed {new Date(booking.completedAt).toLocaleDateString()}
+                          </p>
+                        )}
+                      </div>
                     ) : (
-                      <div className="flex flex-col">
-                        <span className="px-2 py-1 bg-red-100 text-red-600 rounded-full text-xs font-semibold text-center mb-1">
-                          Cancelled
-                        </span>
+                      <div className="flex flex-col gap-2">
+                        <div className="flex items-center gap-1 mb-1">
+                          <span className="w-2 h-2 bg-red-500 rounded-full"></span>
+                          <span className="text-xs font-medium text-red-600">Cancelled</span>
+                        </div>
+                        <div className="px-3 py-2 bg-red-100 text-red-700 rounded-lg text-center text-sm font-medium border border-red-200">
+                          ✗ Booking Cancelled
+                        </div>
                         {booking.cancellationReason && (
-                          <p className="text-xs text-gray-500 italic">
-                            {booking.cancellationReason.length > 30
-                              ? `${booking.cancellationReason.substring(0, 30)}...`
+                          <div className="px-2 py-1 bg-gray-50 rounded text-xs text-gray-600">
+                            <span className="font-medium">Reason:</span>{' '}
+                            {booking.cancellationReason.length > 40
+                              ? `${booking.cancellationReason.substring(0, 40)}...`
                               : booking.cancellationReason
                             }
-                          </p>
+                          </div>
                         )}
                       </div>
                     )}
@@ -200,9 +230,9 @@ const ManageBookings = () => {
                     {/* Timeline View Button for all bookings */}
                     <button
                       onClick={() => handleViewDetails(booking)}
-                      className="px-2 py-1 bg-gray-50 text-gray-600 rounded-md hover:bg-gray-100 transition-colors text-xs"
+                      className="px-3 py-2 bg-gray-50 text-gray-600 rounded-lg hover:bg-gray-100 transition-colors text-sm border border-gray-200 mt-1"
                     >
-                      📊 View Timeline
+                      📊 View Details & Timeline
                     </button>
                   </div>
                 </td>
@@ -210,7 +240,8 @@ const ManageBookings = () => {
               </tr>
             ))}
           </tbody>
-        </table>
+          </table>
+        </div>
 
       </div>
 
