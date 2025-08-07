@@ -91,7 +91,7 @@ const Hero = () => {
                           setSelectedState(e.target.value)
                           setPickupLocation('') // Reset city when state changes
                         }}
-                        className='w-full px-4 py-4 pr-10 border border-gray-200 rounded-xl outline-none bg-gray-50/50 text-sm focus:border-primary focus:bg-white focus:shadow-md transition-all duration-300 appearance-none cursor-pointer'
+                        className='w-full px-4 py-4 pr-10 border border-gray-300 rounded-xl outline-none bg-white text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:shadow-md transition-all duration-300 appearance-none cursor-pointer'
                       >
                         <option value="">Choose State</option>
                         {statesList.map((state, index)=> <option key={`${state}-${index}`} value={state}>{state}</option>)}
