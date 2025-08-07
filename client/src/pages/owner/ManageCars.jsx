@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { assets} from '../../assets/assets'
 import Title from '../../components/owner/Title'
 import { useAppContext } from '../../context/AppContext'
+import ConfirmationModal from '../../components/ConfirmationModal'
+import EditCarModal from '../../components/EditCarModal'
 import toast from 'react-hot-toast'
 
 const ManageCars = () => {
@@ -9,6 +11,9 @@ const ManageCars = () => {
   const {isOwner, axios, currency} = useAppContext()
 
   const [cars, setCars] = useState([])
+  const [confirmModal, setConfirmModal] = useState({ isOpen: false, type: '', carId: '', carName: '' })
+  const [editModal, setEditModal] = useState({ isOpen: false, carData: null })
+  const [isLoading, setIsLoading] = useState(false)
 
   const fetchOwnerCars = async ()=>{
     try {
@@ -23,37 +28,68 @@ const ManageCars = () => {
     }
   }
 
+  const handleToggleAvailability = (car) => {
+    setConfirmModal({
+      isOpen: true,
+      type: 'visibility',
+      carId: car._id,
+      carName: `${car.brand} ${car.model}`,
+      isCurrentlyAvailable: car.isAvaliable
+    })
+  }
+
   const toggleAvailability = async (carId)=>{
     try {
+      setIsLoading(true)
       const {data} = await axios.post('/api/owner/toggle-car', {carId})
       if(data.success){
         toast.success(data.message)
         fetchOwnerCars()
+        setConfirmModal({ isOpen: false, type: '', carId: '', carName: '' })
       }else{
         toast.error(data.message)
       }
     } catch (error) {
       toast.error('Failed to update car availability. Please try again.')
+    } finally {
+      setIsLoading(false)
     }
+  }
+
+  const handleDeleteCar = (car) => {
+    setConfirmModal({
+      isOpen: true,
+      type: 'delete',
+      carId: car._id,
+      carName: `${car.brand} ${car.model}`
+    })
   }
 
   const deleteCar = async (carId)=>{
     try {
-
-      const confirm = window.confirm('⚠️ Delete Car?\n\nThis action cannot be undone. The car will be permanently removed from your listings.\n\nAre you sure you want to continue?')
-
-      if(!confirm) return null
-
+      setIsLoading(true)
       const {data} = await axios.post('/api/owner/delete-car', {carId})
       if(data.success){
         toast.success(data.message)
         fetchOwnerCars()
+        setConfirmModal({ isOpen: false, type: '', carId: '', carName: '' })
       }else{
         toast.error(data.message)
       }
     } catch (error) {
       toast.error('Failed to delete car. Please try again.')
+    } finally {
+      setIsLoading(false)
     }
+  }
+
+  const handleEditCar = (car) => {
+    setEditModal({ isOpen: true, carData: car })
+  }
+
+  const handleCarUpdated = () => {
+    fetchOwnerCars()
+    setEditModal({ isOpen: false, carData: null })
   }
 
   useEffect(()=>{
@@ -107,14 +143,21 @@ const ManageCars = () => {
                 <td className='p-3 sm:p-4'>
                   <div className='flex items-center gap-2 sm:gap-3'>
                     <button
-                      onClick={()=> toggleAvailability(car._id)}
+                      onClick={()=> handleEditCar(car)}
+                      className='p-1.5 hover:bg-blue-50 rounded-md transition-colors'
+                      title='Edit car'
+                    >
+                      <img src={assets.edit_icon} alt="" className='w-5 h-5 sm:w-6 sm:h-6'/>
+                    </button>
+                    <button
+                      onClick={()=> handleToggleAvailability(car)}
                       className='p-1.5 hover:bg-gray-100 rounded-md transition-colors'
                       title={car.isAvaliable ? 'Hide car' : 'Show car'}
                     >
                       <img src={car.isAvaliable ? assets.eye_close_icon : assets.eye_icon} alt="" className='w-5 h-5 sm:w-6 sm:h-6'/>
                     </button>
                     <button
-                      onClick={()=> deleteCar(car._id)}
+                      onClick={()=> handleDeleteCar(car)}
                       className='p-1.5 hover:bg-red-50 rounded-md transition-colors'
                       title='Delete car'
                     >
@@ -130,6 +173,39 @@ const ManageCars = () => {
         </div>
 
       </div>
+
+      {/* Confirmation Modals */}
+      <ConfirmationModal
+        isOpen={confirmModal.isOpen && confirmModal.type === 'delete'}
+        onClose={() => setConfirmModal({ isOpen: false, type: '', carId: '', carName: '' })}
+        onConfirm={() => deleteCar(confirmModal.carId)}
+        title="Delete Car?"
+        message={`Are you sure you want to delete "${confirmModal.carName}"? This action cannot be undone and will permanently remove the car from your listings.`}
+        confirmText="Delete Car"
+        cancelText="Cancel"
+        type="danger"
+        isLoading={isLoading}
+      />
+
+      <ConfirmationModal
+        isOpen={confirmModal.isOpen && confirmModal.type === 'visibility'}
+        onClose={() => setConfirmModal({ isOpen: false, type: '', carId: '', carName: '' })}
+        onConfirm={() => toggleAvailability(confirmModal.carId)}
+        title={`${confirmModal.isCurrentlyAvailable ? 'Hide' : 'Show'} Car?`}
+        message={`Are you sure you want to ${confirmModal.isCurrentlyAvailable ? 'hide' : 'show'} "${confirmModal.carName}"? This will ${confirmModal.isCurrentlyAvailable ? 'make it unavailable for bookings' : 'make it available for bookings'}.`}
+        confirmText={confirmModal.isCurrentlyAvailable ? 'Hide Car' : 'Show Car'}
+        cancelText="Cancel"
+        type="warning"
+        isLoading={isLoading}
+      />
+
+      {/* Edit Car Modal */}
+      <EditCarModal
+        isOpen={editModal.isOpen}
+        onClose={() => setEditModal({ isOpen: false, carData: null })}
+        carData={editModal.carData}
+        onCarUpdated={handleCarUpdated}
+      />
 
     </div>
   )

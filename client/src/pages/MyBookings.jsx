@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { assets} from '../assets/assets'
 import Title from '../components/Title'
 import RatingReviewForm from '../components/RatingReviewForm'
+import UserCancellationModal from '../components/UserCancellationModal'
+import BookingDetailsModal from '../components/BookingDetailsModal'
 import { useAppContext } from '../context/AppContext'
 import toast from 'react-hot-toast'
 import { motion } from 'motion/react'
@@ -12,6 +14,8 @@ const MyBookings = () => {
 
   const [bookings, setBookings] = useState([])
   const [showRatingForm, setShowRatingForm] = useState(false)
+  const [showCancelModal, setShowCancelModal] = useState(false)
+  const [showDetailsModal, setShowDetailsModal] = useState(false)
   const [selectedBooking, setSelectedBooking] = useState(null)
   const [userReviews, setUserReviews] = useState([])
 
@@ -47,6 +51,22 @@ const MyBookings = () => {
   const handleReviewSubmitted = () => {
     fetchUserReviews()
     fetchMyBookings()
+  }
+
+  const handleCancelBooking = (booking) => {
+    setSelectedBooking(booking)
+    setShowCancelModal(true)
+  }
+
+  const handleCancellationSuccess = () => {
+    fetchMyBookings()
+    setShowCancelModal(false)
+    setSelectedBooking(null)
+  }
+
+  const handleViewDetails = (booking) => {
+    setSelectedBooking(booking)
+    setShowDetailsModal(true)
   }
 
   const getBookingReview = (bookingId) => {
@@ -96,11 +116,16 @@ const MyBookings = () => {
                 <p className='px-3 py-2 bg-light rounded-lg text-sm font-medium'>Booking #{index+1}</p>
                 <p className={`px-3 py-1.5 text-xs font-medium rounded-full ${
                   booking.status === 'booked' ? 'bg-green-400/15 text-green-600' :
+                  booking.status === 'on_rent' ? 'bg-orange-400/15 text-orange-600' :
                   booking.status === 'completed' ? 'bg-blue-400/15 text-blue-600' :
                   booking.status === 'pending' ? 'bg-yellow-400/15 text-yellow-600' :
-                  'bg-red-400/15 text-red-600'
+                  booking.status === 'cancelled' ? 'bg-red-400/15 text-red-600' :
+                  'bg-gray-400/15 text-gray-600'
                 }`}>
-                  {booking.status === 'booked' ? 'Confirmed' : booking.status}
+                  {booking.status === 'booked' ? 'Confirmed' :
+                   booking.status === 'on_rent' ? 'On Rent' :
+                   booking.status === 'cancelled' ? 'Cancelled' :
+                   booking.status}
                 </p>
               </div>
 
@@ -127,6 +152,14 @@ const MyBookings = () => {
                 <p className='font-medium'>Total Price</p>
                 <h1 className='text-xl sm:text-2xl lg:text-3xl font-semibold text-primary mt-1'>{currency}{booking.price}</h1>
                 <p className='text-xs sm:text-sm mt-2'>Booked on {booking.createdAt.split('T')[0]}</p>
+
+                {/* View Timeline Button */}
+                <button
+                  onClick={() => handleViewDetails(booking)}
+                  className='w-full mt-3 px-3 py-2 bg-blue-50 text-blue-600 border border-blue-200 rounded-lg hover:bg-blue-100 transition-colors text-xs font-medium'
+                >
+                  📊 View Timeline
+                </button>
               </div>
 
               {/* Rating Section for Completed Bookings */}
@@ -169,6 +202,21 @@ const MyBookings = () => {
                 </div>
               )}
 
+              {/* Cancel Booking Button for Pending/Confirmed Bookings (not on rent) */}
+              {(booking.status === 'pending' || booking.status === 'booked') && (
+                <div className='border-t pt-4'>
+                  <div className='text-center lg:text-right'>
+                    <p className='text-sm text-gray-600 mb-3'>Need to cancel?</p>
+                    <button
+                      onClick={() => handleCancelBooking(booking)}
+                      className='w-full lg:w-auto px-4 py-2 bg-red-50 text-red-600 border border-red-200 rounded-lg hover:bg-red-100 transition-colors text-sm font-medium'
+                    >
+                      ❌ Cancel Booking
+                    </button>
+                  </div>
+                </div>
+              )}
+
               {/* Cancellation Reason for Cancelled Bookings */}
               {booking.status === 'cancelled' && booking.cancellationReason && (
                 <div className='border-t pt-4'>
@@ -194,6 +242,28 @@ const MyBookings = () => {
          }}
          booking={selectedBooking}
          onReviewSubmitted={handleReviewSubmitted}
+       />
+
+       {/* User Cancellation Modal */}
+       <UserCancellationModal
+         isOpen={showCancelModal}
+         onClose={() => {
+           setShowCancelModal(false)
+           setSelectedBooking(null)
+         }}
+         booking={selectedBooking}
+         onCancellationSuccess={handleCancellationSuccess}
+       />
+
+       {/* Booking Details Modal with Timeline */}
+       <BookingDetailsModal
+         isOpen={showDetailsModal}
+         onClose={() => {
+           setShowDetailsModal(false)
+           setSelectedBooking(null)
+         }}
+         booking={selectedBooking}
+         userType="customer"
        />
 
     </motion.div>

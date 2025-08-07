@@ -73,11 +73,11 @@ const RatingReviewForm = ({ isOpen, onClose, booking, onReviewSubmitted }) => {
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.95, opacity: 0 }}
-            className="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-hidden"
+            className="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-hidden flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b border-gray-200">
+            <div className="flex items-center justify-between p-6 border-b border-gray-200 flex-shrink-0">
               <h2 className="text-2xl font-bold text-gray-800">Rate Your Experience</h2>
               <button
                 onClick={handleClose}
@@ -89,7 +89,7 @@ const RatingReviewForm = ({ isOpen, onClose, booking, onReviewSubmitted }) => {
             </div>
 
             {/* Booking Info */}
-            <div className="p-6 bg-gray-50 border-b border-gray-200">
+            <div className="p-6 bg-gray-50 border-b border-gray-200 flex-shrink-0">
               <div className="flex items-center gap-4">
                 <img 
                   src={booking?.car?.image} 
@@ -108,8 +108,9 @@ const RatingReviewForm = ({ isOpen, onClose, booking, onReviewSubmitted }) => {
               </div>
             </div>
 
-            {/* Form */}
-            <form onSubmit={handleSubmit} className="p-6 space-y-6">
+            {/* Scrollable Form Container */}
+            <div className="flex-1 overflow-y-auto">
+              <form onSubmit={handleSubmit} className="p-6 space-y-6">
               {/* Rating */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-3">
@@ -204,7 +205,8 @@ const RatingReviewForm = ({ isOpen, onClose, booking, onReviewSubmitted }) => {
                   {isSubmitting ? 'Submitting...' : 'Submit Review'}
                 </button>
               </div>
-            </form>
+              </form>
+            </div>
           </motion.div>
         </motion.div>
       )}
