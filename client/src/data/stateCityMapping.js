@@ -1,5 +1,5 @@
 // Complete state-city mapping for India
-export const stateCityMapping = {
+const rawStateCityMapping = {
   'Andhra Pradesh': [
     'Addanki', 'Amalapuram', 'Anantapur', 'Bhimavaram', 'Bobbili', 'Chirala',
     'Chittoor', 'Eluru', 'Giddalur', 'Guntur', 'Jaggaiahpet', 'Jammalamadugu',
