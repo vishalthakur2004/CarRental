@@ -156,13 +156,25 @@ const ManageBookings = () => {
                     ) : booking.status === 'booked' ? (
                       <>
                         <span className="px-2 py-1 bg-green-100 text-green-600 rounded-full text-xs font-semibold text-center">
-                          Booked
+                          Confirmed
+                        </span>
+                        <button
+                          onClick={() => handleMarkPickedUp(booking)}
+                          className="px-2 py-1 bg-orange-50 text-orange-600 rounded-md hover:bg-orange-100 transition-colors text-xs"
+                        >
+                          Mark Picked Up
+                        </button>
+                      </>
+                    ) : booking.status === 'on_rent' ? (
+                      <>
+                        <span className="px-2 py-1 bg-orange-100 text-orange-600 rounded-full text-xs font-semibold text-center">
+                          On Rent
                         </span>
                         <button
                           onClick={() => handleCompleteBooking(booking)}
                           className="px-2 py-1 bg-blue-50 text-blue-600 rounded-md hover:bg-blue-100 transition-colors text-xs"
                         >
-                          Mark Complete
+                          Mark Returned
                         </button>
                       </>
                     ) : booking.status === 'completed' ? (
