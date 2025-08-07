@@ -59,7 +59,7 @@ const Hero = () => {
       initial={{ scale: 0.95, opacity: 0, y: 50 }}
       animate={{ scale: 1, opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.6 }}
-      className='w-full max-w-6xl xl:max-w-7xl relative z-10'>
+      className='w-full max-w-6xl xl:max-w-7xl relative z-20 mb-8'>
 
         {/* Modern Search Card */}
         <div className='bg-white backdrop-blur-lg rounded-3xl shadow-2xl border border-gray-200/50 p-6 sm:p-8 lg:p-10 hover:shadow-3xl transition-all duration-500 ring-1 ring-gray-200/20'>
