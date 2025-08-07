@@ -185,6 +185,21 @@ const MyBookings = () => {
                 </div>
               )}
 
+              {/* Cancel Booking Button for Pending/Confirmed Bookings */}
+              {(booking.status === 'pending' || booking.status === 'booked') && (
+                <div className='border-t pt-4'>
+                  <div className='text-center lg:text-right'>
+                    <p className='text-sm text-gray-600 mb-3'>Need to cancel?</p>
+                    <button
+                      onClick={() => handleCancelBooking(booking)}
+                      className='w-full lg:w-auto px-4 py-2 bg-red-50 text-red-600 border border-red-200 rounded-lg hover:bg-red-100 transition-colors text-sm font-medium'
+                    >
+                      ❌ Cancel Booking
+                    </button>
+                  </div>
+                </div>
+              )}
+
               {/* Cancellation Reason for Cancelled Bookings */}
               {booking.status === 'cancelled' && booking.cancellationReason && (
                 <div className='border-t pt-4'>
