@@ -3,6 +3,7 @@ import { assets} from '../assets/assets'
 import Title from '../components/Title'
 import RatingReviewForm from '../components/RatingReviewForm'
 import UserCancellationModal from '../components/UserCancellationModal'
+import BookingDetailsModal from '../components/BookingDetailsModal'
 import { useAppContext } from '../context/AppContext'
 import toast from 'react-hot-toast'
 import { motion } from 'motion/react'
@@ -14,6 +15,7 @@ const MyBookings = () => {
   const [bookings, setBookings] = useState([])
   const [showRatingForm, setShowRatingForm] = useState(false)
   const [showCancelModal, setShowCancelModal] = useState(false)
+  const [showDetailsModal, setShowDetailsModal] = useState(false)
   const [selectedBooking, setSelectedBooking] = useState(null)
   const [userReviews, setUserReviews] = useState([])
 
@@ -60,6 +62,11 @@ const MyBookings = () => {
     fetchMyBookings()
     setShowCancelModal(false)
     setSelectedBooking(null)
+  }
+
+  const handleViewDetails = (booking) => {
+    setSelectedBooking(booking)
+    setShowDetailsModal(true)
   }
 
   const getBookingReview = (bookingId) => {
