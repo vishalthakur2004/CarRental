@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Title from '../../components/owner/Title'
 import BookingCancellationModal from '../../components/BookingCancellationModal'
+import BookingActionModal from '../../components/BookingActionModal'
 import { useAppContext } from '../../context/AppContext'
 import toast from 'react-hot-toast'
 
@@ -10,6 +11,8 @@ const ManageBookings = () => {
 
   const [bookings, setBookings] = useState([])
   const [showCancelModal, setShowCancelModal] = useState(false)
+  const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [showCompleteModal, setShowCompleteModal] = useState(false)
   const [selectedBooking, setSelectedBooking] = useState(null)
 
   const fetchOwnerBookings = async ()=>{
@@ -39,6 +42,28 @@ const ManageBookings = () => {
   const handleCancelBooking = (booking) => {
     setSelectedBooking(booking)
     setShowCancelModal(true)
+  }
+
+  const handleConfirmBooking = (booking) => {
+    setSelectedBooking(booking)
+    setShowConfirmModal(true)
+  }
+
+  const handleCompleteBooking = (booking) => {
+    setSelectedBooking(booking)
+    setShowCompleteModal(true)
+  }
+
+  const confirmBookingAction = async () => {
+    if (selectedBooking) {
+      await changeBookingStatus(selectedBooking._id, 'booked')
+    }
+  }
+
+  const completeBookingAction = async () => {
+    if (selectedBooking) {
+      await changeBookingStatus(selectedBooking._id, 'completed')
+    }
   }
 
   const confirmCancelBooking = async (bookingId, cancellationReason) => {
@@ -103,10 +128,12 @@ const ManageBookings = () => {
                 <td className='p-3'>
                   {booking.status === 'pending' ? (
                     <div className="flex flex-col gap-2">
-                      <select onChange={e=> changeBookingStatus(booking._id, e.target.value)} value={booking.status} className='px-2 py-1.5 text-gray-500 border border-borderColor rounded-md outline-none text-xs'>
-                        <option value="pending">Pending</option>
-                        <option value="booked">Accept</option>
-                      </select>
+                      <button
+                        onClick={() => handleConfirmBooking(booking)}
+                        className="px-2 py-1 bg-green-50 text-green-600 rounded-md hover:bg-green-100 transition-colors text-xs font-medium"
+                      >
+                        Accept Booking
+                      </button>
                       <button
                         onClick={() => handleCancelBooking(booking)}
                         className="px-2 py-1 bg-red-50 text-red-600 rounded-md hover:bg-red-100 transition-colors text-xs"
@@ -120,7 +147,7 @@ const ManageBookings = () => {
                         Booked
                       </span>
                       <button
-                        onClick={() => changeBookingStatus(booking._id, 'completed')}
+                        onClick={() => handleCompleteBooking(booking)}
                         className="px-2 py-1 bg-blue-50 text-blue-600 rounded-md hover:bg-blue-100 transition-colors text-xs"
                       >
                         Mark Complete
@@ -163,6 +190,38 @@ const ManageBookings = () => {
         }}
         onConfirm={confirmCancelBooking}
         booking={selectedBooking}
+      />
+
+      {/* Confirmation Modal */}
+      <BookingActionModal
+        isOpen={showConfirmModal}
+        onClose={() => {
+          setShowConfirmModal(false)
+          setSelectedBooking(null)
+        }}
+        onConfirm={confirmBookingAction}
+        booking={selectedBooking}
+        action="confirm"
+        title="Confirm Booking"
+        message="Are you sure you want to accept this booking request? The customer will be notified and the booking will be confirmed."
+        confirmText="Accept Booking"
+        confirmColor="bg-green-600"
+      />
+
+      {/* Complete Modal */}
+      <BookingActionModal
+        isOpen={showCompleteModal}
+        onClose={() => {
+          setShowCompleteModal(false)
+          setSelectedBooking(null)
+        }}
+        onConfirm={completeBookingAction}
+        booking={selectedBooking}
+        action="complete"
+        title="Mark as Completed"
+        message="Are you sure you want to mark this booking as completed? This action confirms that the rental period has ended and the car has been returned."
+        confirmText="Mark Complete"
+        confirmColor="bg-blue-600"
       />
 
     </div>

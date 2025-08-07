@@ -1,5 +1,6 @@
 import Booking from "../models/Booking.js"
 import Car from "../models/Car.js";
+import { createNotification } from "./notificationController.js";
 
 
 // Function to Check Availability of Car for a given Date
@@ -56,7 +57,24 @@ export const createBooking = async (req, res)=>{
         const noOfDays = Math.ceil((returned - picked) / (1000 * 60 * 60 * 24))
         const price = carData.pricePerDay * noOfDays;
 
-        await Booking.create({car, owner: carData.owner, user: _id, pickupDate, returnDate, price})
+        const newBooking = await Booking.create({car, owner: carData.owner, user: _id, pickupDate, returnDate, price})
+
+        // Create notifications for both user and owner
+        await createNotification(
+            _id,
+            'booking_created',
+            'Booking Submitted',
+            `Your booking request for ${carData.brand} ${carData.model} has been submitted and is pending approval.`,
+            newBooking._id
+        );
+
+        await createNotification(
+            carData.owner,
+            'booking_created',
+            'New Booking Request',
+            `You have a new booking request for your ${carData.brand} ${carData.model}.`,
+            newBooking._id
+        );
 
         res.json({success: true, message: "Booking Created"})
 
@@ -142,6 +160,61 @@ export const changeBookingStatus = async (req, res)=>{
         }
 
         await booking.save();
+
+        // Get car details for notification
+        const populatedBooking = await Booking.findById(booking._id).populate('car user');
+        const carDetails = populatedBooking.car;
+        const userName = populatedBooking.user.name;
+
+        // Create notifications based on status change
+        let notificationData = {};
+
+        switch (status) {
+            case 'booked':
+                notificationData = {
+                    userTitle: 'Booking Confirmed',
+                    userMessage: `Your booking for ${carDetails.brand} ${carDetails.model} has been confirmed!`,
+                    ownerTitle: 'Booking Confirmed',
+                    ownerMessage: `You confirmed the booking for ${carDetails.brand} ${carDetails.model} by ${userName}.`
+                };
+                break;
+            case 'cancelled':
+                notificationData = {
+                    userTitle: 'Booking Cancelled',
+                    userMessage: `Your booking for ${carDetails.brand} ${carDetails.model} has been cancelled.${cancellationReason ? ' Reason: ' + cancellationReason : ''}`,
+                    ownerTitle: 'Booking Cancelled',
+                    ownerMessage: `You cancelled the booking for ${carDetails.brand} ${carDetails.model} by ${userName}.`
+                };
+                break;
+            case 'completed':
+                notificationData = {
+                    userTitle: 'Booking Completed',
+                    userMessage: `Your rental of ${carDetails.brand} ${carDetails.model} has been completed. Thank you for choosing us!`,
+                    ownerTitle: 'Booking Completed',
+                    ownerMessage: `The booking for ${carDetails.brand} ${carDetails.model} by ${userName} has been completed.`
+                };
+                break;
+        }
+
+        if (notificationData.userTitle) {
+            // Notify the user
+            await createNotification(
+                booking.user,
+                `booking_${status}`,
+                notificationData.userTitle,
+                notificationData.userMessage,
+                booking._id
+            );
+
+            // Notify the owner
+            await createNotification(
+                booking.owner,
+                `booking_${status}`,
+                notificationData.ownerTitle,
+                notificationData.ownerMessage,
+                booking._id
+            );
+        }
 
         res.json({ success: true, message: "Status Updated"})
     } catch (error) {
