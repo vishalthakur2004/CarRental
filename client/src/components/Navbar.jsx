@@ -93,7 +93,7 @@ const Navbar = () => {
             </div>
         </div>
 
-        <button className='sm:hidden cursor-pointer p-2 hover:bg-gray-100 rounded-md transition-colors duration-200' aria-label="Menu" onClick={()=> setOpen(!open)}>
+        <button className='md:hidden cursor-pointer p-2 hover:bg-gray-100 rounded-md transition-colors duration-200' aria-label="Menu" onClick={()=> setOpen(!open)}>
             <img src={open ? assets.close_icon : assets.menu_icon} alt="menu" className='w-6 h-6'/>
         </button>
       
