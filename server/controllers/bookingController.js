@@ -268,10 +268,10 @@ export const cancelUserBooking = async (req, res) => {
         }
 
         // Check if booking can be cancelled
-        if (booking.status === 'completed' || booking.status === 'cancelled') {
+        if (booking.status === 'completed' || booking.status === 'cancelled' || booking.status === 'on_rent') {
             return res.json({
                 success: false,
-                message: "Cannot cancel completed or already cancelled bookings"
+                message: "Cannot cancel completed, on-rent, or already cancelled bookings"
             });
         }
 
