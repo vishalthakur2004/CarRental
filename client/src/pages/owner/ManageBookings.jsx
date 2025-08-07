@@ -11,6 +11,8 @@ const ManageBookings = () => {
 
   const [bookings, setBookings] = useState([])
   const [showCancelModal, setShowCancelModal] = useState(false)
+  const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [showCompleteModal, setShowCompleteModal] = useState(false)
   const [selectedBooking, setSelectedBooking] = useState(null)
 
   const fetchOwnerBookings = async ()=>{
