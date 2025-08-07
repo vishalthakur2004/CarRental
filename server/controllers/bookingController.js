@@ -143,8 +143,27 @@ export const changeBookingStatus = async (req, res)=>{
 
         const booking = await Booking.findById(bookingId)
 
-        if(booking.owner.toString() !== _id.toString()){
+        // Allow both owner and user to cancel bookings
+        const isOwner = booking.owner.toString() === _id.toString();
+        const isUser = booking.user.toString() === _id.toString();
+
+        if (!isOwner && !isUser) {
             return res.json({ success: false, message: "Unauthorized"})
+        }
+
+        // Users can only cancel their own pending or booked bookings
+        if (isUser && !isOwner) {
+            if (status !== 'cancelled') {
+                return res.json({ success: false, message: "Users can only cancel bookings"})
+            }
+            if (booking.status === 'completed' || booking.status === 'cancelled') {
+                return res.json({ success: false, message: "Cannot cancel completed or already cancelled bookings"})
+            }
+        }
+
+        // Owners have full control over status changes
+        if(!isOwner && status !== 'cancelled'){
+            return res.json({ success: false, message: "Only owners can change booking status"})
         }
 
         booking.status = status;
