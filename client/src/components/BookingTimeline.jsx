@@ -36,8 +36,8 @@ const BookingTimeline = ({ booking, userType = 'customer' }) => {
           {
             id: 'confirmed',
             title: 'Booking Confirmed',
-            description: userType === 'customer' 
-              ? 'Owner confirmed your booking' 
+            description: userType === 'customer'
+              ? 'Owner confirmed your booking'
               : 'You confirmed the booking',
             status: 'completed',
             icon: '✅',
@@ -46,12 +46,47 @@ const BookingTimeline = ({ booking, userType = 'customer' }) => {
           {
             id: 'pickup',
             title: 'Ready for Pickup',
-            description: userType === 'customer' 
-              ? 'Car is ready for pickup' 
+            description: userType === 'customer'
+              ? 'Car is ready for pickup on scheduled date'
               : 'Car prepared for customer pickup',
             status: 'current',
             icon: '🚗',
             date: booking.pickupDate
+          }
+        );
+        break;
+
+      case 'on_rent':
+        baseSteps.push(
+          {
+            id: 'confirmed',
+            title: 'Booking Confirmed',
+            description: userType === 'customer'
+              ? 'Owner confirmed your booking'
+              : 'You confirmed the booking',
+            status: 'completed',
+            icon: '✅',
+            date: booking.updatedAt
+          },
+          {
+            id: 'pickup',
+            title: 'Car Picked Up',
+            description: userType === 'customer'
+              ? 'You picked up the car'
+              : 'Customer picked up the car',
+            status: 'completed',
+            icon: '🚗',
+            date: booking.pickupDate
+          },
+          {
+            id: 'on_rent',
+            title: 'On Rent',
+            description: userType === 'customer'
+              ? 'Enjoying your ride! Return by scheduled date'
+              : 'Car is currently with customer',
+            status: 'current',
+            icon: '🛣️',
+            date: null
           }
         );
         break;
