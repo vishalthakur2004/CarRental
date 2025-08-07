@@ -7,6 +7,7 @@ import ownerRouter from "./routes/ownerRoutes.js";
 import bookingRouter from "./routes/bookingRoutes.js";
 import otpRouter from "./routes/otpRoutes.js";
 import reviewRouter from "./routes/reviewRoutes.js";
+import notificationRouter from "./routes/notificationRoutes.js";
 
 // Initialize Express App
 const app = express()
