@@ -133,52 +133,62 @@ const ManageBookings = () => {
                 </td>
 
                 <td className='p-3'>
-                  {booking.status === 'pending' ? (
-                    <div className="flex flex-col gap-2">
-                      <button
-                        onClick={() => handleConfirmBooking(booking)}
-                        className="px-2 py-1 bg-green-50 text-green-600 rounded-md hover:bg-green-100 transition-colors text-xs font-medium"
-                      >
-                        Accept Booking
-                      </button>
-                      <button
-                        onClick={() => handleCancelBooking(booking)}
-                        className="px-2 py-1 bg-red-50 text-red-600 rounded-md hover:bg-red-100 transition-colors text-xs"
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  ) : booking.status === 'booked' ? (
-                    <div className="flex flex-col gap-2">
-                      <span className="px-2 py-1 bg-green-100 text-green-600 rounded-full text-xs font-semibold text-center">
-                        Booked
+                  <div className="flex flex-col gap-2">
+                    {booking.status === 'pending' ? (
+                      <>
+                        <button
+                          onClick={() => handleConfirmBooking(booking)}
+                          className="px-2 py-1 bg-green-50 text-green-600 rounded-md hover:bg-green-100 transition-colors text-xs font-medium"
+                        >
+                          Accept Booking
+                        </button>
+                        <button
+                          onClick={() => handleCancelBooking(booking)}
+                          className="px-2 py-1 bg-red-50 text-red-600 rounded-md hover:bg-red-100 transition-colors text-xs"
+                        >
+                          Cancel
+                        </button>
+                      </>
+                    ) : booking.status === 'booked' ? (
+                      <>
+                        <span className="px-2 py-1 bg-green-100 text-green-600 rounded-full text-xs font-semibold text-center">
+                          Booked
+                        </span>
+                        <button
+                          onClick={() => handleCompleteBooking(booking)}
+                          className="px-2 py-1 bg-blue-50 text-blue-600 rounded-md hover:bg-blue-100 transition-colors text-xs"
+                        >
+                          Mark Complete
+                        </button>
+                      </>
+                    ) : booking.status === 'completed' ? (
+                      <span className="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-xs font-semibold">
+                        Completed
                       </span>
-                      <button
-                        onClick={() => handleCompleteBooking(booking)}
-                        className="px-2 py-1 bg-blue-50 text-blue-600 rounded-md hover:bg-blue-100 transition-colors text-xs"
-                      >
-                        Mark Complete
-                      </button>
-                    </div>
-                  ) : booking.status === 'completed' ? (
-                    <span className="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-xs font-semibold">
-                      Completed
-                    </span>
-                  ) : (
-                    <div className="flex flex-col">
-                      <span className="px-2 py-1 bg-red-100 text-red-600 rounded-full text-xs font-semibold text-center mb-1">
-                        Cancelled
-                      </span>
-                      {booking.cancellationReason && (
-                        <p className="text-xs text-gray-500 italic">
-                          {booking.cancellationReason.length > 30
-                            ? `${booking.cancellationReason.substring(0, 30)}...`
-                            : booking.cancellationReason
-                          }
-                        </p>
-                      )}
-                    </div>
-                  )}
+                    ) : (
+                      <div className="flex flex-col">
+                        <span className="px-2 py-1 bg-red-100 text-red-600 rounded-full text-xs font-semibold text-center mb-1">
+                          Cancelled
+                        </span>
+                        {booking.cancellationReason && (
+                          <p className="text-xs text-gray-500 italic">
+                            {booking.cancellationReason.length > 30
+                              ? `${booking.cancellationReason.substring(0, 30)}...`
+                              : booking.cancellationReason
+                            }
+                          </p>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Timeline View Button for all bookings */}
+                    <button
+                      onClick={() => handleViewDetails(booking)}
+                      className="px-2 py-1 bg-gray-50 text-gray-600 rounded-md hover:bg-gray-100 transition-colors text-xs"
+                    >
+                      📊 View Timeline
+                    </button>
+                  </div>
                 </td>
 
               </tr>
