@@ -4,6 +4,7 @@ import {Link, useLocation, useNavigate} from 'react-router-dom'
 import { useAppContext } from '../context/AppContext'
 import toast from 'react-hot-toast'
 import {motion} from 'motion/react'
+import NotificationIcon from './NotificationIcon'
 
 const Navbar = () => {
 
