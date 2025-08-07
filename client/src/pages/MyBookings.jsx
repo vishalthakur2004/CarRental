@@ -184,7 +184,18 @@ const MyBookings = () => {
           </motion.div>
         ))}
        </div>
-      
+
+       {/* Rating Review Form Modal */}
+       <RatingReviewForm
+         isOpen={showRatingForm}
+         onClose={() => {
+           setShowRatingForm(false)
+           setSelectedBooking(null)
+         }}
+         booking={selectedBooking}
+         onReviewSubmitted={handleReviewSubmitted}
+       />
+
     </motion.div>
   )
 }
