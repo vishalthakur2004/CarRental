@@ -128,10 +128,12 @@ const ManageBookings = () => {
                 <td className='p-3'>
                   {booking.status === 'pending' ? (
                     <div className="flex flex-col gap-2">
-                      <select onChange={e=> changeBookingStatus(booking._id, e.target.value)} value={booking.status} className='px-2 py-1.5 text-gray-500 border border-borderColor rounded-md outline-none text-xs'>
-                        <option value="pending">Pending</option>
-                        <option value="booked">Accept</option>
-                      </select>
+                      <button
+                        onClick={() => handleConfirmBooking(booking)}
+                        className="px-2 py-1 bg-green-50 text-green-600 rounded-md hover:bg-green-100 transition-colors text-xs font-medium"
+                      >
+                        Accept Booking
+                      </button>
                       <button
                         onClick={() => handleCancelBooking(booking)}
                         className="px-2 py-1 bg-red-50 text-red-600 rounded-md hover:bg-red-100 transition-colors text-xs"
@@ -145,7 +147,7 @@ const ManageBookings = () => {
                         Booked
                       </span>
                       <button
-                        onClick={() => changeBookingStatus(booking._id, 'completed')}
+                        onClick={() => handleCompleteBooking(booking)}
                         className="px-2 py-1 bg-blue-50 text-blue-600 rounded-md hover:bg-blue-100 transition-colors text-xs"
                       >
                         Mark Complete
