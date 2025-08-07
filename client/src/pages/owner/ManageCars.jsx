@@ -199,6 +199,14 @@ const ManageCars = () => {
         isLoading={isLoading}
       />
 
+      {/* Edit Car Modal */}
+      <EditCarModal
+        isOpen={editModal.isOpen}
+        onClose={() => setEditModal({ isOpen: false, carData: null })}
+        carData={editModal.carData}
+        onCarUpdated={handleCarUpdated}
+      />
+
     </div>
   )
 }
