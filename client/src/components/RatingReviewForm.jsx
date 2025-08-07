@@ -89,7 +89,7 @@ const RatingReviewForm = ({ isOpen, onClose, booking, onReviewSubmitted }) => {
             </div>
 
             {/* Booking Info */}
-            <div className="p-6 bg-gray-50 border-b border-gray-200">
+            <div className="p-6 bg-gray-50 border-b border-gray-200 flex-shrink-0">
               <div className="flex items-center gap-4">
                 <img 
                   src={booking?.car?.image} 
