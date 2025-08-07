@@ -56,6 +56,10 @@ const ManageBookings = () => {
     setShowCompleteModal(true)
   }
 
+  const handleMarkPickedUp = async (booking) => {
+    await changeBookingStatus(booking._id, 'on_rent')
+  }
+
   const handleViewDetails = (booking) => {
     setSelectedBooking(booking)
     setShowDetailsModal(true)
