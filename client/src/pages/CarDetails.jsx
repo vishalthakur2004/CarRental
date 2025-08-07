@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { assets, dummyCarData } from '../assets/assets'
 import Loader from '../components/Loader'
-import BookingCalendar from '../components/BookingCalendar'
+import AvailabilityDatePicker from '../components/AvailabilityDatePicker'
 import { useAppContext } from '../context/AppContext'
 import toast from 'react-hot-toast'
 import { motion } from 'motion/react'
@@ -101,23 +101,6 @@ const CarDetails = () => {
 
        <div className='grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12'>
 
-          {/* Calendar Section */}
-          <div className='lg:col-span-3 mb-8'>
-            <BookingCalendar
-              carId={id}
-              selectedDate={pickupDate}
-              onDateSelect={(date) => {
-                setPickupDate(date)
-                // Auto-set return date to next day if not set
-                if (!returnDate) {
-                  const nextDay = new Date(date)
-                  nextDay.setDate(nextDay.getDate() + 1)
-                  setReturnDate(nextDay.toISOString().split('T')[0])
-                }
-              }}
-              bookedDates={bookedDates}
-            />
-          </div>
           {/* Left: Car Image & Details */}
           <motion.div 
           initial={{ opacity: 0, y: 30 }}
@@ -347,17 +330,33 @@ const CarDetails = () => {
 
             <hr className='border-borderColor my-6'/>
 
-            <div className='flex flex-col gap-2'>
-              <label htmlFor="pickup-date" className='text-sm sm:text-base font-medium'>Pickup Date</label>
-              <input value={pickupDate} onChange={(e)=>setPickupDate(e.target.value)}
-              type="date" className='border border-borderColor px-3 py-2.5 rounded-lg text-sm sm:text-base focus:border-primary focus:ring-1 focus:ring-primary transition-colors' required id='pickup-date' min={new Date().toISOString().split('T')[0]}/>
-            </div>
+            <AvailabilityDatePicker
+              value={pickupDate}
+              onChange={(e) => {
+                setPickupDate(e.target.value)
+                // Auto-set return date to next day if not set
+                if (!returnDate) {
+                  const nextDay = new Date(e.target.value)
+                  nextDay.setDate(nextDay.getDate() + 1)
+                  setReturnDate(nextDay.toISOString().split('T')[0])
+                }
+              }}
+              label="Pickup Date"
+              required
+              bookedDates={bookedDates}
+              minDate={new Date().toISOString().split('T')[0]}
+              id="pickup-date"
+            />
 
-            <div className='flex flex-col gap-2'>
-              <label htmlFor="return-date" className='text-sm sm:text-base font-medium'>Return Date</label>
-              <input value={returnDate} onChange={(e)=>setReturnDate(e.target.value)}
-              type="date" className='border border-borderColor px-3 py-2.5 rounded-lg text-sm sm:text-base focus:border-primary focus:ring-1 focus:ring-primary transition-colors' required id='return-date'/>
-            </div>
+            <AvailabilityDatePicker
+              value={returnDate}
+              onChange={(e) => setReturnDate(e.target.value)}
+              label="Return Date"
+              required
+              bookedDates={bookedDates}
+              minDate={pickupDate || new Date().toISOString().split('T')[0]}
+              id="return-date"
+            />
 
             <button className='w-full bg-primary hover:bg-primary-dull transition-all py-3 sm:py-3.5 font-medium text-white rounded-xl cursor-pointer text-sm sm:text-base shadow-md hover:shadow-lg'>Book Now</button>
 
