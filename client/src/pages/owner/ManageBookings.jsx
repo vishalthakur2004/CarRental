@@ -36,6 +36,30 @@ const ManageBookings = () => {
     }
   }
 
+  const handleCancelBooking = (booking) => {
+    setSelectedBooking(booking)
+    setShowCancelModal(true)
+  }
+
+  const confirmCancelBooking = async (bookingId, cancellationReason) => {
+    try {
+      const { data } = await axios.post('/api/bookings/change-status', {
+        bookingId,
+        status: 'cancelled',
+        cancellationReason
+      })
+
+      if(data.success){
+        toast.success('Booking cancelled successfully')
+        fetchOwnerBookings()
+      } else {
+        toast.error(data.message)
+      }
+    } catch (error) {
+      toast.error('Failed to cancel booking. Please try again.')
+    }
+  }
+
   useEffect(()=>{
     fetchOwnerBookings()
   },[])
