@@ -62,7 +62,7 @@ const Hero = () => {
       className='w-full max-w-6xl xl:max-w-7xl relative z-10'>
 
         {/* Modern Search Card */}
-        <div className='bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 p-6 sm:p-8 lg:p-10 hover:shadow-3xl transition-all duration-500'>
+        <div className='bg-white backdrop-blur-lg rounded-3xl shadow-2xl border border-gray-200/50 p-6 sm:p-8 lg:p-10 hover:shadow-3xl transition-all duration-500 ring-1 ring-gray-200/20'>
           <div className='mb-6'>
             <h2 className='text-xl sm:text-2xl font-bold text-gray-800 mb-2'>Find Your Perfect Ride</h2>
             <p className='text-gray-600 text-sm sm:text-base'>Choose your destination and dates to get started</p>
