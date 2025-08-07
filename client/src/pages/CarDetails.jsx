@@ -15,6 +15,7 @@ const CarDetails = () => {
 
   const navigate = useNavigate()
   const [car, setCar] = useState(null)
+  const [bookedDates, setBookedDates] = useState([])
   const currency = import.meta.env.VITE_CURRENCY
 
   const handleSubmit = async (e)=>{
