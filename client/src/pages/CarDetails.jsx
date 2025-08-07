@@ -56,8 +56,22 @@ const CarDetails = () => {
     }
   }
 
+  const fetchBookedDates = async () => {
+    try {
+      const { data } = await axios.get(`/api/bookings/car/${id}/dates`)
+      if (data.success) {
+        setBookedDates(data.bookedDates)
+      }
+    } catch (error) {
+      console.log('Error fetching booked dates:', error)
+    }
+  }
+
   useEffect(()=>{
     setCar(cars.find(car => car._id === id))
+    if (id) {
+      fetchBookedDates()
+    }
   },[cars, id])
 
   return car ? (
