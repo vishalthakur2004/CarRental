@@ -178,3 +178,117 @@ export const deleteReview = async (req, res) => {
         res.json({ success: false, message: error.message });
     }
 }
+
+// API to Reply to Review (Owner only)
+export const replyToReview = async (req, res) => {
+    try {
+        const { _id, role } = req.user;
+        const { reviewId } = req.params;
+        const { replyText } = req.body;
+
+        // Check if user is an owner
+        if (role !== 'owner') {
+            return res.json({ success: false, message: 'Only car owners can reply to reviews' });
+        }
+
+        // Validate reply text
+        if (!replyText || replyText.trim().length < 10 || replyText.trim().length > 400) {
+            return res.json({ success: false, message: 'Reply must be between 10 and 400 characters' });
+        }
+
+        const review = await Review.findById(reviewId).populate('car');
+        if (!review) {
+            return res.json({ success: false, message: 'Review not found' });
+        }
+
+        // Check if owner owns the car that was reviewed
+        if (review.car.owner.toString() !== _id.toString()) {
+            return res.json({ success: false, message: 'You can only reply to reviews of your cars' });
+        }
+
+        // Check if owner already replied
+        if (review.ownerReply && review.ownerReply.text) {
+            return res.json({ success: false, message: 'You have already replied to this review' });
+        }
+
+        // Add owner reply
+        review.ownerReply = {
+            text: replyText.trim(),
+            repliedAt: new Date(),
+            owner: _id
+        };
+
+        await review.save();
+
+        res.json({ success: true, message: 'Reply added successfully' });
+
+    } catch (error) {
+        console.log(error.message);
+        res.json({ success: false, message: error.message });
+    }
+}
+
+// API to Get Reviews for Owner's Cars
+export const getOwnerCarReviews = async (req, res) => {
+    try {
+        const { _id, role } = req.user;
+
+        if (role !== 'owner') {
+            return res.json({ success: false, message: 'Only car owners can access this endpoint' });
+        }
+
+        const reviews = await Review.find({})
+            .populate({
+                path: 'car',
+                match: { owner: _id },
+                select: 'brand model image owner'
+            })
+            .populate('user', 'name image')
+            .populate('booking', 'pickupDate returnDate')
+            .sort({ createdAt: -1 });
+
+        // Filter out reviews where car is null (not owned by this owner)
+        const ownerReviews = reviews.filter(review => review.car !== null);
+
+        res.json({ success: true, reviews: ownerReviews });
+
+    } catch (error) {
+        console.log(error.message);
+        res.json({ success: false, message: error.message });
+    }
+}
+
+// API to Update Owner Reply
+export const updateOwnerReply = async (req, res) => {
+    try {
+        const { _id, role } = req.user;
+        const { reviewId } = req.params;
+        const { replyText } = req.body;
+
+        if (role !== 'owner') {
+            return res.json({ success: false, message: 'Only car owners can update replies' });
+        }
+
+        if (!replyText || replyText.trim().length < 10 || replyText.trim().length > 400) {
+            return res.json({ success: false, message: 'Reply must be between 10 and 400 characters' });
+        }
+
+        const review = await Review.findById(reviewId).populate('car');
+        if (!review || review.car.owner.toString() !== _id.toString()) {
+            return res.json({ success: false, message: 'Review not found or unauthorized' });
+        }
+
+        if (!review.ownerReply || !review.ownerReply.text) {
+            return res.json({ success: false, message: 'No reply exists to update' });
+        }
+
+        review.ownerReply.text = replyText.trim();
+        await review.save();
+
+        res.json({ success: true, message: 'Reply updated successfully' });
+
+    } catch (error) {
+        console.log(error.message);
+        res.json({ success: false, message: error.message });
+    }
+}
