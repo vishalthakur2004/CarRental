@@ -192,9 +192,17 @@ export const changeBookingStatus = async (req, res)=>{
             case 'booked':
                 notificationData = {
                     userTitle: 'Booking Confirmed',
-                    userMessage: `Your booking for ${carDetails.brand} ${carDetails.model} has been confirmed!`,
+                    userMessage: `Your booking for ${carDetails.brand} ${carDetails.model} has been confirmed! Car is ready for pickup.`,
                     ownerTitle: 'Booking Confirmed',
                     ownerMessage: `You confirmed the booking for ${carDetails.brand} ${carDetails.model} by ${userName}.`
+                };
+                break;
+            case 'on_rent':
+                notificationData = {
+                    userTitle: 'Car Picked Up',
+                    userMessage: `You have successfully picked up ${carDetails.brand} ${carDetails.model}. Enjoy your ride!`,
+                    ownerTitle: 'Car Picked Up',
+                    ownerMessage: `${userName} has picked up ${carDetails.brand} ${carDetails.model}. Rental is now active.`
                 };
                 break;
             case 'cancelled':
