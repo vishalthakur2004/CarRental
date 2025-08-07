@@ -253,6 +253,17 @@ const MyBookings = () => {
          onCancellationSuccess={handleCancellationSuccess}
        />
 
+       {/* Booking Details Modal with Timeline */}
+       <BookingDetailsModal
+         isOpen={showDetailsModal}
+         onClose={() => {
+           setShowDetailsModal(false)
+           setSelectedBooking(null)
+         }}
+         booking={selectedBooking}
+         userType="customer"
+       />
+
     </motion.div>
   )
 }
