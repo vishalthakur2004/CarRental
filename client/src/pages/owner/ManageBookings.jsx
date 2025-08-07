@@ -154,6 +154,17 @@ const ManageBookings = () => {
 
       </div>
 
+      {/* Cancellation Modal */}
+      <BookingCancellationModal
+        isOpen={showCancelModal}
+        onClose={() => {
+          setShowCancelModal(false)
+          setSelectedBooking(null)
+        }}
+        onConfirm={confirmCancelBooking}
+        booking={selectedBooking}
+      />
+
     </div>
   )
 }
