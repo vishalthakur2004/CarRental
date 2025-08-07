@@ -56,40 +56,77 @@ const Navbar = () => {
                 <img src={assets.search_icon} alt="search" className='w-4 h-4 opacity-60'/>
             </div>
 
-            <div className='flex max-md:flex-col items-start md:items-center gap-3 md:gap-4 lg:gap-6 max-md:w-full max-md:mt-4'>
+            {/* User-specific navigation when logged in */}
+            {user && (
+                <div className='flex max-md:flex-col items-start md:items-center gap-3 md:gap-4 lg:gap-6 max-md:w-full max-md:mt-4 max-md:border-t max-md:border-gray-200 max-md:pt-4'>
 
-                <button
-                    onClick={()=> {isOwner ? navigate('/owner') : changeRole(); setOpen(false)}}
-                    className="cursor-pointer hover:text-primary transition-colors duration-200 text-sm md:text-base max-md:text-lg max-md:py-2 whitespace-nowrap"
-                >
-                    {isOwner ? 'Dashboard' : 'List cars'}
-                </button>
-
-                {user && (
-                    <button
-                        onClick={() => {navigate('/owner/add-car'); setOpen(false)}}
-                        className="cursor-pointer px-3 md:px-4 py-2 border border-gray-300 hover:border-primary hover:text-primary transition-all text-gray-600 rounded-lg text-xs md:text-sm font-medium max-md:w-full max-md:text-center max-md:text-base whitespace-nowrap"
+                    {/* Direct access navigation links for logged-in users */}
+                    <Link
+                        to="/cars"
+                        className="cursor-pointer hover:text-primary transition-colors duration-200 text-sm md:text-base max-md:text-lg max-md:py-2 whitespace-nowrap font-medium"
+                        onClick={() => setOpen(false)}
                     >
-                        Add Car
-                    </button>
-                )}
+                        🚗 Rent Cars
+                    </Link>
 
-                <div className='flex max-md:flex-col items-center max-md:items-start gap-3 md:gap-4 max-md:w-full'>
-                    {user && (
+                    <Link
+                        to="/my-bookings"
+                        className="cursor-pointer hover:text-primary transition-colors duration-200 text-sm md:text-base max-md:text-lg max-md:py-2 whitespace-nowrap font-medium"
+                        onClick={() => setOpen(false)}
+                    >
+                        📋 My Bookings
+                    </Link>
+
+                    {/* Dashboard link - prominent for owners */}
+                    {isOwner && (
+                        <Link
+                            to="/owner"
+                            className="cursor-pointer px-3 py-2 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg transition-all text-xs md:text-sm font-medium max-md:w-full max-md:text-center max-md:text-base whitespace-nowrap border border-blue-200"
+                            onClick={() => setOpen(false)}
+                        >
+                            📊 Owner Dashboard
+                        </Link>
+                    )}
+
+                    {/* Add Car button for owners */}
+                    {isOwner && (
+                        <button
+                            onClick={() => {navigate('/owner/add-car'); setOpen(false)}}
+                            className="cursor-pointer px-3 md:px-4 py-2 border border-gray-300 hover:border-primary hover:text-primary transition-all text-gray-600 rounded-lg text-xs md:text-sm font-medium max-md:w-full max-md:text-center max-md:text-base whitespace-nowrap"
+                        >
+                            ➕ Add Car
+                        </button>
+                    )}
+
+                    {/* Become an Owner button for regular users */}
+                    {!isOwner && (
+                        <button
+                            onClick={() => {changeRole(); setOpen(false)}}
+                            className="cursor-pointer px-3 md:px-4 py-2 bg-green-50 text-green-600 hover:bg-green-100 border border-green-200 rounded-lg transition-all text-xs md:text-sm font-medium max-md:w-full max-md:text-center max-md:text-base whitespace-nowrap"
+                        >
+                            🏆 Become Owner
+                        </button>
+                    )}
+                </div>
+            )}
+
+            {/* User profile and logout section */}
+            <div className='flex max-md:flex-col items-center max-md:items-start gap-3 md:gap-4 max-md:w-full max-md:mt-4'>
+                {user && (
+                    <div className='flex items-center gap-3 max-md:w-full max-md:justify-between'>
                         <span className='text-xs md:text-sm font-medium text-gray-700 max-md:text-base max-md:py-1 whitespace-nowrap'>
                             Welcome, {user.name}
                         </span>
-                    )}
+                        <NotificationIcon />
+                    </div>
+                )}
 
-                    {user && <NotificationIcon />}
-
-                    <button
-                        onClick={()=> {user ? logout() : setShowLogin(true); setOpen(false)}}
-                        className="cursor-pointer px-4 md:px-6 lg:px-8 py-2 bg-primary hover:bg-primary-dull transition-all text-white rounded-lg text-xs md:text-sm max-md:w-full max-md:text-center max-md:text-base whitespace-nowrap"
-                    >
-                        {user ? 'Logout' : 'Login'}
-                    </button>
-                </div>
+                <button
+                    onClick={()=> {user ? logout() : setShowLogin(true); setOpen(false)}}
+                    className="cursor-pointer px-4 md:px-6 lg:px-8 py-2 bg-primary hover:bg-primary-dull transition-all text-white rounded-lg text-xs md:text-sm max-md:w-full max-md:text-center max-md:text-base whitespace-nowrap"
+                >
+                    {user ? 'Logout' : 'Login'}
+                </button>
             </div>
         </div>
 
