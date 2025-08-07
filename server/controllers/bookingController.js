@@ -94,6 +94,29 @@ export const getOwnerBookings = async (req, res)=>{
     }
 }
 
+// API to get booked dates for a specific car
+export const getCarBookedDates = async (req, res)=>{
+    try {
+        const { carId } = req.params;
+
+        const bookings = await Booking.find({
+            car: carId,
+            status: { $in: ["pending", "confirmed"] }
+        }).select("pickupDate returnDate status");
+
+        const bookedDates = bookings.map(booking => ({
+            start: booking.pickupDate,
+            end: booking.returnDate,
+            status: booking.status
+        }));
+
+        res.json({success: true, bookedDates});
+    } catch (error) {
+        console.log(error.message);
+        res.json({success: false, message: error.message});
+    }
+}
+
 // API to change booking status
 export const changeBookingStatus = async (req, res)=>{
     try {
