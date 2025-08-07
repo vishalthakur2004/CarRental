@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { assets} from '../assets/assets'
 import Title from '../components/Title'
 import RatingReviewForm from '../components/RatingReviewForm'
+import UserCancellationModal from '../components/UserCancellationModal'
 import { useAppContext } from '../context/AppContext'
 import toast from 'react-hot-toast'
 import { motion } from 'motion/react'
@@ -12,6 +13,7 @@ const MyBookings = () => {
 
   const [bookings, setBookings] = useState([])
   const [showRatingForm, setShowRatingForm] = useState(false)
+  const [showCancelModal, setShowCancelModal] = useState(false)
   const [selectedBooking, setSelectedBooking] = useState(null)
   const [userReviews, setUserReviews] = useState([])
 
@@ -47,6 +49,17 @@ const MyBookings = () => {
   const handleReviewSubmitted = () => {
     fetchUserReviews()
     fetchMyBookings()
+  }
+
+  const handleCancelBooking = (booking) => {
+    setSelectedBooking(booking)
+    setShowCancelModal(true)
+  }
+
+  const handleCancellationSuccess = () => {
+    fetchMyBookings()
+    setShowCancelModal(false)
+    setSelectedBooking(null)
   }
 
   const getBookingReview = (bookingId) => {
@@ -98,9 +111,12 @@ const MyBookings = () => {
                   booking.status === 'booked' ? 'bg-green-400/15 text-green-600' :
                   booking.status === 'completed' ? 'bg-blue-400/15 text-blue-600' :
                   booking.status === 'pending' ? 'bg-yellow-400/15 text-yellow-600' :
-                  'bg-red-400/15 text-red-600'
+                  booking.status === 'cancelled' ? 'bg-red-400/15 text-red-600' :
+                  'bg-gray-400/15 text-gray-600'
                 }`}>
-                  {booking.status === 'booked' ? 'Confirmed' : booking.status}
+                  {booking.status === 'booked' ? 'Confirmed' :
+                   booking.status === 'cancelled' ? 'Cancelled' :
+                   booking.status}
                 </p>
               </div>
 
