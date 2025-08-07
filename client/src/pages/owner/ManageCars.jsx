@@ -111,7 +111,7 @@ const ManageCars = () => {
                       className='p-1.5 hover:bg-gray-100 rounded-md transition-colors'
                       title={car.isAvaliable ? 'Hide car' : 'Show car'}
                     >
-                      <img src={car.isAvaliable ? assets.eye_close_icon : assets.eye_icon} alt="" className='w-4 h-4 sm:w-5 sm:h-5'/>
+                      <img src={car.isAvaliable ? assets.eye_close_icon : assets.eye_icon} alt="" className='w-5 h-5 sm:w-6 sm:h-6'/>
                     </button>
                     <button
                       onClick={()=> deleteCar(car._id)}
