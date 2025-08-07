@@ -57,7 +57,24 @@ export const createBooking = async (req, res)=>{
         const noOfDays = Math.ceil((returned - picked) / (1000 * 60 * 60 * 24))
         const price = carData.pricePerDay * noOfDays;
 
-        await Booking.create({car, owner: carData.owner, user: _id, pickupDate, returnDate, price})
+        const newBooking = await Booking.create({car, owner: carData.owner, user: _id, pickupDate, returnDate, price})
+
+        // Create notifications for both user and owner
+        await createNotification(
+            _id,
+            'booking_created',
+            'Booking Submitted',
+            `Your booking request for ${carData.brand} ${carData.model} has been submitted and is pending approval.`,
+            newBooking._id
+        );
+
+        await createNotification(
+            carData.owner,
+            'booking_created',
+            'New Booking Request',
+            `You have a new booking request for your ${carData.brand} ${carData.model}.`,
+            newBooking._id
+        );
 
         res.json({success: true, message: "Booking Created"})
 
