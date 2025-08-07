@@ -3,6 +3,7 @@ import { assets} from '../../assets/assets'
 import Title from '../../components/owner/Title'
 import { useAppContext } from '../../context/AppContext'
 import ConfirmationModal from '../../components/ConfirmationModal'
+import EditCarModal from '../../components/EditCarModal'
 import toast from 'react-hot-toast'
 
 const ManageCars = () => {
@@ -11,6 +12,7 @@ const ManageCars = () => {
 
   const [cars, setCars] = useState([])
   const [confirmModal, setConfirmModal] = useState({ isOpen: false, type: '', carId: '', carName: '' })
+  const [editModal, setEditModal] = useState({ isOpen: false, carData: null })
   const [isLoading, setIsLoading] = useState(false)
 
   const fetchOwnerCars = async ()=>{
@@ -79,6 +81,15 @@ const ManageCars = () => {
     } finally {
       setIsLoading(false)
     }
+  }
+
+  const handleEditCar = (car) => {
+    setEditModal({ isOpen: true, carData: car })
+  }
+
+  const handleCarUpdated = () => {
+    fetchOwnerCars()
+    setEditModal({ isOpen: false, carData: null })
   }
 
   useEffect(()=>{
