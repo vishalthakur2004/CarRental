@@ -198,18 +198,6 @@ const Hero = () => {
           </form>
         </div>
       </motion.div>
-
-      <motion.div
-        initial={{ y: 100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.6 }}
-        className='relative z-10'>
-        <img
-          src={assets.main_car}
-          alt="car"
-          className='max-h-48 sm:max-h-60 md:max-h-72 lg:max-h-80 xl:max-h-96 w-auto object-contain filter drop-shadow-2xl'
-        />
-      </motion.div>
     </motion.div>
   )
 }
