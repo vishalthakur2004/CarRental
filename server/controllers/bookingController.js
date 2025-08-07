@@ -101,7 +101,7 @@ export const getCarBookedDates = async (req, res)=>{
 
         const bookings = await Booking.find({
             car: carId,
-            status: { $in: ["pending", "confirmed"] }
+            status: { $in: ["pending", "booked"] }
         }).select("pickupDate returnDate status");
 
         const bookedDates = bookings.map(booking => ({
