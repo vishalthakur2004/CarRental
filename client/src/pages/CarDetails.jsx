@@ -87,6 +87,7 @@ const CarDetails = () => {
     setCar(cars.find(car => car._id === id))
     if (id) {
       fetchBookedDates()
+      fetchCarReviews()
     }
   },[cars, id])
 
