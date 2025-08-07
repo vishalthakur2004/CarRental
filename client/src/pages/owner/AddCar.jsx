@@ -13,12 +13,12 @@ const AddCar = () => {
   const [car, setCar] = useState({
     brand: '',
     model: '',
-    year: 0,
-    pricePerDay: 0,
+    year: '',
+    pricePerDay: '',
     category: '',
     transmission: '',
     fuel_type: '',
-    seating_capacity: 0,
+    seating_capacity: '',
     location: '',
     address: {
       street: '',
