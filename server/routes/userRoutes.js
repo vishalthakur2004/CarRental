@@ -1,7 +1,7 @@
 import express from "express";
 import { getCars, getUserData, loginUser, registerUser, updateProfileImage, uploadProfileImage } from "../controllers/userController.js";
 import { protect } from "../middleware/auth.js";
-import { upload } from "../middleware/multer.js";
+import upload from "../middleware/multer.js";
 
 const userRouter = express.Router();
 
