@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Title from '../../components/owner/Title'
 import BookingCancellationModal from '../../components/BookingCancellationModal'
 import BookingActionModal from '../../components/BookingActionModal'
+import BookingDetailsModal from '../../components/BookingDetailsModal'
 import { useAppContext } from '../../context/AppContext'
 import toast from 'react-hot-toast'
 
@@ -13,6 +14,7 @@ const ManageBookings = () => {
   const [showCancelModal, setShowCancelModal] = useState(false)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
   const [showCompleteModal, setShowCompleteModal] = useState(false)
+  const [showDetailsModal, setShowDetailsModal] = useState(false)
   const [selectedBooking, setSelectedBooking] = useState(null)
 
   const fetchOwnerBookings = async ()=>{
@@ -52,6 +54,11 @@ const ManageBookings = () => {
   const handleCompleteBooking = (booking) => {
     setSelectedBooking(booking)
     setShowCompleteModal(true)
+  }
+
+  const handleViewDetails = (booking) => {
+    setSelectedBooking(booking)
+    setShowDetailsModal(true)
   }
 
   const confirmBookingAction = async () => {
