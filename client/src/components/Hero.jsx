@@ -59,10 +59,10 @@ const Hero = () => {
       initial={{ scale: 0.95, opacity: 0, y: 50 }}
       animate={{ scale: 1, opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.6 }}
-      className='w-full max-w-6xl xl:max-w-7xl relative z-10'>
+      className='w-full max-w-6xl xl:max-w-7xl relative z-20 mb-8'>
 
         {/* Modern Search Card */}
-        <div className='bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 p-6 sm:p-8 lg:p-10 hover:shadow-3xl transition-all duration-500'>
+        <div className='bg-white backdrop-blur-lg rounded-3xl shadow-2xl border border-gray-200/50 p-6 sm:p-8 lg:p-10 hover:shadow-3xl transition-all duration-500 ring-1 ring-gray-200/20'>
           <div className='mb-6'>
             <h2 className='text-xl sm:text-2xl font-bold text-gray-800 mb-2'>Find Your Perfect Ride</h2>
             <p className='text-gray-600 text-sm sm:text-base'>Choose your destination and dates to get started</p>
@@ -91,7 +91,7 @@ const Hero = () => {
                           setSelectedState(e.target.value)
                           setPickupLocation('') // Reset city when state changes
                         }}
-                        className='w-full px-4 py-4 pr-10 border border-gray-200 rounded-xl outline-none bg-gray-50/50 text-sm focus:border-primary focus:bg-white focus:shadow-md transition-all duration-300 appearance-none cursor-pointer'
+                        className='w-full px-4 py-4 pr-10 border border-gray-300 rounded-xl outline-none bg-white text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:shadow-md transition-all duration-300 appearance-none cursor-pointer'
                       >
                         <option value="">Choose State</option>
                         {statesList.map((state, index)=> <option key={`${state}-${index}`} value={state}>{state}</option>)}
@@ -112,7 +112,7 @@ const Hero = () => {
                         value={pickupLocation}
                         onChange={(e)=>setPickupLocation(e.target.value)}
                         disabled={!selectedState}
-                        className='w-full px-4 py-4 pr-10 border border-gray-200 rounded-xl outline-none bg-gray-50/50 disabled:bg-gray-100 disabled:cursor-not-allowed text-sm focus:border-primary focus:bg-white focus:shadow-md transition-all duration-300 appearance-none cursor-pointer'
+                        className='w-full px-4 py-4 pr-10 border border-gray-300 rounded-xl outline-none bg-white disabled:bg-gray-100 disabled:cursor-not-allowed text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:shadow-md transition-all duration-300 appearance-none cursor-pointer'
                       >
                         <option value="">{selectedState ? 'Choose City' : 'Select state first'}</option>
                         {selectedState && stateCityMapping[selectedState] &&
@@ -155,7 +155,7 @@ const Hero = () => {
                           type="date"
                           id="pickup-date"
                           min={new Date().toISOString().split('T')[0]}
-                          className='w-full px-4 py-4 pr-4 border border-gray-200 rounded-xl outline-none text-sm text-gray-700 bg-gray-50/50 focus:border-primary focus:bg-white focus:shadow-md transition-all duration-300'
+                          className='w-full px-4 py-4 pr-4 border border-gray-300 rounded-xl outline-none text-sm text-gray-700 bg-white focus:border-primary focus:ring-2 focus:ring-primary/20 focus:shadow-md transition-all duration-300'
                           required
                       />
                     </div>
@@ -169,7 +169,7 @@ const Hero = () => {
                           onChange={e=>setReturnDate(e.target.value)}
                           type="date"
                           id="return-date"
-                          className='w-full px-4 py-4 pr-4 border border-gray-200 rounded-xl outline-none text-sm text-gray-700 bg-gray-50/50 focus:border-primary focus:bg-white focus:shadow-md transition-all duration-300'
+                          className='w-full px-4 py-4 pr-4 border border-gray-300 rounded-xl outline-none text-sm text-gray-700 bg-white focus:border-primary focus:ring-2 focus:ring-primary/20 focus:shadow-md transition-all duration-300'
                           required
                       />
                     </div>

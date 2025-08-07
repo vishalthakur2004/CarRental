@@ -31,6 +31,12 @@ const CarDetails = () => {
       return
     }
 
+    // Check if user is trying to book their own car
+    if (user._id === car.owner) {
+      toast.error('You cannot book your own car')
+      return
+    }
+
     if (!pickupDate || !returnDate) {
       toast.error('Please select pickup and return dates')
       return
@@ -332,15 +338,7 @@ const CarDetails = () => {
 
             <AvailabilityDatePicker
               value={pickupDate}
-              onChange={(e) => {
-                setPickupDate(e.target.value)
-                // Auto-set return date to next day if not set
-                if (!returnDate) {
-                  const nextDay = new Date(e.target.value)
-                  nextDay.setDate(nextDay.getDate() + 1)
-                  setReturnDate(nextDay.toISOString().split('T')[0])
-                }
-              }}
+              onChange={(e) => setPickupDate(e.target.value)}
               label="Pickup Date"
               required
               bookedDates={bookedDates}

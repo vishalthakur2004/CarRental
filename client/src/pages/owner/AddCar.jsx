@@ -13,12 +13,12 @@ const AddCar = () => {
   const [car, setCar] = useState({
     brand: '',
     model: '',
-    year: 0,
-    pricePerDay: 0,
+    year: '',
+    pricePerDay: '',
     category: '',
     transmission: '',
     fuel_type: '',
-    seating_capacity: 0,
+    seating_capacity: '',
     location: '',
     address: {
       street: '',
@@ -49,12 +49,12 @@ const AddCar = () => {
         setCar({
           brand: '',
           model: '',
-          year: 0,
-          pricePerDay: 0,
+          year: '',
+          pricePerDay: '',
           category: '',
           transmission: '',
           fuel_type: '',
-          seating_capacity: 0,
+          seating_capacity: '',
           location: '',
           address: {
             street: '',
@@ -110,7 +110,7 @@ const AddCar = () => {
         {/* Car Year, Price, Category */}
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6'>
           <div className='flex flex-col w-full'>
-            <label>Year</label>
+            <label>Model Year</label>
             <input type="number" placeholder="2025" required className='px-3 py-2 mt-1 border border-borderColor rounded-md outline-none' value={car.year} onChange={e=> setCar({...car, year: e.target.value})}/>
           </div>
           <div className='flex flex-col w-full'>
@@ -123,7 +123,18 @@ const AddCar = () => {
               <option value="">Select a category</option>
               <option value="Sedan">Sedan</option>
               <option value="SUV">SUV</option>
+              <option value="Hatchback">Hatchback</option>
+              <option value="Coupe">Coupe</option>
+              <option value="Convertible">Convertible</option>
+              <option value="Wagon">Wagon</option>
+              <option value="Pickup Truck">Pickup Truck</option>
               <option value="Van">Van</option>
+              <option value="Minivan">Minivan</option>
+              <option value="Crossover">Crossover</option>
+              <option value="Luxury">Luxury</option>
+              <option value="Sports Car">Sports Car</option>
+              <option value="Electric">Electric</option>
+              <option value="Hybrid">Hybrid</option>
             </select>
           </div>
         </div>
