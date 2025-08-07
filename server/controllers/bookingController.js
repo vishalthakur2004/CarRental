@@ -121,7 +121,7 @@ export const getCarBookedDates = async (req, res)=>{
 export const changeBookingStatus = async (req, res)=>{
     try {
         const {_id} = req.user;
-        const {bookingId, status} = req.body
+        const {bookingId, status, cancellationReason} = req.body
 
         const booking = await Booking.findById(bookingId)
 
@@ -130,6 +130,17 @@ export const changeBookingStatus = async (req, res)=>{
         }
 
         booking.status = status;
+
+        // If cancelling, save the reason
+        if (status === 'cancelled' && cancellationReason) {
+            booking.cancellationReason = cancellationReason;
+        }
+
+        // If marking as completed, set completion date
+        if (status === 'completed') {
+            booking.completedAt = new Date();
+        }
+
         await booking.save();
 
         res.json({ success: true, message: "Status Updated"})
