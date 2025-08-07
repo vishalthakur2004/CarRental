@@ -1,14 +1,14 @@
 // Complete state-city mapping for India
 export const stateCityMapping = {
   'Andhra Pradesh': [
-    'Vijayawada', 'Visakhapatnam', 'Guntur', 'Nellore', 'Kurnool', 'Rajahmundry',
-    'Tirupati', 'Kakinada', 'Eluru', 'Anantapur', 'Chittoor', 'Machilipatnam',
-    'Rajam', 'Bobbili', 'Narasaraopet', 'Giddalur', 'Jammalamadugu',
-    'Peddapuram', 'Repalle', 'Srikalahasti', 'Venkatagiri', 'Rayachoti',
-    'Jaggaiahpet', 'Tuni', 'Amalapuram', 'Bhimavaram', 'Chirala', 'Addanki',
-    'Narasapur', 'Kavali', 'Palacole', 'Kandukur', 'Sullurpeta', 'Tanuku',
-    'Mandapeta'
-  ],
+    'Addanki', 'Amalapuram', 'Anantapur', 'Bhimavaram', 'Bobbili', 'Chirala',
+    'Chittoor', 'Eluru', 'Giddalur', 'Guntur', 'Jaggaiahpet', 'Jammalamadugu',
+    'Kakinada', 'Kandukur', 'Kavali', 'Kurnool', 'Machilipatnam', 'Mandapeta',
+    'Narasapur', 'Narasaraopet', 'Nellore', 'Palacole', 'Peddapuram',
+    'Rajahmundry', 'Rajam', 'Rayachoti', 'Repalle', 'Srikalahasti',
+    'Sullurpeta', 'Tanuku', 'Tirupati', 'Tuni', 'Venkatagiri',
+    'Vijayawada', 'Visakhapatnam'
+  ].sort(),
   'Arunachal Pradesh': [
     'Itanagar', 'Seppa', 'Yupia', 'Naharlagun', 'Pasighat', 'Along',
     'Bomdila', 'Ziro', 'Tawang', 'Khonsa', 'Tezu', 'Roing', 'Anini',
