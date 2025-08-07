@@ -110,7 +110,7 @@ const AddCar = () => {
         {/* Car Year, Price, Category */}
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6'>
           <div className='flex flex-col w-full'>
-            <label>Year</label>
+            <label>Model Year</label>
             <input type="number" placeholder="2025" required className='px-3 py-2 mt-1 border border-borderColor rounded-md outline-none' value={car.year} onChange={e=> setCar({...car, year: e.target.value})}/>
           </div>
           <div className='flex flex-col w-full'>
