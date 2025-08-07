@@ -60,7 +60,7 @@ const Navbar = () => {
 
                 <button
                     onClick={()=> {isOwner ? navigate('/owner') : changeRole(); setOpen(false)}}
-                    className="cursor-pointer hover:text-primary transition-colors duration-200 text-base max-sm:text-lg max-sm:py-2"
+                    className="cursor-pointer hover:text-primary transition-colors duration-200 text-sm md:text-base max-md:text-lg max-md:py-2 whitespace-nowrap"
                 >
                     {isOwner ? 'Dashboard' : 'List cars'}
                 </button>
@@ -68,15 +68,15 @@ const Navbar = () => {
                 {user && (
                     <button
                         onClick={() => {navigate('/owner/add-car'); setOpen(false)}}
-                        className="cursor-pointer px-4 py-2 border border-gray-300 hover:border-primary hover:text-primary transition-all text-gray-600 rounded-lg text-sm font-medium max-sm:w-full max-sm:text-center max-sm:text-base"
+                        className="cursor-pointer px-3 md:px-4 py-2 border border-gray-300 hover:border-primary hover:text-primary transition-all text-gray-600 rounded-lg text-xs md:text-sm font-medium max-md:w-full max-md:text-center max-md:text-base whitespace-nowrap"
                     >
                         Add Car
                     </button>
                 )}
 
-                <div className='flex max-sm:flex-col items-center max-sm:items-start gap-4 max-sm:w-full'>
+                <div className='flex max-md:flex-col items-center max-md:items-start gap-3 md:gap-4 max-md:w-full'>
                     {user && (
-                        <span className='text-sm font-medium text-gray-700 max-sm:text-base max-sm:py-1'>
+                        <span className='text-xs md:text-sm font-medium text-gray-700 max-md:text-base max-md:py-1 whitespace-nowrap'>
                             Welcome, {user.name}
                         </span>
                     )}
@@ -85,7 +85,7 @@ const Navbar = () => {
 
                     <button
                         onClick={()=> {user ? logout() : setShowLogin(true); setOpen(false)}}
-                        className="cursor-pointer px-6 sm:px-8 py-2 bg-primary hover:bg-primary-dull transition-all text-white rounded-lg max-sm:w-full max-sm:text-center max-sm:text-base"
+                        className="cursor-pointer px-4 md:px-6 lg:px-8 py-2 bg-primary hover:bg-primary-dull transition-all text-white rounded-lg text-xs md:text-sm max-md:w-full max-md:text-center max-md:text-base whitespace-nowrap"
                     >
                         {user ? 'Logout' : 'Login'}
                     </button>
