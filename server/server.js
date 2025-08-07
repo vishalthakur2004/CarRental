@@ -28,5 +28,10 @@ app.use('/api/otp', otpRouter)
 app.use('/api/reviews', reviewRouter)
 app.use('/api/notifications', notificationRouter)
 
+// Cleanup old notifications daily at midnight
+setInterval(() => {
+    cleanupOldNotifications();
+}, 24 * 60 * 60 * 1000); // 24 hours
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, ()=> console.log(`Server running on port ${PORT}`))
