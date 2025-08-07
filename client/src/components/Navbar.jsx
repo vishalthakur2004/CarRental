@@ -75,9 +75,19 @@ const Navbar = () => {
                 About
             </Link>
 
-            <div className='hidden lg:flex items-center text-sm gap-2 border border-borderColor px-3 py-2 rounded-full max-w-56 bg-white/50 backdrop-blur-sm'>
-                <input type="text" className="py-1 w-full bg-transparent outline-none placeholder-gray-500 text-sm" placeholder="Search cars"/>
-                <img src={assets.search_icon} alt="search" className='w-4 h-4 opacity-60'/>
+            {/* Enhanced search for logged-in users */}
+            <div className='hidden lg:flex items-center text-sm gap-2 border border-borderColor px-3 py-2 rounded-full max-w-64 bg-white/50 backdrop-blur-sm'>
+                <input
+                    type="text"
+                    className="py-1 w-full bg-transparent outline-none placeholder-gray-500 text-sm"
+                    placeholder={user ? "Search available cars..." : "Search cars"}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter' && e.target.value.trim()) {
+                            navigate(`/cars?search=${encodeURIComponent(e.target.value.trim())}`);
+                        }
+                    }}
+                />
+                <img src={assets.search_icon} alt="search" className='w-4 h-4 opacity-60 cursor-pointer'/>
             </div>
 
             {/* User-specific navigation when logged in */}
