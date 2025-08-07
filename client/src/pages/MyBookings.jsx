@@ -116,12 +116,14 @@ const MyBookings = () => {
                 <p className='px-3 py-2 bg-light rounded-lg text-sm font-medium'>Booking #{index+1}</p>
                 <p className={`px-3 py-1.5 text-xs font-medium rounded-full ${
                   booking.status === 'booked' ? 'bg-green-400/15 text-green-600' :
+                  booking.status === 'on_rent' ? 'bg-orange-400/15 text-orange-600' :
                   booking.status === 'completed' ? 'bg-blue-400/15 text-blue-600' :
                   booking.status === 'pending' ? 'bg-yellow-400/15 text-yellow-600' :
                   booking.status === 'cancelled' ? 'bg-red-400/15 text-red-600' :
                   'bg-gray-400/15 text-gray-600'
                 }`}>
                   {booking.status === 'booked' ? 'Confirmed' :
+                   booking.status === 'on_rent' ? 'On Rent' :
                    booking.status === 'cancelled' ? 'Cancelled' :
                    booking.status}
                 </p>
@@ -184,7 +186,7 @@ const MyBookings = () => {
                           ({getBookingReview(booking._id).rating}/5)
                         </span>
                       </div>
-                      <p className='text-xs text-green-600'>✓ Review submitted</p>
+                      <p className='text-xs text-green-600'>��� Review submitted</p>
                     </div>
                   ) : (
                     <div className='text-center lg:text-right'>
