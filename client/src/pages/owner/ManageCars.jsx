@@ -24,7 +24,14 @@ const ManageCars = () => {
         toast.error(data.message)
       }
     } catch (error) {
-      toast.error('Failed to load your cars. Please refresh the page.')
+      console.error('Error loading cars:', error)
+      if (error.response?.status === 401) {
+        toast.error('Please log in to view your cars.')
+      } else if (error.message.includes('Network Error')) {
+        toast.error('Network error. Please check your internet connection and refresh the page.')
+      } else {
+        toast.error('Failed to load your cars. Please refresh the page or contact support if the problem persists.')
+      }
     }
   }
 
@@ -50,7 +57,16 @@ const ManageCars = () => {
         toast.error(data.message)
       }
     } catch (error) {
-      toast.error('Failed to update car availability. Please try again.')
+      console.error('Error updating car availability:', error)
+      if (error.response?.data?.message) {
+        toast.error(error.response.data.message)
+      } else if (error.response?.status === 401) {
+        toast.error('Please log in to update car availability.')
+      } else if (error.message.includes('Network Error')) {
+        toast.error('Network error. Please check your internet connection.')
+      } else {
+        toast.error('Failed to update car availability. Please try again or contact support if the problem persists.')
+      }
     } finally {
       setIsLoading(false)
     }
@@ -77,7 +93,18 @@ const ManageCars = () => {
         toast.error(data.message)
       }
     } catch (error) {
-      toast.error('Failed to delete car. Please try again.')
+      console.error('Error deleting car:', error)
+      if (error.response?.data?.message) {
+        toast.error(error.response.data.message)
+      } else if (error.response?.status === 401) {
+        toast.error('Please log in to delete cars.')
+      } else if (error.response?.status === 403) {
+        toast.error('You can only delete your own cars.')
+      } else if (error.message.includes('Network Error')) {
+        toast.error('Network error. Please check your internet connection.')
+      } else {
+        toast.error('Failed to delete car. Please try again or contact support if the problem persists.')
+      }
     } finally {
       setIsLoading(false)
     }
