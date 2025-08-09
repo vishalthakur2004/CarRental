@@ -13,6 +13,19 @@ export const getUserNotifications = async (req, res) => {
                     select: 'brand model image'
                 }
             })
+            .populate({
+                path: 'review',
+                populate: [
+                    {
+                        path: 'car',
+                        select: 'brand model image'
+                    },
+                    {
+                        path: 'user',
+                        select: 'name image'
+                    }
+                ]
+            })
             .sort({createdAt: -1})
             .limit(50);
 
@@ -82,15 +95,19 @@ export const getUnreadCount = async (req, res) => {
 }
 
 // Helper function to create notification
-export const createNotification = async (userId, type, title, message, bookingId) => {
+export const createNotification = async (userId, type, title, message, bookingId = null, reviewId = null) => {
     try {
-        await Notification.create({
+        const notificationData = {
             user: userId,
             type,
             title,
-            message,
-            booking: bookingId
-        });
+            message
+        };
+
+        if (bookingId) notificationData.booking = bookingId;
+        if (reviewId) notificationData.review = reviewId;
+
+        await Notification.create(notificationData);
     } catch (error) {
         console.log('Error creating notification:', error.message);
     }

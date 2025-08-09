@@ -1,6 +1,7 @@
 import Review from "../models/Review.js"
 import Booking from "../models/Booking.js"
 import Car from "../models/Car.js"
+import { createNotification } from "./notificationController.js"
 
 // API to Create Review (after booking completion)
 export const createReview = async (req, res) => {
@@ -49,6 +50,20 @@ export const createReview = async (req, res) => {
             rating,
             reviewText
         });
+
+        // Get car details to find the owner
+        const car = await Car.findById(booking.car);
+        if (car && car.owner) {
+            // Send notification to car owner about new review
+            await createNotification(
+                car.owner,
+                'review_received',
+                'New Review Received',
+                `You received a ${rating}-star review for your ${car.brand} ${car.model}`,
+                null,
+                review._id
+            );
+        }
 
         res.json({ success: true, message: 'Review submitted successfully', review });
 
@@ -219,6 +234,16 @@ export const replyToReview = async (req, res) => {
         };
 
         await review.save();
+
+        // Send notification to the reviewer about owner reply
+        await createNotification(
+            review.user,
+            'review_replied',
+            'Owner Replied to Your Review',
+            `The owner of ${review.car.brand} ${review.car.model} replied to your review`,
+            null,
+            review._id
+        );
 
         res.json({ success: true, message: 'Reply added successfully' });
 
