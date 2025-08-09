@@ -8,7 +8,7 @@ import NotificationIcon from './NotificationIcon'
 
 const Navbar = () => {
 
-    const {setShowLogin, user, logout, isOwner, axios, setIsOwner} = useAppContext()
+    const {setShowLogin, showLoginWithRedirect, user, logout, isOwner, axios, setIsOwner} = useAppContext()
 
     const location = useLocation()
     const [open, setOpen] = useState(false)
@@ -173,7 +173,7 @@ const Navbar = () => {
 
                 {/* Login/Logout Button */}
                 <button
-                    onClick={()=> {user ? logout() : setShowLogin(true)}}
+                    onClick={()=> {user ? logout() : showLoginWithRedirect()}}
                     className="px-4 py-2 bg-primary hover:bg-primary-dull transition-all text-white rounded-lg text-sm font-medium"
                 >
                     {user ? 'Logout' : 'Login'}
@@ -258,7 +258,7 @@ const Navbar = () => {
             )}
 
             <button
-                onClick={()=> {user ? logout() : setShowLogin(true); setOpen(false)}}
+                onClick={()=> {user ? logout() : showLoginWithRedirect(); setOpen(false)}}
                 className="w-full px-4 py-3 bg-primary hover:bg-primary-dull transition-all text-white rounded-lg font-medium mt-4"
             >
                 {user ? 'Logout' : 'Login'}

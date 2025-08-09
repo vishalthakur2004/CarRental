@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useAppContext } from '../context/AppContext';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const NotificationIcon = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [notifications, setNotifications] = useState([]);
     const [unreadCount, setUnreadCount] = useState(0);
     const dropdownRef = useRef(null);
-    const { axios, user } = useAppContext();
+    const { axios, user, isOwner } = useAppContext();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (user) {
@@ -63,6 +66,109 @@ const NotificationIcon = () => {
             fetchUnreadCount();
         } catch (error) {
             console.log('Error marking notification as read:', error);
+        }
+    };
+
+    const handleNotificationNavigation = (notification) => {
+        // Mark as read first
+        if (!notification.isRead) {
+            markAsRead(notification._id);
+        }
+
+        // Show feedback toast
+        const getNavigationMessage = (type, isOwner) => {
+            if (type.includes('booking_')) {
+                return isOwner ? 'Redirecting to manage bookings...' : 'Redirecting to my bookings...';
+            }
+            if (type.includes('review_')) {
+                return isOwner ? 'Redirecting to manage reviews...' : 'Viewing car details...';
+            }
+            return 'Redirecting...';
+        };
+
+        toast.success(getNavigationMessage(notification.type, isOwner));
+
+        // Close the dropdown
+        setIsOpen(false);
+
+        // Navigate based on notification type and user role
+        const { type } = notification;
+
+        try {
+            // Booking-related notifications
+            if (type.includes('booking_')) {
+                if (isOwner) {
+                    // For owners, navigate to manage bookings
+                    navigate('/owner/manage-bookings');
+                    window.scrollTo(0, 0);
+                } else {
+                    // For users, navigate to my bookings
+                    navigate('/my-bookings');
+                    window.scrollTo(0, 0);
+                }
+                return;
+            }
+
+            // Review-related notifications
+            if (type.includes('review_')) {
+                if (isOwner) {
+                    // For owners, navigate to manage reviews
+                    navigate('/owner/manage-reviews');
+                    window.scrollTo(0, 0);
+                } else {
+                    // For users, try to navigate to specific car details
+                    let carId = null;
+
+                    // Check multiple possible locations for car ID
+                    if (notification.review?.car?._id) {
+                        carId = notification.review.car._id;
+                    } else if (notification.booking?.car?._id) {
+                        carId = notification.booking.car._id;
+                    } else if (notification.carId) {
+                        carId = notification.carId;
+                    }
+
+                    if (carId) {
+                        navigate(`/car-details/${carId}`);
+                        window.scrollTo(0, 0);
+                    } else {
+                        // Fallback to my bookings if no car ID found
+                        navigate('/my-bookings');
+                        window.scrollTo(0, 0);
+                    }
+                }
+                return;
+            }
+
+            // Car-related notifications (if any)
+            if (type.includes('car_')) {
+                if (isOwner) {
+                    navigate('/owner/manage-cars');
+                    window.scrollTo(0, 0);
+                } else {
+                    navigate('/cars');
+                    window.scrollTo(0, 0);
+                }
+                return;
+            }
+
+            // Default fallback based on user role
+            if (isOwner) {
+                navigate('/owner');
+                window.scrollTo(0, 0);
+            } else {
+                navigate('/my-bookings');
+                window.scrollTo(0, 0);
+            }
+        } catch (error) {
+            console.error('Error navigating from notification:', error);
+            toast.error('Unable to navigate. Please try again.');
+            // Fallback navigation in case of error
+            if (isOwner) {
+                navigate('/owner');
+            } else {
+                navigate('/');
+            }
         }
     };
 
@@ -151,7 +257,8 @@ const NotificationIcon = () => {
             <button
                 onClick={handleNotificationClick}
                 className="relative p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50"
-                aria-label="Notifications"
+                aria-label={`Notifications${unreadCount > 0 ? ` - ${unreadCount} unread` : ''}`}
+                title={`${unreadCount > 0 ? `${unreadCount} unread notification${unreadCount > 1 ? 's' : ''}` : 'No unread notifications'}`}
             >
                 <svg
                     className="w-6 h-6 text-gray-600"
@@ -194,13 +301,14 @@ const NotificationIcon = () => {
                             </div>
                         </div>
 
-                        <div className="max-h-80 overflow-y-auto">
+                        <div className="max-h-80 overflow-y-auto focus-within:outline-none">
                             {notifications.length === 0 ? (
                                 <div className="p-6 text-center text-gray-500">
                                     <svg className="w-12 h-12 mx-auto mb-3 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
                                         <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"/>
                                     </svg>
                                     <p>No notifications yet</p>
+                                    <p className="text-xs text-gray-400 mt-2">You'll see booking updates and reviews here</p>
                                 </div>
                             ) : (
                                 notifications.map((notification) => (
@@ -208,13 +316,24 @@ const NotificationIcon = () => {
                                         key={notification._id}
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
-                                        className={`p-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors ${
+                                        className={`p-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 hover:shadow-sm transition-all duration-200 group focus:outline-none focus:bg-gray-50 focus:ring-2 focus:ring-primary focus:ring-inset ${
                                             !notification.isRead ? 'bg-blue-50 border-l-4 border-l-primary' : ''
                                         }`}
-                                        onClick={() => !notification.isRead && markAsRead(notification._id)}
+                                        onClick={() => handleNotificationNavigation(notification)}
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter' || e.key === ' ') {
+                                                e.preventDefault();
+                                                handleNotificationNavigation(notification);
+                                            }
+                                        }}
+                                        tabIndex={0}
+                                        role="button"
+                                        aria-label={`Notification: ${notification.title}. Click to view details.`}
                                     >
                                         <div className="flex items-start gap-3">
-                                            <div className="p-2 bg-gray-100 rounded-full flex-shrink-0">
+                                            <div className={`p-2 rounded-full flex-shrink-0 ${
+                                                !notification.isRead ? 'bg-primary/10' : 'bg-gray-100'
+                                            }`}>
                                                 {getNotificationIcon(notification.type)}
                                             </div>
                                             <div className="flex-1 min-w-0">
@@ -234,9 +353,17 @@ const NotificationIcon = () => {
                                                         {notification.review.car.brand} {notification.review.car.model}
                                                     </p>
                                                 )}
-                                                <p className="text-xs text-gray-400 mt-2">
-                                                    {formatTimeAgo(notification.createdAt)}
-                                                </p>
+                                                <div className="flex items-center justify-between mt-2">
+                                                    <p className="text-xs text-gray-400">
+                                                        {formatTimeAgo(notification.createdAt)}
+                                                    </p>
+                                                    <div className="flex items-center text-xs text-primary group-hover:text-primary-dull transition-colors">
+                                                        <span className="opacity-70 group-hover:opacity-100">View details</span>
+                                                        <svg className="w-3 h-3 ml-1 transform group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                                        </svg>
+                                                    </div>
+                                                </div>
                                             </div>
                                             {!notification.isRead && (
                                                 <div className="w-2 h-2 bg-primary rounded-full flex-shrink-0 mt-2"></div>

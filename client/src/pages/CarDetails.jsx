@@ -11,7 +11,7 @@ const CarDetails = () => {
 
   const {id} = useParams()
 
-  const {cars, axios, pickupDate, setPickupDate, returnDate, setReturnDate, user, setShowLogin} = useAppContext()
+  const {cars, axios, pickupDate, setPickupDate, returnDate, setReturnDate, user, showLoginWithRedirect} = useAppContext()
 
   const navigate = useNavigate()
   const [car, setCar] = useState(null)
@@ -27,7 +27,7 @@ const CarDetails = () => {
     // Check if user is logged in before booking
     if (!user) {
       toast.error('Please login to book this car')
-      setShowLogin(true)
+      showLoginWithRedirect()
       return
     }
 
@@ -58,7 +58,7 @@ const CarDetails = () => {
     } catch (error) {
       if (error.response?.status === 401) {
         toast.error('Please login to book this car')
-        setShowLogin(true)
+        showLoginWithRedirect()
       } else {
         toast.error(error.response?.data?.message || 'Failed to book car. Please try again.')
       }
@@ -196,20 +196,6 @@ const CarDetails = () => {
                   </div>
                 )}
 
-                {/* Features */}
-                <div>
-                  <h1 className='text-lg sm:text-xl font-medium mb-3'>Features</h1>
-                  <ul className='grid grid-cols-1 sm:grid-cols-2 gap-2'>
-                    {
-                      ["360 Camera", "Bluetooth", "GPS", "Heated Seats", "Rear View Mirror"].map((item)=>(
-                        <li key={item} className='flex items-center text-gray-500 text-sm sm:text-base'>
-                          <img src={assets.check_icon} className='h-3 sm:h-4 mr-2 flex-shrink-0' alt="" />
-                          <span>{item}</span>
-                        </li>
-                      ))
-                    }
-                  </ul>
-                </div>
 
                 {/* Reviews Section */}
                 {totalReviews > 0 && (
