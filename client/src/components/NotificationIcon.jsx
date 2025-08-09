@@ -300,13 +300,14 @@ const NotificationIcon = () => {
                             </div>
                         </div>
 
-                        <div className="max-h-80 overflow-y-auto">
+                        <div className="max-h-80 overflow-y-auto focus-within:outline-none">
                             {notifications.length === 0 ? (
                                 <div className="p-6 text-center text-gray-500">
                                     <svg className="w-12 h-12 mx-auto mb-3 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
                                         <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"/>
                                     </svg>
                                     <p>No notifications yet</p>
+                                    <p className="text-xs text-gray-400 mt-2">You'll see booking updates and reviews here</p>
                                 </div>
                             ) : (
                                 notifications.map((notification) => (
@@ -314,10 +315,19 @@ const NotificationIcon = () => {
                                         key={notification._id}
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
-                                        className={`p-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 hover:shadow-sm transition-all duration-200 group ${
+                                        className={`p-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 hover:shadow-sm transition-all duration-200 group focus:outline-none focus:bg-gray-50 focus:ring-2 focus:ring-primary focus:ring-inset ${
                                             !notification.isRead ? 'bg-blue-50 border-l-4 border-l-primary' : ''
                                         }`}
                                         onClick={() => handleNotificationNavigation(notification)}
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter' || e.key === ' ') {
+                                                e.preventDefault();
+                                                handleNotificationNavigation(notification);
+                                            }
+                                        }}
+                                        tabIndex={0}
+                                        role="button"
+                                        aria-label={`Notification: ${notification.title}. Click to view details.`}
                                     >
                                         <div className="flex items-start gap-3">
                                             <div className={`p-2 rounded-full flex-shrink-0 ${
