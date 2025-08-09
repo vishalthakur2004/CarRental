@@ -181,9 +181,10 @@ const Cars = () => {
             />
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className={`p-2 rounded-full transition-colors ${
-                showFilters || hasActiveFilters ? 'bg-primary text-white' : 'hover:bg-gray-100'
+              className={`p-2 rounded-full transition-all duration-200 ${
+                showFilters || hasActiveFilters ? 'bg-primary text-white shadow-md' : 'hover:bg-gray-100'
               }`}
+              title={showFilters ? 'Hide filters' : 'Show filters'}
             >
               <img src={assets.filter_icon} alt="" className={`w-4 h-4 sm:w-5 sm:h-5 ${
                 showFilters || hasActiveFilters ? 'brightness-0 invert' : ''
@@ -201,12 +202,18 @@ const Cars = () => {
               className='bg-white rounded-2xl shadow-lg p-4 sm:p-6 mt-6 mx-auto max-w-6xl'
             >
               <div className='flex items-center justify-between mb-6'>
-                <h3 className='text-lg font-semibold text-gray-800'>Filters</h3>
+                <div>
+                  <h3 className='text-lg font-semibold text-gray-800'>Advanced Filters</h3>
+                  <p className='text-sm text-gray-500'>Find the perfect car for your needs</p>
+                </div>
                 {hasActiveFilters && (
                   <button
                     onClick={clearFilters}
-                    className='text-sm text-primary hover:text-primary-dull font-medium'
+                    className='text-sm text-primary hover:text-primary-dull font-medium flex items-center gap-1'
                   >
+                    <svg className='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                      <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M6 18L18 6M6 6l12 12' />
+                    </svg>
                     Clear All
                   </button>
                 )}
@@ -338,7 +345,10 @@ const Cars = () => {
               {/* Active Filters Display */}
               {hasActiveFilters && (
                 <div className='mt-6 pt-4 border-t border-gray-200'>
-                  <p className='text-sm text-gray-600 mb-3'>Active Filters:</p>
+                  <div className='flex items-center justify-between mb-3'>
+                    <p className='text-sm text-gray-600'>Active Filters ({Object.values(filters).filter(v => v).length + (input ? 1 : 0)}):</p>
+                    <p className='text-xs text-gray-500'>{filteredCars.length} car{filteredCars.length !== 1 ? 's' : ''} found</p>
+                  </div>
                   <div className='flex flex-wrap gap-2 max-h-32 overflow-y-auto'>
                     {input && (
                       <span className='inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary'>
