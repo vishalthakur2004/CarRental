@@ -61,6 +61,56 @@ const EditCarModal = ({ isOpen, onClose, carData, onCarUpdated }) => {
     e.preventDefault();
     if (isLoading) return;
 
+    // Frontend validation with user-friendly messages
+    if (!car.category) {
+      toast.error('Please select a car category');
+      return;
+    }
+
+    if (!car.transmission) {
+      toast.error('Please select transmission type');
+      return;
+    }
+
+    if (!car.fuel_type) {
+      toast.error('Please select fuel type');
+      return;
+    }
+
+    if (!car.location || !car.address.state) {
+      toast.error('Please select both state and city for pickup location');
+      return;
+    }
+
+    if (car.year && (car.year < 1900 || car.year > new Date().getFullYear() + 1)) {
+      toast.error('Please enter a valid model year');
+      return;
+    }
+
+    if (car.pricePerDay && car.pricePerDay <= 0) {
+      toast.error('Daily price must be greater than 0');
+      return;
+    }
+
+    if (car.seating_capacity && (car.seating_capacity < 1 || car.seating_capacity > 50)) {
+      toast.error('Seating capacity must be between 1 and 50');
+      return;
+    }
+
+    // Validate image file if uploading new one
+    if (image) {
+      if (image.size > 5 * 1024 * 1024) {
+        toast.error('Image size must be less than 5MB');
+        return;
+      }
+
+      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+      if (!allowedTypes.includes(image.type)) {
+        toast.error('Please upload a valid image file (JPEG, PNG, or WebP)');
+        return;
+      }
+    }
+
     setIsLoading(true);
     try {
       const formData = new FormData();
@@ -80,7 +130,20 @@ const EditCarModal = ({ isOpen, onClose, carData, onCarUpdated }) => {
         toast.error(data.message);
       }
     } catch (error) {
-      toast.error('Failed to update car. Please check your details and try again.');
+      console.error('Error updating car:', error);
+      if (error.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else if (error.response?.status === 413) {
+        toast.error('Image file is too large. Please upload a smaller image.');
+      } else if (error.response?.status === 400) {
+        toast.error('Invalid car details. Please check all fields and try again.');
+      } else if (error.response?.status === 401) {
+        toast.error('You need to be logged in to update a car.');
+      } else if (error.message.includes('Network Error')) {
+        toast.error('Network error. Please check your internet connection.');
+      } else {
+        toast.error('Failed to update car. Please try again or contact support if the problem persists.');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -153,7 +216,7 @@ const EditCarModal = ({ isOpen, onClose, carData, onCarUpdated }) => {
                     </label>
                     <div>
                       <p className="text-sm font-medium text-gray-700">Upload New Image</p>
-                      <p className="text-xs text-gray-500">Click to replace current image</p>
+                      <p className="text-xs text-gray-500">Click to replace current image (Max 5MB, JPEG/PNG/WebP)</p>
                     </div>
                   </div>
                 </div>
