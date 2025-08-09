@@ -145,6 +145,20 @@ const Cars = () => {
 
   const hasActiveFilters = Object.values(filters).some(filter => filter !== '') || input !== ''
 
+  // Quick filter suggestions
+  const quickFilters = [
+    { label: 'Luxury Cars', filters: { category: 'Luxury' } },
+    { label: 'SUV', filters: { category: 'SUV' } },
+    { label: 'Under ₹2000', filters: { maxPrice: '2000' } },
+    { label: 'Automatic', filters: { transmission: 'Automatic' } },
+    { label: '7+ Seats', filters: { seatingCapacity: '7' } },
+    { label: 'Petrol', filters: { fuelType: 'Petrol' } }
+  ]
+
+  const applyQuickFilter = (quickFilterData) => {
+    setFilters(prev => ({ ...prev, ...quickFilterData }))
+  }
+
   // Handle search parameter from URL
   useEffect(()=>{
     if(searchQuery && searchQuery !== input) {
@@ -170,7 +184,7 @@ const Cars = () => {
 
         className='w-full max-w-6xl px-4 sm:px-0'>
           {/* Search Bar */}
-          <div className='flex items-center bg-white px-4 mt-6 max-w-sm sm:max-w-lg lg:max-w-2xl w-full h-12 sm:h-14 rounded-full shadow-md mx-auto'>
+          <div className='flex items-center bg-white px-4 mt-6 max-w-sm sm:max-w-lg lg:max-w-2xl w-full h-12 sm:h-14 rounded-full shadow-md mx-auto relative'>
             <img src={assets.search_icon} alt="" className='w-4 h-4 sm:w-5 sm:h-5 mr-2 flex-shrink-0'/>
             <input
               onChange={(e)=> setInput(e.target.value)}
