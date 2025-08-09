@@ -52,9 +52,17 @@ export const createBooking = async (req, res)=>{
         const carData = await Car.findById(car)
 
         // Calculate price based on pickupDate and returnDate
+        // Include the pickup day in the calculation and handle same-day rentals
         const picked = new Date(pickupDate);
         const returned = new Date(returnDate);
-        const noOfDays = Math.ceil((returned - picked) / (1000 * 60 * 60 * 24))
+
+        // Calculate the difference in days and add 1 to include the pickup day
+        const timeDifference = returned.getTime() - picked.getTime();
+        const daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+
+        // For same day pickup and return, charge for 1 day minimum
+        // For multi-day rentals, add 1 to include the pickup day
+        const noOfDays = daysDifference === 0 ? 1 : daysDifference + 1;
         const price = carData.pricePerDay * noOfDays;
 
         const newBooking = await Booking.create({car, owner: carData.owner, user: _id, pickupDate, returnDate, price})
