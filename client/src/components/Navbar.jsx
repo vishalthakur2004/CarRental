@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { assets, menuLinks } from '../assets/assets'
 import {Link, useLocation, useNavigate} from 'react-router-dom'
 import { useAppContext } from '../context/AppContext'
@@ -14,6 +14,7 @@ const Navbar = () => {
     const [open, setOpen] = useState(false)
     const [dropdownOpen, setDropdownOpen] = useState(false)
     const navigate = useNavigate()
+    const dropdownRef = useRef(null)
 
     const changeRole = async ()=>{
         try {
@@ -28,6 +29,23 @@ const Navbar = () => {
             toast.error('Failed to update account status. Please try again.')
         }
     }
+
+    // Handle click outside dropdown
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setDropdownOpen(false)
+            }
+        }
+
+        if (dropdownOpen) {
+            document.addEventListener('mousedown', handleClickOutside)
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [dropdownOpen])
 
   return (
     <motion.div
@@ -80,16 +98,10 @@ const Navbar = () => {
                 {user && <NotificationIcon />}
 
                 {/* More Options Dropdown */}
-                <div className='relative'>
+                <div className='relative' ref={dropdownRef}>
                     <button
                         onClick={() => setDropdownOpen(!dropdownOpen)}
                         className='flex items-center gap-1 px-3 py-2 border border-gray-300 rounded-lg hover:border-primary transition-colors text-sm font-medium'
-                        onBlur={(e) => {
-                            // Close dropdown when clicking outside
-                            if (!e.currentTarget.contains(e.relatedTarget)) {
-                                setTimeout(() => setDropdownOpen(false), 150);
-                            }
-                        }}
                     >
                         <img src={assets.menu_icon} alt="menu" className='w-4 h-4'/>
                         <span>More</span>
