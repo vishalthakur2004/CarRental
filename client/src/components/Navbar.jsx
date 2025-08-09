@@ -14,6 +14,7 @@ const Navbar = () => {
     const [open, setOpen] = useState(false)
     const [dropdownOpen, setDropdownOpen] = useState(false)
     const navigate = useNavigate()
+    const dropdownRef = useRef(null)
 
     const changeRole = async ()=>{
         try {
