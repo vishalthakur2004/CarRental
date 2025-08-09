@@ -10,6 +10,36 @@ const OwnerReplyModal = ({ isOpen, onClose, review, onReplySubmitted }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const isEditing = review?.ownerReply?.text;
 
+  // Reply suggestions based on review rating
+  const getReplysuggestions = () => {
+    const rating = review?.rating || 0;
+
+    if (rating >= 4) {
+      return [
+        "Thank you so much for your wonderful review! We're thrilled you had a great experience with our car.",
+        "We appreciate your positive feedback! It means a lot to us that you enjoyed renting our vehicle.",
+        "Thank you for choosing us! Your kind words motivate us to keep providing excellent service.",
+        "So glad you had a smooth rental experience! Thanks for taking the time to leave this review."
+      ];
+    } else if (rating >= 3) {
+      return [
+        "Thank you for your feedback. We appreciate you taking the time to share your experience with us.",
+        "We value your honest review and will use it to improve our service. Thank you for choosing us.",
+        "Thank you for the feedback. We're always working to enhance our customers' experience.",
+        "We appreciate your review and the opportunity to serve you. Your feedback helps us grow."
+      ];
+    } else {
+      return [
+        "Thank you for your honest feedback. We sincerely apologize that your experience didn't meet expectations. We take all feedback seriously and will work to improve.",
+        "We're sorry to hear about your concerns. Your feedback is valuable to us and we're committed to making improvements. Thank you for giving us the opportunity to do better.",
+        "We apologize for any inconvenience you experienced. We appreciate you taking the time to share your feedback and will use it to enhance our service.",
+        "Thank you for bringing this to our attention. We're sorry your experience wasn't up to our usual standards and we're working to address these issues."
+      ];
+    }
+  };
+
+  const replySuggestions = getReplysuggestions();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
