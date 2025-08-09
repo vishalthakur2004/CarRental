@@ -11,7 +11,7 @@ const CarDetails = () => {
 
   const {id} = useParams()
 
-  const {cars, axios, pickupDate, setPickupDate, returnDate, setReturnDate, user, setShowLogin} = useAppContext()
+  const {cars, axios, pickupDate, setPickupDate, returnDate, setReturnDate, user, showLoginWithRedirect} = useAppContext()
 
   const navigate = useNavigate()
   const [car, setCar] = useState(null)
@@ -27,7 +27,7 @@ const CarDetails = () => {
     // Check if user is logged in before booking
     if (!user) {
       toast.error('Please login to book this car')
-      setShowLogin(true)
+      showLoginWithRedirect()
       return
     }
 
@@ -58,7 +58,7 @@ const CarDetails = () => {
     } catch (error) {
       if (error.response?.status === 401) {
         toast.error('Please login to book this car')
-        setShowLogin(true)
+        showLoginWithRedirect()
       } else {
         toast.error(error.response?.data?.message || 'Failed to book car. Please try again.')
       }
