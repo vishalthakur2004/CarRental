@@ -14,6 +14,7 @@ const Cars = () => {
   const pickupLocation = searchParams.get('pickupLocation')
   const pickupDate = searchParams.get('pickupDate')
   const returnDate = searchParams.get('returnDate')
+  const searchQuery = searchParams.get('search')
 
   const {cars, axios} = useAppContext()
 
