@@ -144,24 +144,24 @@ const ManageCars = () => {
                   <div className='flex items-center gap-2 sm:gap-3'>
                     <button
                       onClick={()=> handleEditCar(car)}
-                      className='p-1.5 hover:bg-blue-50 rounded-md transition-colors'
+                      className='p-2 sm:p-3 hover:bg-blue-50 rounded-lg transition-colors border border-blue-200 bg-blue-25'
                       title='Edit car'
                     >
-                      <img src={assets.edit_icon} alt="" className='w-6 h-6 sm:w-8 sm:h-8'/>
+                      <img src={assets.edit_icon} alt="Edit" className='w-5 h-5 sm:w-6 sm:h-6'/>
                     </button>
                     <button
                       onClick={()=> handleToggleAvailability(car)}
-                      className='p-1.5 hover:bg-gray-100 rounded-md transition-colors'
+                      className='p-2 sm:p-3 hover:bg-gray-100 rounded-lg transition-colors border border-gray-200 bg-gray-25'
                       title={car.isAvaliable ? 'Hide car' : 'Show car'}
                     >
-                      <img src={car.isAvaliable ? assets.eye_close_icon : assets.eye_icon} alt="" className='w-6 h-6 sm:w-8 sm:h-8'/>
+                      <img src={car.isAvaliable ? assets.eye_close_icon : assets.eye_icon} alt="Toggle visibility" className='w-5 h-5 sm:w-6 sm:h-6'/>
                     </button>
                     <button
                       onClick={()=> handleDeleteCar(car)}
-                      className='p-1.5 hover:bg-red-50 rounded-md transition-colors'
+                      className='p-2 sm:p-3 hover:bg-red-50 rounded-lg transition-colors border border-red-200 bg-red-25'
                       title='Delete car'
                     >
-                      <img src={assets.delete_icon} alt="" className='w-6 h-6 sm:w-8 sm:h-8'/>
+                      <img src={assets.delete_icon} alt="Delete" className='w-5 h-5 sm:w-6 sm:h-6'/>
                     </button>
                   </div>
                 </td>
