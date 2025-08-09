@@ -154,7 +154,13 @@ const Hero = () => {
                           onChange={e=>setPickupDate(e.target.value)}
                           type="date"
                           id="pickup-date"
-                          min={new Date().toISOString().split('T')[0]}
+                          min={(() => {
+                            const today = new Date();
+                            const year = today.getFullYear();
+                            const month = String(today.getMonth() + 1).padStart(2, '0');
+                            const day = String(today.getDate()).padStart(2, '0');
+                            return `${year}-${month}-${day}`;
+                          })()}
                           className='w-full px-4 py-4 pr-4 border border-gray-300 rounded-xl outline-none text-sm text-gray-700 bg-white focus:border-primary focus:ring-2 focus:ring-primary/20 focus:shadow-md transition-all duration-300'
                           required
                       />
