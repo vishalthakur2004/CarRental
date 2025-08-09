@@ -235,6 +235,16 @@ export const replyToReview = async (req, res) => {
 
         await review.save();
 
+        // Send notification to the reviewer about owner reply
+        await createNotification(
+            review.user,
+            'review_replied',
+            'Owner Replied to Your Review',
+            `The owner of ${review.car.brand} ${review.car.model} replied to your review`,
+            null,
+            review._id
+        );
+
         res.json({ success: true, message: 'Reply added successfully' });
 
     } catch (error) {
