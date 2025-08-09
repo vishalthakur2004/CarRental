@@ -168,7 +168,7 @@ const Cars = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.5 }}
 
-        className='w-full max-w-6xl'>
+        className='w-full max-w-6xl px-4 sm:px-0'>
           {/* Search Bar */}
           <div className='flex items-center bg-white px-4 mt-6 max-w-sm sm:max-w-lg lg:max-w-2xl w-full h-12 sm:h-14 rounded-full shadow-md mx-auto'>
             <img src={assets.search_icon} alt="" className='w-4 h-4 sm:w-5 sm:h-5 mr-2 flex-shrink-0'/>
@@ -198,7 +198,7 @@ const Cars = () => {
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
-              className='bg-white rounded-2xl shadow-lg p-6 mt-6 mx-auto max-w-6xl'
+              className='bg-white rounded-2xl shadow-lg p-4 sm:p-6 mt-6 mx-auto max-w-6xl'
             >
               <div className='flex items-center justify-between mb-6'>
                 <h3 className='text-lg font-semibold text-gray-800'>Filters</h3>
@@ -212,7 +212,7 @@ const Cars = () => {
                 )}
               </div>
 
-              <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
+              <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
                 {/* State Filter */}
                 <div>
                   <label className='block text-sm font-medium text-gray-700 mb-2'>State</label>
@@ -303,27 +303,35 @@ const Cars = () => {
                   </select>
                 </div>
 
-                {/* Price Range */}
-                <div>
-                  <label className='block text-sm font-medium text-gray-700 mb-2'>Min Price (₹/day)</label>
-                  <input
-                    type='number'
-                    value={filters.minPrice}
-                    onChange={(e) => handleFilterChange('minPrice', e.target.value)}
-                    placeholder='Min price'
-                    className='w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none'
-                  />
-                </div>
-
-                <div>
-                  <label className='block text-sm font-medium text-gray-700 mb-2'>Max Price (₹/day)</label>
-                  <input
-                    type='number'
-                    value={filters.maxPrice}
-                    onChange={(e) => handleFilterChange('maxPrice', e.target.value)}
-                    placeholder='Max price'
-                    className='w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none'
-                  />
+                {/* Price Range - Spanning 2 columns on larger screens */}
+                <div className='lg:col-span-2'>
+                  <label className='block text-sm font-medium text-gray-700 mb-2'>Price Range (₹/day)</label>
+                  <div className='grid grid-cols-2 gap-2'>
+                    <input
+                      type='number'
+                      value={filters.minPrice}
+                      onChange={(e) => handleFilterChange('minPrice', e.target.value)}
+                      placeholder='Min price'
+                      className='w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none'
+                    />
+                    <input
+                      type='number'
+                      value={filters.maxPrice}
+                      onChange={(e) => handleFilterChange('maxPrice', e.target.value)}
+                      placeholder='Max price'
+                      className='w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none'
+                    />
+                  </div>
+                  {(filters.minPrice || filters.maxPrice) && (
+                    <p className='text-xs text-gray-500 mt-1'>
+                      {filters.minPrice && filters.maxPrice
+                        ? `₹${filters.minPrice} - ₹${filters.maxPrice} per day`
+                        : filters.minPrice
+                        ? `Above ₹${filters.minPrice} per day`
+                        : `Below ₹${filters.maxPrice} per day`
+                      }
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -331,7 +339,7 @@ const Cars = () => {
               {hasActiveFilters && (
                 <div className='mt-6 pt-4 border-t border-gray-200'>
                   <p className='text-sm text-gray-600 mb-3'>Active Filters:</p>
-                  <div className='flex flex-wrap gap-2'>
+                  <div className='flex flex-wrap gap-2 max-h-32 overflow-y-auto'>
                     {input && (
                       <span className='inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary'>
                         Search: "{input}"
@@ -353,7 +361,7 @@ const Cars = () => {
                         transmission: 'Transmission',
                         seatingCapacity: 'Seats',
                         minPrice: 'Min ₹',
-                        maxPrice: 'Max ���'
+                        maxPrice: 'Max ₹'
                       }
                       return (
                         <span key={key} className='inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary'>
