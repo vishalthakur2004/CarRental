@@ -4,6 +4,7 @@ import { assets, dummyCarData } from '../assets/assets'
 import CarCard from '../components/CarCard'
 import { useSearchParams } from 'react-router-dom'
 import { useAppContext } from '../context/AppContext'
+import { statesList } from '../data/stateCityMapping'
 import toast from 'react-hot-toast'
 import { motion } from 'motion/react'
 
@@ -19,27 +20,89 @@ const Cars = () => {
   const {cars, axios} = useAppContext()
 
   const [input, setInput] = useState(searchQuery || '')
+  const [showFilters, setShowFilters] = useState(false)
+
+  // Filter states
+  const [filters, setFilters] = useState({
+    state: '',
+    brand: '',
+    minPrice: '',
+    maxPrice: '',
+    category: '',
+    fuelType: '',
+    transmission: '',
+    seatingCapacity: ''
+  })
 
   const isSearchData = pickupLocation && pickupDate && returnDate
   const [filteredCars, setFilteredCars] = useState([])
 
-  const applyFilter = async ()=>{
+  // Get unique values for filter options
+  const getUniqueValues = (field) => {
+    const values = cars.map(car => {
+      if (field === 'state') return car.address?.state || 'Other'
+      if (field === 'brand') return car.brand
+      if (field === 'category') return car.category
+      if (field === 'fuelType') return car.fuel_type
+      if (field === 'transmission') return car.transmission
+      if (field === 'seatingCapacity') return car.seating_capacity
+      return car[field]
+    }).filter(Boolean)
+    return [...new Set(values)].sort()
+  }
 
-    if(input === ''){
-      setFilteredCars(cars)
-      return null
+  const applyFilter = async () => {
+    let filtered = cars.slice()
+
+    // Apply text search
+    if (input !== '') {
+      filtered = filtered.filter((car) => {
+        return car.brand.toLowerCase().includes(input.toLowerCase())
+        || car.model.toLowerCase().includes(input.toLowerCase())
+        || car.category.toLowerCase().includes(input.toLowerCase())
+        || car.transmission.toLowerCase().includes(input.toLowerCase())
+        || car.location.toLowerCase().includes(input.toLowerCase())
+        || (car.address && car.address.city && car.address.city.toLowerCase().includes(input.toLowerCase()))
+        || (car.address && car.address.state && car.address.state.toLowerCase().includes(input.toLowerCase()))
+        || (car.address && car.address.street && car.address.street.toLowerCase().includes(input.toLowerCase()))
+      })
     }
 
-    const filtered = cars.slice().filter((car)=>{
-      return car.brand.toLowerCase().includes(input.toLowerCase())
-      || car.model.toLowerCase().includes(input.toLowerCase())
-      || car.category.toLowerCase().includes(input.toLowerCase())
-      || car.transmission.toLowerCase().includes(input.toLowerCase())
-      || car.location.toLowerCase().includes(input.toLowerCase())
-      || (car.address && car.address.city && car.address.city.toLowerCase().includes(input.toLowerCase()))
-      || (car.address && car.address.state && car.address.state.toLowerCase().includes(input.toLowerCase()))
-      || (car.address && car.address.street && car.address.street.toLowerCase().includes(input.toLowerCase()))
-    })
+    // Apply advanced filters
+    if (filters.state) {
+      filtered = filtered.filter(car =>
+        (car.address?.state || 'Other') === filters.state
+      )
+    }
+
+    if (filters.brand) {
+      filtered = filtered.filter(car => car.brand === filters.brand)
+    }
+
+    if (filters.category) {
+      filtered = filtered.filter(car => car.category === filters.category)
+    }
+
+    if (filters.fuelType) {
+      filtered = filtered.filter(car => car.fuel_type === filters.fuelType)
+    }
+
+    if (filters.transmission) {
+      filtered = filtered.filter(car => car.transmission === filters.transmission)
+    }
+
+    if (filters.seatingCapacity) {
+      filtered = filtered.filter(car => car.seating_capacity.toString() === filters.seatingCapacity)
+    }
+
+    if (filters.minPrice) {
+      filtered = filtered.filter(car => car.pricePerDay >= parseInt(filters.minPrice))
+    }
+
+    if (filters.maxPrice) {
+      filtered = filtered.filter(car => car.pricePerDay <= parseInt(filters.maxPrice))
+    }
+
     setFilteredCars(filtered)
   }
 
@@ -58,9 +121,29 @@ const Cars = () => {
     isSearchData && searchCarAvailablity()
   },[])
 
-  useEffect(()=>{
+  useEffect(() => {
     cars.length > 0 && !isSearchData && applyFilter()
-  },[input, cars])
+  }, [input, cars, filters])
+
+  const handleFilterChange = (field, value) => {
+    setFilters(prev => ({ ...prev, [field]: value }))
+  }
+
+  const clearFilters = () => {
+    setFilters({
+      state: '',
+      brand: '',
+      minPrice: '',
+      maxPrice: '',
+      category: '',
+      fuelType: '',
+      transmission: '',
+      seatingCapacity: ''
+    })
+    setInput('')
+  }
+
+  const hasActiveFilters = Object.values(filters).some(filter => filter !== '') || input !== ''
 
   // Handle search parameter from URL
   useEffect(()=>{
@@ -85,12 +168,210 @@ const Cars = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.5 }}
 
-        className='flex items-center bg-white px-4 mt-6 max-w-sm sm:max-w-lg lg:max-w-2xl w-full h-12 sm:h-14 rounded-full shadow-md'>
-          <img src={assets.search_icon} alt="" className='w-4 h-4 sm:w-5 sm:h-5 mr-2 flex-shrink-0'/>
+        className='w-full max-w-6xl'>
+          {/* Search Bar */}
+          <div className='flex items-center bg-white px-4 mt-6 max-w-sm sm:max-w-lg lg:max-w-2xl w-full h-12 sm:h-14 rounded-full shadow-md mx-auto'>
+            <img src={assets.search_icon} alt="" className='w-4 h-4 sm:w-5 sm:h-5 mr-2 flex-shrink-0'/>
+            <input
+              onChange={(e)=> setInput(e.target.value)}
+              value={input}
+              type="text"
+              placeholder='Search by make, model, location...'
+              className='w-full h-full outline-none text-gray-700 text-sm sm:text-base placeholder:text-gray-500'
+            />
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              className={`p-2 rounded-full transition-colors ${
+                showFilters || hasActiveFilters ? 'bg-primary text-white' : 'hover:bg-gray-100'
+              }`}
+            >
+              <img src={assets.filter_icon} alt="" className={`w-4 h-4 sm:w-5 sm:h-5 ${
+                showFilters || hasActiveFilters ? 'brightness-0 invert' : ''
+              }`}/>
+            </button>
+          </div>
 
-          <input onChange={(e)=> setInput(e.target.value)} value={input} type="text" placeholder='Search by make, model, location...' className='w-full h-full outline-none text-gray-700 text-sm sm:text-base placeholder:text-gray-500'/>
+          {/* Filters Panel */}
+          {showFilters && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className='bg-white rounded-2xl shadow-lg p-6 mt-6 mx-auto max-w-6xl'
+            >
+              <div className='flex items-center justify-between mb-6'>
+                <h3 className='text-lg font-semibold text-gray-800'>Filters</h3>
+                {hasActiveFilters && (
+                  <button
+                    onClick={clearFilters}
+                    className='text-sm text-primary hover:text-primary-dull font-medium'
+                  >
+                    Clear All
+                  </button>
+                )}
+              </div>
 
-          <img src={assets.filter_icon} alt="" className='w-4 h-4 sm:w-5 sm:h-5 ml-2 flex-shrink-0'/>
+              <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
+                {/* State Filter */}
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-2'>State</label>
+                  <select
+                    value={filters.state}
+                    onChange={(e) => handleFilterChange('state', e.target.value)}
+                    className='w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none'
+                  >
+                    <option value=''>All States</option>
+                    {getUniqueValues('state').map(state => (
+                      <option key={state} value={state}>{state}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Brand Filter */}
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-2'>Brand</label>
+                  <select
+                    value={filters.brand}
+                    onChange={(e) => handleFilterChange('brand', e.target.value)}
+                    className='w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none'
+                  >
+                    <option value=''>All Brands</option>
+                    {getUniqueValues('brand').map(brand => (
+                      <option key={brand} value={brand}>{brand}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Category Filter */}
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-2'>Category</label>
+                  <select
+                    value={filters.category}
+                    onChange={(e) => handleFilterChange('category', e.target.value)}
+                    className='w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none'
+                  >
+                    <option value=''>All Categories</option>
+                    {getUniqueValues('category').map(category => (
+                      <option key={category} value={category}>{category}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Fuel Type Filter */}
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-2'>Fuel Type</label>
+                  <select
+                    value={filters.fuelType}
+                    onChange={(e) => handleFilterChange('fuelType', e.target.value)}
+                    className='w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none'
+                  >
+                    <option value=''>All Fuel Types</option>
+                    {getUniqueValues('fuelType').map(fuel => (
+                      <option key={fuel} value={fuel}>{fuel}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Transmission Filter */}
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-2'>Transmission</label>
+                  <select
+                    value={filters.transmission}
+                    onChange={(e) => handleFilterChange('transmission', e.target.value)}
+                    className='w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none'
+                  >
+                    <option value=''>All Transmissions</option>
+                    {getUniqueValues('transmission').map(transmission => (
+                      <option key={transmission} value={transmission}>{transmission}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Seating Capacity Filter */}
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-2'>Seating</label>
+                  <select
+                    value={filters.seatingCapacity}
+                    onChange={(e) => handleFilterChange('seatingCapacity', e.target.value)}
+                    className='w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none'
+                  >
+                    <option value=''>Any Seating</option>
+                    {getUniqueValues('seatingCapacity').map(seats => (
+                      <option key={seats} value={seats}>{seats} Seats</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Price Range */}
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-2'>Min Price (₹/day)</label>
+                  <input
+                    type='number'
+                    value={filters.minPrice}
+                    onChange={(e) => handleFilterChange('minPrice', e.target.value)}
+                    placeholder='Min price'
+                    className='w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none'
+                  />
+                </div>
+
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-2'>Max Price (₹/day)</label>
+                  <input
+                    type='number'
+                    value={filters.maxPrice}
+                    onChange={(e) => handleFilterChange('maxPrice', e.target.value)}
+                    placeholder='Max price'
+                    className='w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none'
+                  />
+                </div>
+              </div>
+
+              {/* Active Filters Display */}
+              {hasActiveFilters && (
+                <div className='mt-6 pt-4 border-t border-gray-200'>
+                  <p className='text-sm text-gray-600 mb-3'>Active Filters:</p>
+                  <div className='flex flex-wrap gap-2'>
+                    {input && (
+                      <span className='inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary'>
+                        Search: "{input}"
+                        <button
+                          onClick={() => setInput('')}
+                          className='ml-2 text-primary hover:text-primary-dull'
+                        >
+                          ×
+                        </button>
+                      </span>
+                    )}
+                    {Object.entries(filters).map(([key, value]) => {
+                      if (!value) return null
+                      const labels = {
+                        state: 'State',
+                        brand: 'Brand',
+                        category: 'Category',
+                        fuelType: 'Fuel',
+                        transmission: 'Transmission',
+                        seatingCapacity: 'Seats',
+                        minPrice: 'Min ₹',
+                        maxPrice: 'Max ���'
+                      }
+                      return (
+                        <span key={key} className='inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary'>
+                          {labels[key]}: {value}{key === 'seatingCapacity' ? ' Seats' : ''}
+                          <button
+                            onClick={() => handleFilterChange(key, '')}
+                            className='ml-2 text-primary hover:text-primary-dull'
+                          >
+                            ×
+                          </button>
+                        </span>
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
+            </motion.div>
+          )}
         </motion.div>
       </motion.div>
 
@@ -100,19 +381,59 @@ const Cars = () => {
         transition={{ delay: 0.6, duration: 0.5 }}
 
       className='px-4 sm:px-6 md:px-16 lg:px-24 xl:px-32 mt-8 sm:mt-10'>
-        <p className='text-gray-500 text-sm sm:text-base xl:px-20 max-w-7xl mx-auto mb-4'>Showing {filteredCars.length} Cars</p>
+        <div className='flex items-center justify-between xl:px-20 max-w-7xl mx-auto mb-4'>
+          <p className='text-gray-500 text-sm sm:text-base'>
+            Showing {filteredCars.length} of {cars.length} Cars
+            {hasActiveFilters && ' (filtered)'}
+          </p>
+          {hasActiveFilters && (
+            <button
+              onClick={clearFilters}
+              className='text-sm text-primary hover:text-primary-dull font-medium'
+            >
+              Clear All Filters
+            </button>
+          )}
+        </div>
 
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 xl:px-20 max-w-7xl mx-auto'>
-          {filteredCars.map((car, index)=> (
-            <motion.div key={index}
+        {filteredCars.length > 0 ? (
+          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 xl:px-20 max-w-7xl mx-auto'>
+            {filteredCars.map((car, index)=> (
+              <motion.div key={car._id || index}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 * (index % 8), duration: 0.4 }}
+              >
+                <CarCard car={car}/>
+              </motion.div>
+            ))}
+          </div>
+        ) : (
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 * index, duration: 0.4 }}
-            >
-              <CarCard car={car}/>
-            </motion.div>
-          ))}
-        </div>
+            className='text-center py-12 xl:px-20 max-w-7xl mx-auto'
+          >
+            <div className='bg-gray-50 rounded-2xl p-8'>
+              <img src={assets.search_icon} alt='No results' className='w-16 h-16 mx-auto mb-4 opacity-50'/>
+              <h3 className='text-xl font-semibold text-gray-800 mb-2'>No cars found</h3>
+              <p className='text-gray-600 mb-4'>
+                {hasActiveFilters
+                  ? 'Try adjusting your filters to see more results.'
+                  : 'No cars available at the moment.'
+                }
+              </p>
+              {hasActiveFilters && (
+                <button
+                  onClick={clearFilters}
+                  className='px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dull transition-colors font-medium'
+                >
+                  Clear All Filters
+                </button>
+              )}
+            </div>
+          </motion.div>
+        )}
       </motion.div>
 
     </div>
