@@ -158,6 +158,43 @@ const OwnerReplyModal = ({ isOpen, onClose, review, onReplySubmitted }) => {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Your Reply <span className="text-red-500">*</span>
                 </label>
+
+                {/* Reply Suggestions */}
+                <div className="mb-4">
+                  <p className="text-sm font-medium text-gray-700 mb-3">💡 Quick Reply Suggestions:</p>
+                  <div className="grid gap-2">
+                    {replySuggestions.map((suggestion, index) => (
+                      <button
+                        key={index}
+                        type="button"
+                        onClick={() => setReplyText(suggestion)}
+                        disabled={isSubmitting}
+                        className="text-left p-3 text-sm border border-gray-200 rounded-lg hover:border-primary hover:bg-primary/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {suggestion}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="flex gap-2 mt-3">
+                    <button
+                      type="button"
+                      onClick={() => setReplyText('')}
+                      disabled={isSubmitting}
+                      className="px-3 py-1 text-xs text-gray-600 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors disabled:opacity-50"
+                    >
+                      Clear
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setReplyText(replyText + ' ')}
+                      disabled={isSubmitting}
+                      className="px-3 py-1 text-xs text-primary border border-primary/20 rounded-md hover:bg-primary/5 transition-colors disabled:opacity-50"
+                    >
+                      Custom Reply
+                    </button>
+                  </div>
+                </div>
+
                 <textarea
                   value={replyText}
                   onChange={(e) => setReplyText(e.target.value)}
