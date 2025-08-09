@@ -10,6 +10,36 @@ const OwnerReplyModal = ({ isOpen, onClose, review, onReplySubmitted }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const isEditing = review?.ownerReply?.text;
 
+  // Reply suggestions based on review rating
+  const getReplysuggestions = () => {
+    const rating = review?.rating || 0;
+
+    if (rating >= 4) {
+      return [
+        "Thank you so much for your wonderful review! We're thrilled you had a great experience with our car.",
+        "We appreciate your positive feedback! It means a lot to us that you enjoyed renting our vehicle.",
+        "Thank you for choosing us! Your kind words motivate us to keep providing excellent service.",
+        "So glad you had a smooth rental experience! Thanks for taking the time to leave this review."
+      ];
+    } else if (rating >= 3) {
+      return [
+        "Thank you for your feedback. We appreciate you taking the time to share your experience with us.",
+        "We value your honest review and will use it to improve our service. Thank you for choosing us.",
+        "Thank you for the feedback. We're always working to enhance our customers' experience.",
+        "We appreciate your review and the opportunity to serve you. Your feedback helps us grow."
+      ];
+    } else {
+      return [
+        "Thank you for your honest feedback. We sincerely apologize that your experience didn't meet expectations. We take all feedback seriously and will work to improve.",
+        "We're sorry to hear about your concerns. Your feedback is valuable to us and we're committed to making improvements. Thank you for giving us the opportunity to do better.",
+        "We apologize for any inconvenience you experienced. We appreciate you taking the time to share your feedback and will use it to enhance our service.",
+        "Thank you for bringing this to our attention. We're sorry your experience wasn't up to our usual standards and we're working to address these issues."
+      ];
+    }
+  };
+
+  const replySuggestions = getReplysuggestions();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -69,7 +99,7 @@ const OwnerReplyModal = ({ isOpen, onClose, review, onReplySubmitted }) => {
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.95, opacity: 0 }}
-            className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden"
+            className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
@@ -128,6 +158,43 @@ const OwnerReplyModal = ({ isOpen, onClose, review, onReplySubmitted }) => {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Your Reply <span className="text-red-500">*</span>
                 </label>
+
+                {/* Reply Suggestions */}
+                <div className="mb-4">
+                  <p className="text-sm font-medium text-gray-700 mb-3">💡 Quick Reply Suggestions:</p>
+                  <div className="grid gap-2">
+                    {replySuggestions.map((suggestion, index) => (
+                      <button
+                        key={index}
+                        type="button"
+                        onClick={() => setReplyText(suggestion)}
+                        disabled={isSubmitting}
+                        className="text-left p-3 text-sm border border-gray-200 rounded-lg hover:border-primary hover:bg-primary/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {suggestion}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="flex gap-2 mt-3">
+                    <button
+                      type="button"
+                      onClick={() => setReplyText('')}
+                      disabled={isSubmitting}
+                      className="px-3 py-1 text-xs text-gray-600 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors disabled:opacity-50"
+                    >
+                      Clear
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setReplyText(replyText + ' ')}
+                      disabled={isSubmitting}
+                      className="px-3 py-1 text-xs text-primary border border-primary/20 rounded-md hover:bg-primary/5 transition-colors disabled:opacity-50"
+                    >
+                      Custom Reply
+                    </button>
+                  </div>
+                </div>
+
                 <textarea
                   value={replyText}
                   onChange={(e) => setReplyText(e.target.value)}
