@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useAppContext } from '../context/AppContext';
+import { useNavigate } from 'react-router-dom';
 
 const NotificationIcon = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [notifications, setNotifications] = useState([]);
     const [unreadCount, setUnreadCount] = useState(0);
     const dropdownRef = useRef(null);
-    const { axios, user } = useAppContext();
+    const { axios, user, isOwner } = useAppContext();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (user) {
@@ -63,6 +65,54 @@ const NotificationIcon = () => {
             fetchUnreadCount();
         } catch (error) {
             console.log('Error marking notification as read:', error);
+        }
+    };
+
+    const handleNotificationNavigation = (notification) => {
+        // Mark as read first
+        if (!notification.isRead) {
+            markAsRead(notification._id);
+        }
+
+        // Close the dropdown
+        setIsOpen(false);
+
+        // Navigate based on notification type and user role
+        const { type } = notification;
+
+        // Booking-related notifications
+        if (type.includes('booking_')) {
+            if (isOwner) {
+                navigate('/owner/manage-bookings');
+            } else {
+                navigate('/my-bookings');
+            }
+            return;
+        }
+
+        // Review-related notifications
+        if (type.includes('review_')) {
+            if (isOwner) {
+                navigate('/owner/manage-reviews');
+            } else {
+                // For users, navigate to car details if we have car info
+                if (notification.review?.car?._id) {
+                    navigate(`/car-details/${notification.review.car._id}`);
+                } else if (notification.booking?.car?._id) {
+                    navigate(`/car-details/${notification.booking.car._id}`);
+                } else {
+                    // Fallback to my bookings
+                    navigate('/my-bookings');
+                }
+            }
+            return;
+        }
+
+        // Default fallback
+        if (isOwner) {
+            navigate('/owner');
+        } else {
+            navigate('/my-bookings');
         }
     };
 
@@ -211,7 +261,7 @@ const NotificationIcon = () => {
                                         className={`p-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors ${
                                             !notification.isRead ? 'bg-blue-50 border-l-4 border-l-primary' : ''
                                         }`}
-                                        onClick={() => !notification.isRead && markAsRead(notification._id)}
+                                        onClick={() => handleNotificationNavigation(notification)}
                                     >
                                         <div className="flex items-start gap-3">
                                             <div className="p-2 bg-gray-100 rounded-full flex-shrink-0">
