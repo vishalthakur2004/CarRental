@@ -51,6 +51,20 @@ export const createReview = async (req, res) => {
             reviewText
         });
 
+        // Get car details to find the owner
+        const car = await Car.findById(booking.car);
+        if (car && car.owner) {
+            // Send notification to car owner about new review
+            await createNotification(
+                car.owner,
+                'review_received',
+                'New Review Received',
+                `You received a ${rating}-star review for your ${car.brand} ${car.model}`,
+                null,
+                review._id
+            );
+        }
+
         res.json({ success: true, message: 'Review submitted successfully', review });
 
     } catch (error) {
