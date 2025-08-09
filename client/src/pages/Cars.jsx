@@ -206,6 +206,36 @@ const Cars = () => {
             </button>
           </div>
 
+          {/* Quick Filter Pills */}
+          {!showFilters && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.3 }}
+              className='flex flex-wrap gap-2 justify-center mt-4 max-w-4xl mx-auto'
+            >
+              <p className='text-xs text-gray-500 w-full text-center mb-2'>Quick filters:</p>
+              {quickFilters.map((quickFilter, index) => {
+                const isActive = Object.entries(quickFilter.filters).every(
+                  ([key, value]) => filters[key] === value
+                )
+                return (
+                  <button
+                    key={index}
+                    onClick={() => applyQuickFilter(quickFilter.filters)}
+                    className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 ${
+                      isActive
+                        ? 'bg-primary text-white shadow-md'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
+                    {quickFilter.label}
+                  </button>
+                )
+              })}
+            </motion.div>
+          )}
+
           {/* Filters Panel */}
           {showFilters && (
             <motion.div
