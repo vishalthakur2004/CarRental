@@ -196,20 +196,6 @@ const CarDetails = () => {
                   </div>
                 )}
 
-                {/* Features */}
-                <div>
-                  <h1 className='text-lg sm:text-xl font-medium mb-3'>Features</h1>
-                  <ul className='grid grid-cols-1 sm:grid-cols-2 gap-2'>
-                    {
-                      ["360 Camera", "Bluetooth", "GPS", "Heated Seats", "Rear View Mirror"].map((item)=>(
-                        <li key={item} className='flex items-center text-gray-500 text-sm sm:text-base'>
-                          <img src={assets.check_icon} className='h-3 sm:h-4 mr-2 flex-shrink-0' alt="" />
-                          <span>{item}</span>
-                        </li>
-                      ))
-                    }
-                  </ul>
-                </div>
 
                 {/* Reviews Section */}
                 {totalReviews > 0 && (
