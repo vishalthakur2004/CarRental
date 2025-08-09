@@ -62,6 +62,13 @@ const Cars = () => {
     cars.length > 0 && !isSearchData && applyFilter()
   },[input, cars])
 
+  // Handle search parameter from URL
+  useEffect(()=>{
+    if(searchQuery && searchQuery !== input) {
+      setInput(searchQuery)
+    }
+  },[searchQuery])
+
   return (
     <div>
 
