@@ -21,6 +21,33 @@ const CarDetails = () => {
   const [totalReviews, setTotalReviews] = useState(0)
   const currency = import.meta.env.VITE_CURRENCY
 
+  // Calculate total price based on selected dates
+  const calculateTotalPrice = () => {
+    if (!pickupDate || !returnDate || !car?.pricePerDay) return 0
+
+    const picked = new Date(pickupDate)
+    const returned = new Date(returnDate)
+
+    // Calculate the difference in days and add 1 to include the pickup day
+    const timeDifference = returned.getTime() - picked.getTime()
+    const daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24))
+
+    // For same day pickup and return, charge for 1 day minimum
+    // For multi-day rentals, add 1 to include the pickup day
+    const noOfDays = daysDifference === 0 ? 1 : daysDifference + 1
+    return car.pricePerDay * noOfDays
+  }
+
+  const totalPrice = calculateTotalPrice()
+  const numberOfDays = (() => {
+    if (!pickupDate || !returnDate) return 0
+    const picked = new Date(pickupDate)
+    const returned = new Date(returnDate)
+    const timeDifference = returned.getTime() - picked.getTime()
+    const daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24))
+    return daysDifference === 0 ? 1 : daysDifference + 1
+  })()
+
   const handleSubmit = async (e)=>{
     e.preventDefault();
 
@@ -342,7 +369,31 @@ const CarDetails = () => {
               id="return-date"
             />
 
-            <button className='w-full bg-primary hover:bg-primary-dull transition-all py-3 sm:py-3.5 font-medium text-white rounded-xl cursor-pointer text-sm sm:text-base shadow-md hover:shadow-lg'>Book Now</button>
+            {/* Price Summary */}
+            {pickupDate && returnDate && (
+              <div className='bg-gray-50 rounded-lg p-4 space-y-2'>
+                <div className='flex justify-between text-sm'>
+                  <span>Price per day</span>
+                  <span>{currency}{car.pricePerDay}</span>
+                </div>
+                <div className='flex justify-between text-sm'>
+                  <span>Number of days</span>
+                  <span>{numberOfDays} day{numberOfDays !== 1 ? 's' : ''}</span>
+                </div>
+                <hr className='border-gray-200'/>
+                <div className='flex justify-between font-semibold text-lg'>
+                  <span>Total Price</span>
+                  <span className='text-primary'>{currency}{totalPrice}</span>
+                </div>
+              </div>
+            )}
+
+            <button
+              className='w-full bg-primary hover:bg-primary-dull transition-all py-3 sm:py-3.5 font-medium text-white rounded-xl cursor-pointer text-sm sm:text-base shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed'
+              disabled={!pickupDate || !returnDate}
+            >
+              {pickupDate && returnDate ? `Book for ${currency}${totalPrice}` : 'Book Now'}
+            </button>
 
             <p className='text-center text-xs sm:text-sm text-gray-500'>No credit card required to reserve</p>
 
