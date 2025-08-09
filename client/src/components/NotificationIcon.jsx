@@ -220,7 +220,7 @@ const NotificationIcon = () => {
                                         onClick={() => !notification.isRead && markAsRead(notification._id)}
                                     >
                                         <div className="flex items-start gap-3">
-                                            <div className="text-2xl flex-shrink-0">
+                                            <div className="p-2 bg-gray-100 rounded-full flex-shrink-0">
                                                 {getNotificationIcon(notification.type)}
                                             </div>
                                             <div className="flex-1 min-w-0">
