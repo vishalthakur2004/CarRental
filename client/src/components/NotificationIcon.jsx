@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useAppContext } from '../context/AppContext';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const NotificationIcon = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -73,6 +74,19 @@ const NotificationIcon = () => {
         if (!notification.isRead) {
             markAsRead(notification._id);
         }
+
+        // Show feedback toast
+        const getNavigationMessage = (type, isOwner) => {
+            if (type.includes('booking_')) {
+                return isOwner ? 'Redirecting to manage bookings...' : 'Redirecting to my bookings...';
+            }
+            if (type.includes('review_')) {
+                return isOwner ? 'Redirecting to manage reviews...' : 'Viewing car details...';
+            }
+            return 'Redirecting...';
+        };
+
+        toast.success(getNavigationMessage(notification.type, isOwner));
 
         // Close the dropdown
         setIsOpen(false);
@@ -148,6 +162,7 @@ const NotificationIcon = () => {
             }
         } catch (error) {
             console.error('Error navigating from notification:', error);
+            toast.error('Unable to navigate. Please try again.');
             // Fallback navigation in case of error
             if (isOwner) {
                 navigate('/owner');
