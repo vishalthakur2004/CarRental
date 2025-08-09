@@ -258,7 +258,7 @@ const NotificationIcon = () => {
                                         key={notification._id}
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
-                                        className={`p-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors ${
+                                        className={`p-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 hover:shadow-sm transition-all duration-200 group ${
                                             !notification.isRead ? 'bg-blue-50 border-l-4 border-l-primary' : ''
                                         }`}
                                         onClick={() => handleNotificationNavigation(notification)}
@@ -290,9 +290,9 @@ const NotificationIcon = () => {
                                                     <p className="text-xs text-gray-400">
                                                         {formatTimeAgo(notification.createdAt)}
                                                     </p>
-                                                    <div className="flex items-center text-xs text-primary hover:text-primary-dull">
-                                                        <span>View</span>
-                                                        <svg className="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <div className="flex items-center text-xs text-primary group-hover:text-primary-dull transition-colors">
+                                                        <span className="opacity-70 group-hover:opacity-100">View details</span>
+                                                        <svg className="w-3 h-3 ml-1 transform group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                                         </svg>
                                                     </div>
