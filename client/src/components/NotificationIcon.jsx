@@ -80,39 +80,80 @@ const NotificationIcon = () => {
         // Navigate based on notification type and user role
         const { type } = notification;
 
-        // Booking-related notifications
-        if (type.includes('booking_')) {
+        try {
+            // Booking-related notifications
+            if (type.includes('booking_')) {
+                if (isOwner) {
+                    // For owners, navigate to manage bookings
+                    navigate('/owner/manage-bookings');
+                    window.scrollTo(0, 0);
+                } else {
+                    // For users, navigate to my bookings
+                    navigate('/my-bookings');
+                    window.scrollTo(0, 0);
+                }
+                return;
+            }
+
+            // Review-related notifications
+            if (type.includes('review_')) {
+                if (isOwner) {
+                    // For owners, navigate to manage reviews
+                    navigate('/owner/manage-reviews');
+                    window.scrollTo(0, 0);
+                } else {
+                    // For users, try to navigate to specific car details
+                    let carId = null;
+
+                    // Check multiple possible locations for car ID
+                    if (notification.review?.car?._id) {
+                        carId = notification.review.car._id;
+                    } else if (notification.booking?.car?._id) {
+                        carId = notification.booking.car._id;
+                    } else if (notification.carId) {
+                        carId = notification.carId;
+                    }
+
+                    if (carId) {
+                        navigate(`/car-details/${carId}`);
+                        window.scrollTo(0, 0);
+                    } else {
+                        // Fallback to my bookings if no car ID found
+                        navigate('/my-bookings');
+                        window.scrollTo(0, 0);
+                    }
+                }
+                return;
+            }
+
+            // Car-related notifications (if any)
+            if (type.includes('car_')) {
+                if (isOwner) {
+                    navigate('/owner/manage-cars');
+                    window.scrollTo(0, 0);
+                } else {
+                    navigate('/cars');
+                    window.scrollTo(0, 0);
+                }
+                return;
+            }
+
+            // Default fallback based on user role
             if (isOwner) {
-                navigate('/owner/manage-bookings');
+                navigate('/owner');
+                window.scrollTo(0, 0);
             } else {
                 navigate('/my-bookings');
+                window.scrollTo(0, 0);
             }
-            return;
-        }
-
-        // Review-related notifications
-        if (type.includes('review_')) {
+        } catch (error) {
+            console.error('Error navigating from notification:', error);
+            // Fallback navigation in case of error
             if (isOwner) {
-                navigate('/owner/manage-reviews');
+                navigate('/owner');
             } else {
-                // For users, navigate to car details if we have car info
-                if (notification.review?.car?._id) {
-                    navigate(`/car-details/${notification.review.car._id}`);
-                } else if (notification.booking?.car?._id) {
-                    navigate(`/car-details/${notification.booking.car._id}`);
-                } else {
-                    // Fallback to my bookings
-                    navigate('/my-bookings');
-                }
+                navigate('/');
             }
-            return;
-        }
-
-        // Default fallback
-        if (isOwner) {
-            navigate('/owner');
-        } else {
-            navigate('/my-bookings');
         }
     };
 
