@@ -1,6 +1,7 @@
 import Review from "../models/Review.js"
 import Booking from "../models/Booking.js"
 import Car from "../models/Car.js"
+import { createNotification } from "./notificationController.js"
 
 // API to Create Review (after booking completion)
 export const createReview = async (req, res) => {
