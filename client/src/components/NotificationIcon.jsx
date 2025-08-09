@@ -257,7 +257,8 @@ const NotificationIcon = () => {
             <button
                 onClick={handleNotificationClick}
                 className="relative p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50"
-                aria-label="Notifications"
+                aria-label={`Notifications${unreadCount > 0 ? ` - ${unreadCount} unread` : ''}`}
+                title={`${unreadCount > 0 ? `${unreadCount} unread notification${unreadCount > 1 ? 's' : ''}` : 'No unread notifications'}`}
             >
                 <svg
                     className="w-6 h-6 text-gray-600"
