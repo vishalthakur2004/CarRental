@@ -13,6 +13,19 @@ export const getUserNotifications = async (req, res) => {
                     select: 'brand model image'
                 }
             })
+            .populate({
+                path: 'review',
+                populate: [
+                    {
+                        path: 'car',
+                        select: 'brand model image'
+                    },
+                    {
+                        path: 'user',
+                        select: 'name image'
+                    }
+                ]
+            })
             .sort({createdAt: -1})
             .limit(50);
 
