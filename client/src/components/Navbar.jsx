@@ -98,7 +98,7 @@ const Navbar = () => {
                 {user && <NotificationIcon />}
 
                 {/* More Options Dropdown */}
-                <div className='relative'>
+                <div className='relative' ref={dropdownRef}>
                     <button
                         onClick={() => setDropdownOpen(!dropdownOpen)}
                         className='flex items-center gap-1 px-3 py-2 border border-gray-300 rounded-lg hover:border-primary transition-colors text-sm font-medium'
