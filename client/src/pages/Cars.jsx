@@ -18,7 +18,7 @@ const Cars = () => {
 
   const {cars, axios} = useAppContext()
 
-  const [input, setInput] = useState('')
+  const [input, setInput] = useState(searchQuery || '')
 
   const isSearchData = pickupLocation && pickupDate && returnDate
   const [filteredCars, setFilteredCars] = useState([])
