@@ -235,6 +235,11 @@ const NotificationIcon = () => {
                                                         {notification.booking.car.brand} {notification.booking.car.model}
                                                     </p>
                                                 )}
+                                                {notification.review?.car && (
+                                                    <p className="text-xs text-gray-500 mt-1">
+                                                        {notification.review.car.brand} {notification.review.car.model}
+                                                    </p>
+                                                )}
                                                 <p className="text-xs text-gray-400 mt-2">
                                                     {formatTimeAgo(notification.createdAt)}
                                                 </p>
