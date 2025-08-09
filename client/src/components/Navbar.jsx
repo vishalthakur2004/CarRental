@@ -84,12 +84,6 @@ const Navbar = () => {
                     <button
                         onClick={() => setDropdownOpen(!dropdownOpen)}
                         className='flex items-center gap-1 px-3 py-2 border border-gray-300 rounded-lg hover:border-primary transition-colors text-sm font-medium'
-                        onBlur={(e) => {
-                            // Close dropdown when clicking outside
-                            if (!e.currentTarget.contains(e.relatedTarget)) {
-                                setTimeout(() => setDropdownOpen(false), 150);
-                            }
-                        }}
                     >
                         <img src={assets.menu_icon} alt="menu" className='w-4 h-4'/>
                         <span>More</span>
